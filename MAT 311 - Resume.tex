@@ -1,0 +1,299 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newtheorem{theoreme}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lemme}{Lemme}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{exemple}[1][Exemple]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{Résumé MAT311}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Espaces de Hilbert}
+
+\begin{definition}
+On dit qu'un sous-ensemble $C$ d'un espace vectoriel $E$ est convexe si
+$\forall x,y \in C, \forall t \in [0,1], tx + (1 - t)y \in C$
+\end{definition}
+
+\begin{theoreme}
+(Théorème de la projection sur un convexe fermé) Soit $H$ un espace de Hilbert et $C$ un sous-ensemble convexe fermé de $H$. Pour tout $x \in H$, il existe un unique $y \in C$ tel que
+
+\[
+\| x - y \| = d(x,C) := \inf_{z \in C} \| x - z \|
+\]
+
+\begin{itemize}
+
+\item
+Si $x \in C$ alors $y = x$
+
+\item
+Si $x \not\in C$, $y$ es caracterisé par $\Re \langle x - y,z - y \rangle \leq 0, \forall z \in C$
+
+\end{itemize}
+
+\end{theoreme}
+
+
+\begin{theoreme}
+Soit $H$ un espace de Hilbert et $F \subset H$ un sous-espace vectoriel fermé. Il existe une unique applicalition linéaire $P_F: E \to F$, telle que, pour tout $x \in H$,
+
+\[ \| x - P_F(x) \| = d(x,F) := \inf_{z \in F} \| x - z \| \]
+
+\begin{itemize}
+\item
+$P_F(x)$ est l'unique élément de $F$ vérifiant cette égalité.
+
+\item
+$x - P_F(x)$ est orthogonal à tout vecteur de F.
+
+\item
+$P_F$ est 1-Lipschitzienne (donc continue), i.e. $\| P_F(x) \| \leq \| x \|, \forall x \in E$.
+
+\end{itemize}
+
+\end{theoreme}
+
+
+\begin{definition}
+Soit $A:H \rightarrow H$ une application linéaire continue. On appelle adjoint de $A$ et on note $A^*$, une application linéaire continue $A^*:H \rightarrow H$, vérifiant
+
+\[ \langle Ax,y \rangle = \langle x,A^*y \rangle , \forall x,y \in H \]
+
+\end{definition}
+
+
+\begin{corollaire}
+Soit $A$ une application linéaire continue d'un espace de Hilbert (A est borné) dans lui-même. Alors, l'adjoint de $A$ est bien defini et c'est une application linéaire continue de $H$ dans $H$.
+\end{corollaire}
+
+
+\section{Tranformée de Fourier $L^2$, convergence faible et théorie spectrale}
+
+
+\begin{definition}
+
+\item
+Soient $E_1$ et $E_2$ deux espaces vectoriels normés et $A: E_1 \rightarrow E_2$
+
+\begin{itemize}
+
+\item
+On dit que A est un opérateur (linéaire) si A est une application linéaire.
+
+\item
+
+On dit que est un opérateur borné si A est une application linéaire, continue, i.e. s'il existe $C > 0$ telle que: $\|A(x)\|_{E_2} \leq C \|x\|_{E_1}, \forall x \in E_1$
+
+\item
+Si H est un espace de Hilbert complexe (réel), on dit que $A: H \rightarrow H$ est un opérateur hermitien (symétrique) si $A^* = A$, i.e. si
+
+\[ <A(x),y> = <x,A(y)>, \forall x,y \in H \]
+
+\end{itemize}
+
+\end{definition}
+
+
+\begin{definition}
+Un opérateur $A: H \rightarrow H$ es compact si l'image par A de toute suite bornée admet une sous-suiste qui converge, i.e. si $(x_n)_{n\geq0}$ est une suite bornée, on peut extraire de la suite $(A(x_n))_{n\geq0}$ une sous-suite qui converge (fortement).
+
+\begin{itemize}
+\item
+Un opérateur compact est borné (i.e. continu).
+\end{itemize}
+
+\end{definition}
+
+
+\begin{definition}
+On dit qu'une suite $(x_n)_{n\geq0}$ d'un espace d'Hilbert H converge faiblement vers x dans H si
+
+\[ \forall y \in H, \lim\limits_{n\rightarrow+\infty}\langle x_n,y \rangle = \langle x,y \rangle \]
+
+\begin{itemize}
+
+\item
+Notée $x_n \rightharpoonup x$
+
+\item
+Si $e_n$ est une base hilbertienne. Donc $e_n \rightharpoonup 0$.
+
+\end{itemize}
+
+\end{definition}
+
+
+\begin{theoreme}
+Soit $(x_n)_{n\geq0}$ une suite bornée dans un espace de Hilbert séparable H. Alors $(x_n)_{n\geq0}$ posséde une sous-suite $(x_{\varphi(n)})_{n\geq0}$ qui converge faiblement dans H.
+\end{theoreme}
+
+
+\begin{theoreme}
+Si $x_n \rightharpoonup x$ alors $\| x \| \leq \varliminf_{n \to +\infty} \| x_n \|$
+\end{theoreme}
+
+
+\begin{proposition}
+Si $x_n \rightharpoonup x$ dans $H$ et si $A: H \rightarrow H$ est un opérateur borné, alors $A(x_n) \rightharpoonup A(x)$.
+\end{proposition}
+
+
+\begin{definition}
+On dit qu'un opérateur borné $A: H_{1} \rightarrow H_{2}$ est inversible s'il existe un opérateur borné $B: H_{2} \rightarrow H_{1}$ tel que $A \circ B = Id_{H_{2}}$ et $B \circ A = Id_{H_{1}}$
+\end{definition}
+
+
+\begin{definition}
+Soit $A: H \rightarrow H$ un opérateur borné:
+
+\begin{itemize}
+
+\item
+On appelle spectre de $A$  et on note $sp(A)$, l'ensemble des $\lambda \in \mathbb{C}$ tels que $A - \lambda Id_{H}$ n'est pas inversible.
+
+\item
+On appelle ensemble des valeurs propes de $A$ et on note $vp(A)$, l'ensemble des $\lambda \in \mathbb{C}$ tels que $A - \lambda Id_{H}$ n'est pas injectif, ou encore, l'ensemble des $\lambda \in \mathbb{C}$ pour lesquels il existe $x \in H - \{0\}$ tel que $A(x) = \lambda x$.
+
+\item
+$vp(A) \subset sp(A)$
+
+\end{itemize}
+
+\end{definition}
+
+
+\begin{theoreme}
+Soient H un espace de Hilbert séparable de dimension infinie et $A: H \to H$ un opérateur hermitien compact. Alors:
+
+\begin{enumerate}
+\item
+Il existe $(e_n)_{n \geq 0}$ une base Hilbertienne de $H$, constituée de vecteurs propres de $A$, i.e., $A(e_n) = \lambda_n e_n$.
+
+\item
+Les valeurs propres de $A$ sont réelles et tendent vers 0.
+
+\item
+Les valeurs propres non nulles sont de multiplicité finie.
+
+\item
+$sp(A) = vp(A) \bigcup \{ 0 \}$
+
+\end{enumerate}
+
+\end{theoreme}
+
+
+\begin{definition}
+Soit $K \in L^2([0,1]^2;\mathbb{C})$. On définit l'opérateur à noyau $A_{K}$ de $L^2([0,1];\mathbb{C})$ dans lui-même, par
+
+\[
+A_{K}(f)(x) = \int_{[0,1]} K(x,y)f(y)dy
+\]
+
+\begin{itemize}
+
+\item
+$A_K$ est un opérateur compacte.
+
+\item
+L'adjoint de l'opérateur $A_{K}$ est
+
+\[
+A^{*}_{K}(f)(x) = \int_{[0,1]} \overline{K(y,x)}f(y)dy
+\]
+
+\item
+$A_K$ est hermitien si et seulement si $K(x,y) = \overline{K(y,x)}$, pour presque tout $(x,y) \in [0,1]^2$.
+
+\end{itemize}
+
+\end{definition}
+
+\begin{theoreme}
+Si $K \in L^2([0,1]^2;\mathbb{C})$ et $A_K$ est hermitien, il existe $(\lambda_n)_{n \geq 0}$ une suite de réels qui tend vers 0 et $(\varphi_n)_{n \geq 0}$ une base hilbertienne de $L^2([0,1];\mathbb{C})$ telles que $A_K(\varphi_n) = \lambda_n \varphi_n$.
+
+\end{theoreme}
+
+
+\section{Espaces de Sobolev}
+
+
+\begin{definition}
+Soit $I = ]a,b[$ un intervalle ouvert, borné, non vide et $x_0 \in ]a,b[$.
+
+L'espace de Sobolev $H^1(I;K)$ est défini par
+
+\[ H^1(I;K):= \{ u \in L^2(I;K) : \exists v \in L^2(I;K), \exists c \in K, t.q. (*) u(x) = c + \int_{x0}^x v(t)dt \} \]
+
+L'égalité $(*)$ doit être comprise au sens de l'égalité entre deux fonctions de $L^2(I;K)$.
+
+\end{definition}
+
+
+\begin{lemme}
+Si $u \in H^1(I;K)$ alors:
+
+\begin{enumerate}
+\item
+$u$ admet un représentant continu sur $]a,b[$.
+
+\item
+La décomposition $(*)$ est unique.
+
+\item
+Dans cette décomposition $c = u(x_0)$.
+
+\end{enumerate}
+
+La fonction v est appelée la derivée faible de u et sera notée u'.
+\end{lemme}
+
+\begin{lemme}
+Muni du produit hermitien
+
+\[ \langle u,v \rangle_{H^1(I)} := \int_{I} u \overline{v} dt + \int_{I} u' \overline{v'} dt \]
+
+l'espace $H^1(I;K)$ est un espace de Hilbert.
+
+\[ \| u \|_{H^1(I)} := (\int_{I} (|u(t)|^2 + |u'(t)|^2) dt)^{\frac{1}{2}} \]
+\end{lemme}
+
+\begin{definition}
+On note $H_0^1(I;K) := \{ u \in H^1(I;K) : u(b) = u(a) = 0 \}$
+
+\begin{lemme}
+Muni du produit hermitien de $H^1(I;K)$, l'espace $H_0^1(I;K)$ est un espace de Hilbert.
+\end{lemme}
+
+
+\begin{proposition}
+Les injections canoniques
+
+\[ H^1(I;K) \to L^{\infty}(I;K) \]
+
+et
+
+\[ H^1(I;K) \to L^2(I;K) \]
+
+sont compactes.
+\end{proposition}
+
+
+\end{definition}
+
+\end{document}

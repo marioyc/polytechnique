@@ -1,0 +1,106 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{solution}[1][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{MAT311 - Contrôle 2013}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\begin{exercice}
+Soit $a \in \mathbb{R}$ tel que $a > 1$.
+
+\begin{enumerate}
+\item
+Déterminer les pôles de la fonction $z \mapsto \frac{z^2 - 1}{z(z^2 + 2iaz - 1)}$, et les résidus de cette fonction en ces points.
+
+\item
+En déduire la valeur de $\int_{0}^{2\pi} \frac{sint}{a + sint}dt$
+\end{enumerate}
+\end{exercice}
+
+\begin{solution}
+\begin{enumerate}
+\item
+$f(z) = \frac{z^2 - 1}{z(z^2 + 2iaz - 1)} = \frac{z^2 - 1}{z(z + ia + i\sqrt{a^2-1})(z + ia - i\sqrt{a^2-1})}$
+
+On a les poles $z_0 = 0, z_1 = -ia - i\sqrt{a^2 - 1}, z_2 = -ia + i\sqrt{a^2 - 1}$.
+
+\begin{itemize}
+\item
+$g_0(z) = (z - z_0)f(z) = \frac{z^2 - 1}{(z + ia + i\sqrt{a^2-1})(z + ia - i\sqrt{a^2-1})}$
+
+$res_{z_0} = g_0(z_0) = 1$
+
+\item
+$g_1(z) = (z - z_1)f(z) = \frac{z^2 - 1}{z(z + ia - i\sqrt{a^2-1})}$
+
+$res_{z_1} = g_1(z_1) = \frac{a}{\sqrt{a^2 - 1}}$
+
+\item
+$g_0(z) = (z - z_2)f(z) = \frac{z^2 - 1}{z(z + ia + i\sqrt{a^2-1})}$
+
+$res_{z_2} = g_2(z_2) = \frac{-a}{\sqrt{a^2 - 1}}$
+\end{itemize}
+
+\item
+Pour $\gamma(t) = e^{it} = cost + isint, t \in [0,2\pi]$, on veut calculer $\int_{\gamma} \frac{z^2 - 1}{z(z^2 + 2iaz - 1)}$.
+
+\begin{itemize}
+\item
+$\int_{\gamma} \frac{z^2 - 1}{z(z^2 + 2iaz - 1)} = \int_{\gamma} \frac{\frac{1}{2i}(z - \frac{1}{z})}{ \frac{1}{2i}(z - \frac{1}{z}) + a } \frac{dz}{z} = \int_{0}^{2\pi} \frac{sint}{sint + a} \frac{ie^{it}dt}{e^{it}}= i \int_{0}^{2\pi} \frac{sint}{sint + a} dt$
+
+\item
+Seulement $z_0$ et $z_2$ se trouvent dans $\gamma$. Donc, par la formule des résidus: $\int_{\gamma} \frac{z^2 - 1}{z(z^2 + 2iaz - 1)} = 2i\pi(res_{z_0} + res_{z_2}) = i (2\pi - \frac{2a\pi}{\sqrt{a^2-1}})$
+\end{itemize}
+
+Alors, $\int_{0}^{2\pi} \frac{sint}{sint + a} = 2\pi - \frac{2a\pi}{\sqrt{a^2-1}}$.
+
+\end{enumerate}
+\end{solution}
+
+
+\begin{exercice}
+Soit $f: \mathbb{C} - \{ 0 \} \to \mathbb{C}$ une fonction holomorphe qui vérifie
+
+\[ (*) \exists C_0 > 0, \text{ telle que } |f(z)| \leq C_0(|z| + \frac{1}{|z|}), \text{ pour tout } z \in \mathbb{C} - \{ 0 \} \]
+
+\begin{enumerate}
+\item
+Montrer qu'il existe une constante $C > 0$ telle que $|f'(z)| \leq C(1 + \frac{1}{|z|^2})$, pour tout $z \in \mathbb{C} - \{ 0 \}$ (on pourra apliquer les estimées de Cauchy pour un cercle centré en z de rayon adéquat).
+
+\item
+En déduire que la fonction $g: \mathbb{C} \to \mathbb{C}$ définie par $g(0) = 0$ et $g(z) = z^3 f(z)$ pour tout $z \neq 0$ est holomorphe sur $\mathbb{C}$.
+
+\item
+Montrer que $g^{(5)} = 0$ où, pour tout $n \in \mathbb{N}$, $g^{(n)}$ désigne la dérivee n-ième de $g$ au sens complexe. En déduire l'expression de $g$.
+
+\item
+Déterminer toutes les fonctions $f$ qui sont holomorphes sur $\mathbb{C} - \{ 0 \}$ et vérifient $(*)$
+\end{enumerate}
+
+\end{exercice}
+
+\begin{solution}
+
+\begin{enumerate}
+\item
+
+
+\end{enumerate}
+
+\end{solution}
+
+\end{document}

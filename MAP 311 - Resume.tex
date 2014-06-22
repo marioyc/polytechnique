@@ -1,0 +1,42 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newtheorem{theoreme}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lemme}{Lemme}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{exemple}[1][Exemple]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{Résumé MAP311}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Applications du Théorème de la Limite Centrale}
+
+\begin{theoreme}
+Soit $(X_n)_n$ une suite de v.a. réelles indépendantes, de même loi, de carré intégrable: $m = \mathbb{E}(X_1)$ et $\sigma^2 = \mathbb{V}ar(X_1)$. Alors
+
+\[ \sqrt{n}(\frac{1}{n}\sum_{k = 1}^n X_k - m) \]
+
+converge en loi (quand $n \to +\infty)$ vers une variable aléatoire de loi normale $N(0,\sigma^2).$
+\end{theoreme}
+
+
+\begin{corollaire}
+Pour tout $a \leq b$,
+
+\[ \lim\limits_{n \to +\infty} \mathbb{P}( a \leq \frac{\sqrt{n}}{\sigma}(\frac{1}{n}\sum_{k = 1}^n X_k - m) \leq b ) = \int_{a}^{b}  \frac{e^{ -x^2/2 }}{\sqrt{2 \pi }} dx \]
+\end{corollaire}
+
+\end{document}

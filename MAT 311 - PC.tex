@@ -1,0 +1,402 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{solution}[1][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{PCs MAT311}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Espaces de Hilbert}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{exercice}
+
+On considère dans $l^2(\mathbb{Z};\mathbb{R})$ le sous-espace $F = \{ (x_n)_{n \in \mathbb{Z}} : |x_n| \leq 1 \}$
+
+\begin{enumerate}
+
+\item
+Montrer que $F$ est un convexe fermé
+
+\item
+Déterminer l'opérateur de projection orthogonale sur $F$.
+
+\end{enumerate}
+
+\begin{solution}
+
+\begin{enumerate}
+
+\item
+
+\begin{itemize}
+\item
+\underline{F est convexe}:
+Soient $(x_n)_{n \in \mathbb{Z}}, (y_n)_{n \in \mathbb{Z}} \in F$ et $t \in [0,1]$
+
+$| tx_n + (1 - t)y_n| \leq t |x_n| + (1-t) |y_n| \leq 1$
+
+Donc $(t x_n + (1 - t) y_n )_{n \in \mathbb{Z}} \in F$ et $F$ est convexe.
+
+\item
+\underline{F est fermé}:
+Soit $x^n = (x^n_m)_{m \in \mathbb{Z}}$ tel que $x^n \rightarrow x^0$.
+
+Donc $\sum (x^n_m - x^0_m)^2 \rightarrow 0$ et alors $x^n_m \rightarrow x^0_m$.
+
+Comme $x \mapsto |x|$ est continue dans $\mathbb{R}$, on a $|x^0_m| \leq 1$.
+
+Donc $(x^0_m)_{m \in \mathbb{Z}} \in F$ et $F$ est fermé.
+
+\end{itemize}
+
+\item
+On pose
+
+\[
+ z_n =
+  \begin{cases}
+   x_n & \text{if } |x_n| \leq 1 \\
+   \frac{x_n}{|x_n|} & \text{if } |x_n| > 1
+  \end{cases}
+\]
+
+qui satisfait $(z_n)_{n \in \mathbb{Z}} \in F$.
+
+\[
+\sum |z_n|^2 = \underbrace{\sum_{|x_n| \leq 1} |x_n|^2}_{\text{converge car } (x_n)_{n \in \mathbb{Z}} \in l^2(\mathbb{Z};\mathbb{R})} + \underbrace{ \sum_{|x_n| > 1} }_{ \text{fini} }  \underbrace{ \frac{|x_n|^2}{|x_n|^2} }_{1} < +\infty
+\]
+
+Alors $(z_n)_{n \in \mathbb{Z}} \in l^2(\mathbb{Z};\mathbb{R})$.
+
+\[
+\forall (z'_n)_{n \in \mathbb{Z}} \in F, (x_n - z'_n)^2 \geq (x_n - z_n)^2 \Rightarrow \| (x_n) - (z'_n) \| \geq \| (x_n) - (z_n) \|
+\]
+
+Donc $p_{F}((x_n)_{n \in \mathbb{Z}}) = (z_n)_{n \in \mathbb{Z}}$.
+
+\end{enumerate}
+
+\end{solution}
+
+\end{exercice}
+
+\section{Tranformée de Fourier $L^2$, convergence faible et théorie spectrale}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{exercice}
+
+Soit $H$ un espace de Hilbert, $V$ un sous-ensemble dense de $H$ et $(x_n)_{n \in \mathbb{N}}$ une suite de $H$ telle que 
+
+\[
+\forall h \in V, \lim\limits_{n \rightarrow +\infty} \langle x_n,h \rangle = \langle x,h \rangle
+\]
+
+\begin{enumerate}
+
+\item
+On suppose que la suite est bornée. Montrer qu'elle converge faiblement vers x.
+
+\item
+Donner un exemple de suite $(x_n)_{n \in \mathbb{N}}$ vérifiant la condition pour un sous-ensemble dense de H, mais ne convergeant pas faiblement vers x.
+
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+
+\item
+Soit $y \in H$ et $(y_n)_{n \in \mathbb{N}}$ une suite telle que $y_n \rightarrow y$ et $y_n \in V \forall n$.
+
+\begin{align}
+| \langle x_n,y \rangle - \langle x,y \rangle | &= | \langle x_n - x,y \rangle | \nonumber \\
+&= | \langle x_n - x,y_p \rangle + \langle x_n - x,y-y_p \rangle | \nonumber \\
+&\leq | \langle x_n,y_p \rangle - \langle x,y_p \rangle | + | \langle x_n - x,y - y_p \rangle| \nonumber \\
+&\leq  | \langle x_n,y_p \rangle - \langle x,y_p \rangle | + \| x_n - x \| \| y - y_p \| (Cauchy - Schwarz) \nonumber
+\end{align}
+
+Comme $y_p \in V$, par l'hypothèse du problème:
+
+\[
+\exists N: \forall n \geq N, | \langle x_n,y_p \rangle - \langle x,y_p \rangle | \leq \frac{\epsilon}{2}
+\]
+
+Comme $(x_n)_{n \in \mathbb{N}}$ est bornée: $\exists M: \forall n, \| x_n - x \| \leq M$
+
+Aussi, $\exists p: \| y - y_p \| \leq \frac{\epsilon}{2M}$
+
+On a donc:
+
+\[
+\forall y \in H, \exists N: \forall n \geq N, | \langle x_n,y \rangle - \langle x,y \rangle | \leq \epsilon
+\]
+
+Alors $x_n \rightharpoonup x$.
+
+
+\item
+On prend $H = l^2(\mathbb{N})$, $x_n = ne_n$ et $V = \{ \sum_{i\geq0}a_i e_i | a_i = 0 \text{ à partir d'un certain point} \}$
+
+$V$ est dense en $H$ et $\forall v \in V, \langle x_n,v \rangle \rightarrow 0$
+
+Mais, pour $v = \sum_{n \geq 1}\frac{1}{n}e_n$, $ \langle x_n,v \rangle = 1 $
+
+\end{enumerate}
+
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{exercice}
+
+Soit H un espace de Hilbert et $(x_n)_{n\geq1}$ une suite qui converge faiblement vers 0. On souhaite démontrer que la suite $(x_n)_{n\geq1}$ est bornée. On raisonne par l'absurde et on suppose que (quitte à  extraire une sous-suite) la suite $(\|x_n\|)_{n\geq1}$ tend vers l'infini.
+
+\begin{enumerate}
+
+\item
+Montrer que l'on peut construire une famille $(e_n)_{n\geq1}$ orthonormale et une fonction strictement croissante $\varphi : \mathbb{N}^* \rightarrow \mathbb{N}^*$ telles que, pout tout $n\geq1$,
+
+\[
+x_{\varphi(n)} \in Vect\{e_1,\ldots,e_n\}, \langle x_{\varphi(n)},e_n \rangle \geq n
+\]
+
+et, pour tout $n \geq 2$
+
+\[
+|\langle x_{\varphi(n)},e_i \rangle| \leq \frac{1}{n^2} \text{ pour } i = 1,\ldots,n-1
+\]
+
+\item Montrer que la série $\sum_{j = 1}^{+\infty} \frac{1}{j}e_j$ est convergente dans $H$, puis conclure.
+
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+
+\item
+On construit $\varphi: \mathbb{N}^* \rightarrow \mathbb{N}^*$ de la maniére suivante.
+
+On prend $\varphi(1)$ tel que $\|x_1\| \geq 1$, et $e_1 = \frac{x_1}{\|x_1\|}$
+
+Étant donnés $\varphi(1),\ldots,\varphi(n)$ et $e_1,\ldots,e_n$.
+
+On dispose de $A \in \mathbb{N}$ tel que $\forall j \geq A$
+
+\begin{itemize}
+
+\item
+Pour $i = 1,\ldots,n, |\langle x_{\varphi(n) + j},e_i \rangle| \leq \frac{1}{(n + 1)^2}$ (Par la convergence faible)
+
+\item
+$\|x_{\varphi(n) + j}\| \geq n + 2$ (Car $(\|x_n\|)_{n\geq1}$ tend vers l'infini)
+\end{itemize}
+
+On pose $\varphi(n + 1) = \varphi(n) + A$ et on obtient $e_{n + 1}$ à  partir de $x_{\varphi(n + 1)}$:
+
+\[
+e_{n+1} = \frac{ x_{\varphi(n) + 1} - P_{Vect\{ e_1,\ldots,e_n \}}(x_{\varphi(n + 1)}) }{\| x_{\varphi(n) + 1} - P_{Vect\{ e_1,\ldots,e_n \}}(x_{\varphi(n + 1)}) \|}
+\]
+
+On a bien que $x_{\varphi(n + 1)} \in Vect\{e_1,\ldots,e_n\}$, il nous manque démontrer que $\langle x_{\varphi(n + 1),e_{n + 1}} \rangle \geq n + 1$:
+
+\[
+(n+2)^2 \leq \| x_{\varphi(n + 1)} \| = \sum_{i = 1}^{n + 1} \langle x_{\varphi(n + 1)},e_i \rangle^2 \leq \sum_{i = 1}^{n} \frac{1}{(n + 1)^2} + \langle x_{\varphi(n + 1)},e_{n + 1} \rangle^2
+\]
+
+\[
+|\langle x_{\varphi(n + 1)},e_{n + 1} \rangle| \geq (n + 2)^2 - \frac{n}{(n + 1)^2} \geq n + 1
+\]
+
+\item
+$\| \sum_{j = 1}^{+\infty} \frac{1}{j}e_j \|^2 = \sum_{j = 1}^{+\infty} \frac{1}{j^2}$ converge dans $\mathbb{R}$.
+
+Donc $\sum_{j = 1}^{+\infty}\frac{1}{j}e_j$ converge dans $H$.
+
+$\langle x_{\varphi(n), \sum_{j = 1}^{+\infty} \frac{1}{j}e_j} = \sum_{j = 1}^n \frac{1}{j} \langle x_{\varphi(n)},e_j \rangle \geq 1 - \sum_{j = 1}^{n - 1}\frac{1}{jn^2} \geq 1 - \frac{n - 1}{n^2} \rightarrow 1$
+
+On trouve une contradiction avec la convergence faible vers 0.
+
+\end{enumerate}
+
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercice}
+
+Soit $H$ un espace de Hilbert et $A: H \rightarrow H$ un opérateur borné.
+
+\begin{itemize}
+
+\item
+Montrer que l'image par A d'une suite faiblement convergente est une suite faiblement convergente.
+
+\item
+Montrer que A est compact si et seulement si l'image par A des suites faiblement convergentes sont des suites (fortement) convergentes.
+
+\end{itemize}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+
+\item
+Soit $(x_n)_{n\geq0}$ une suite qui converge faiblement vers x
+
+Comme $A$ est borné, il existe l'adjoint $A^*$ et
+
+\[
+|\langle Ax_n,y \rangle - \langle Ax,y \rangle| = |\langle x_n,A^*y \rangle - \langle x,A^*y \rangle| \rightarrow 0
+\]
+
+Donc $Ax_n \rightharpoonup Ax$.
+
+\item
+($\Rightarrow$)
+
+Soit $(x_n)_{n\geq0}$ une suite bornée tel que $x_n \rightharpoonup x$. De la première partie on sait que $Ax_n \rightharpoonup Ax$.
+
+On suppose que $(Ax_n)_{n\geq0}$ ne converge pas vers $Ax$.
+
+Alors, il existe $\epsilon > 0$, $(x_{\varphi(n)})_{n\geq0}$ tel que $\forall n \| Ax_{\varphi(n)} - Ax \| > \epsilon$
+
+Comme $(x_n)_{n\geq0}$ est bornée, $Ax_{\varphi(n)}$ admet une sous-suite qui converge, et elle doit converger vers $Ax$. On obtient une contradiction.
+
+Donc $Ax_n \rightarrow Ax$
+
+($\Leftarrow$)
+
+On a que l'image par A des suites faiblement convergentes sont des suites (fortement) convergentes.
+
+Soit $(x_n)_{n\geq0}$ une suite bornée de H.
+Il existe une sous-suite $(x_{\varphi(n)})_{n\geq0}$ qui converge faiblement.
+D'où $(Ax_{\varphi(n)})_{n\geq0}$ converge fortement.
+
+Donc $A$ est compact.
+
+\end{enumerate}
+
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercice}
+
+\begin{enumerate}
+
+\item
+Montrer que $\{ A \in \mathcal{L}(H,H), A$ est inversible $\}$ est un ouvert de $\mathcal{L}(H,H)$. (On pourra utiliser que pour tout opérateur $T$ avec $\| T \| < 1$ l'opérateur $Id-T$ est inversible.)
+
+\item
+Soit $A:H \rightarrow H$ un opérateur borné. Montrer que $sp(A)$, le spectre de $A$, est fermé dans $\mathbb{C}$
+
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+
+\item
+Soit $A \in \mathcal{L}(H,H)$ inversible et $B \in \mathcal{L}(H,H)$ tel que $\| B \| < \frac{1}{A^{-1}}$
+
+$A + B = A(Id + A^{-1}B)$
+
+$\| A^{-1}B \| < 1$, alors $A+B$ est inversible.
+
+\item
+$\phi: \lambda \in \mathbb{C} \rightarrow A-\lambda Id \in \mathcal{L}(H,H)$ est continue.
+
+
+\end{enumerate}
+
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercice}
+On note $T$ l'application linéaire définie de $L^2([0,1])$ dans lui même par $T(f)(x) = \int_{[0,x]}f(t)dt$.
+
+\begin{enumerate}
+\item
+Montrer que $T^*$, l'adjoint de $T$ est donné par $T^*(f)(x) = \int_{[x,1]}f(t)dt$, et que $TT^*$ est un opérateur à noyau $K(x,y) = min\{x,y\}$.
+
+\item
+Soit $f$ un vecteur propre de $TT^{*}$ associé à la valeur propre $\lambda$. Montrer que la fonction $f$ est de classe $C^{\infty}$ (on pourra procéder par récurrence.)
+
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+
+\item
+\begin{itemize}
+
+\item
+\underline{Adjoint de T}: Soient $f,g \in H$
+
+\begin{align}
+\langle Tf,g \rangle &= \int_{[0,1]}T(f)(x)g(x)dx  \nonumber \\
+&= \int_{[0,1]}g(x) (\int_{[0,x]}f(t)dt)dx  \nonumber \\
+&= \int_{[0,1]} (\int_{[0,1]} f(t) 1_{t \leq x}g(x)dt)dx \nonumber
+\end{align}
+
+$| f(t) 1_{t \leq x}g(x) | \leq |f(t)g(x)|$ et comme les deux sont intégrables par le théorème de Fubini:
+
+\begin{align}
+\langle Tf,g \rangle &= \int_{[0,1]} f(t) (\int_{[0,1]} g(x) 1_{x \geq t} dx) dt \nonumber \\
+&= \int_{[0,1]} f(t) (\int_{[t,1]} g(x)dx) dt \nonumber \\
+&= \langle f,T^*g \rangle \nonumber
+\end{align}
+
+\item
+\underline{$TT^*$ est un opérateur à noyau}:
+
+\begin{align}
+TT*(f) &= \int_{[0,x]} (\int_{[t,1]} f(y) dy) dt \nonumber \\
+&= \int_{[0,1]} (\int_{[0,1]} f(y) 1_{y \geq t} 1_{x \geq t} dy) dt \nonumber \\
+&= \int_{[0,1]} (\int_{[0,1]} f(y) 1_{y \geq t} 1_{x \geq t} dt) dy \nonumber \\
+&= \int_{[0,1]} (\int_{[0,min(x,y)]}  f(y) dt) dy \nonumber \\
+&= \int_{[0,1]} min(x,y) f(y) dy \nonumber
+\end{align}
+
+\end{itemize}
+
+\end{enumerate}
+
+\end{solution}
+
+\section{Espaces de Sobolev}
+
+%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

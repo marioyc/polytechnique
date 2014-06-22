@@ -1,0 +1,125 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{solution}[1][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{PCs MAP311}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Applications du Théorème de la Limite Centrale}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{exercice} (Précision des sondages)
+
+\begin{enumerate}
+\item
+À quelle précision peut prétendre un sondage sur deux candidats effectué sur un échantillon de $1000$ personnes? Est-ce que ce résultat dépend de la taille de la population?
+
+\item
+En Floride, pour l'élection présidentielle américaine en 2000, on compte 6 millions de votants. Sachant qu'il y a eu environ 4000 voix d'écart (de plus pour le gagnant), quel est le nombre de personnes qu'il aurait fallu interroger dans un sondage pour savoir avec $95\%$ de chance qui allait être le vainqueur?
+
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+\item
+On note $X_i$ la réponse de la i-ème personne interrogée ($X_i=1$ si elle vote pour le candidat A, $X_i=0$ si elle vote pour le candidat B). Les variables aléatoire $X_1,\ldots,X_n$ sont indépendantes de même loi de Bernoulli de paramètre $p \in ]0,1[$.
+
+\begin{itemize}
+\item
+Les variables $X_i$ son effectivement indépendantes si l'on a à faire avec remise.
+
+\item
+Dans le cas d'un tirage sans remise, ce qui est souvent le cas d'un sondage, alors les variables ne sont pas indépendantes. Mais on peut montrer que si la taille de la population est grande devant le nombre de personnes interrogées, $n$, alors les résultats de convergence et en particulier l'intervalle de confiance sont les mêmes que pour le tirage avec remise.
+
+\end{itemize}
+
+On estime $p$ avec la moyenne empirique: $\overline{X}_n = \frac{1}{n} \sum_{k = 1}^n X_k$.
+
+On déduit du TCL que avec une probabilité asymptotique de $95\%$, on a:
+
+\[ p \in [\overline{X}_n \pm 1.96\frac{\sqrt{p(1-p)}}{\sqrt{n}}] \subset [\overline{X}_n \pm \frac{1.96}{2\sqrt{n}}] \subset [\overline{X}_n \pm \frac{1}{\sqrt{n}}] \]
+
+Pour $n = 1000$, on obtient une précision aymptotique (par excès) d'environ $\pm \frac{1}{\sqrt{n}}$ c'est-à-dire $\pm 3$ points. La précision ne dépend pas de la taille de la population, pourvu qu'elle soit bien plus grande que $n$.
+
+\item
+On a $p = \frac{1}{2} + \frac{4000}{2 \cdot 6 \cdot 10^6} = \frac{1}{2} + \frac{1}{3}10^{-3}$.
+
+Comme on assure que A est le vainqueur dès que $\overline{X}_n - \frac{1}{\sqrt{n}} \geq \frac{1}{2}$, et que dans $95\%$ des cas $\overline{X}_n \in [p \pm \frac{1}{\sqrt{n}}(p \approx \frac{1}{2})$, on en déduit que l'on donne A gagnant dès que $p - \frac{2}{\sqrt{n}} \geq \frac{1}{2}$ avec une certitude d'au moins $95\%$.
+
+On en déduit $\frac{2}{\sqrt{n}} = 3.3 \cdot 10^{-4}$ soit $n = 36 \cdot 10^6$.
+
+Comme n est plus grang que la taille de la population, on ne peut donc pas déterminer le vainqueur en faisant un sondage.
+
+\end{enumerate}
+
+\end{solution}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{exercice}
+Soit $(X_n,n \in \mathbb{N}^*)$ une suite de variable aléatoires réelles de même loi, indépendantes de carré intégrable. On note $\mu = \mathbb{E}(X_1)$, $\sigma^2 = Var(X_1)$ et $Z_n = \frac{1}{\sqrt{n}}\sum_{k = 1}^n(X_k - \mu)$
+
+\begin{enumerate}
+\item
+Rappeler la convergence en loi de la suite $(Z_n,n \in \mathbb{N}^*)$.
+
+\item
+Établir la convergence de la suite $(Z_{2n} - Z_n,n \in \mathbb{N}^*)$ et donner sa limite.
+
+\item
+En déduire que la suite $(Z_n,n \in \mathbb{N}^*)$ ne converge pas en probabilité si $\sigma^2 > 0$.
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+\begin{enumerate}
+\item
+$Z_n = \frac{1}{\sqrt{n}}\sum_{k = 1}^n(X_k - \mu) = \frac{1}{\sqrt{n}}(n\overline{X}_n - n \mu) = \sqrt{n}(\overline{X}_n - \mu)$
+
+One déduite du TCL que la suite $(Z_n,n \in \mathbb{N}^*)$ converge en loi vers $\sigma G$, où $G$ est de loi gaussienne centrée reduite $\mathcal{N}(0,1)$.
+
+\item
+\begin{align}
+Z_{2n} - Z_n &= \frac{1}{\sqrt{2n}} \sum_{k = 1}^{2n}(X_k-\mu) - \frac{1}{\sqrt{n}} \sum_{k = 1}^n(X_k-\mu) \nonumber \\
+&= (\frac{1}{\sqrt{2}} - 1)\frac{1}{\sqrt{n}} \sum_{k = 1}^n(X_k-\mu) + \frac{1}{\sqrt{2}} \frac{1}{\sqrt{n}} \sum_{k = n + 1}^{2n}(X_k-\mu) \nonumber \\
+&= (\frac{1}{\sqrt{2}} - 1)Z_n + \frac{1}{\sqrt{2}}Z'_n \nonumber
+\end{align}
+
+où $Z'_n$ est indépendant de $Z_n$ et a même loi que $Z_n$.
+
+\end{enumerate}
+
+\end{solution}
+
+\begin{align}
+\psi_{Z_{2n} - Z_n}(u) &= \psi_{(\frac{1}{\sqrt{2}} - 1)Z_n}(u) \psi_{\frac{1}{\sqrt{2}}Z'_n}(u) \nonumber \\
+&= \psi_{Z_n}(u(\frac{1}{\sqrt{2}} - 1)) \psi_{Z_n}(\frac{u}{\sqrt{2}}) \nonumber \\
+&\to \psi_{\sigma G}(u(\frac{1}{\sqrt{2}} - 1)) \psi_{\sigma G}(\frac{u}{\sqrt{2}}) (\text{par le TCL}) \nonumber \\
+&= exp(-\frac{u^2}{2}\sigma^2((\frac{1}{\sqrt{2}} - 1)^2 + (\frac{1}{\sqrt{2}})^2) \nonumber \\
+&= exp(-\frac{u^2}{2}\sigma^2(2-\sqrt{2})) \nonumber
+\end{align}
+
+On en déduit que la suite $(Z_{2n} - Z_n, n \in \mathbb{N}^*)$ converge en loi vers $\sigma \sqrt{2 - \sqrt{2}} G$.
+
+\end{document}
