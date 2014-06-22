@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{mathrsfs}
 
 \newenvironment{exercice}[1][Exercice]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
@@ -42,17 +43,17 @@ On a les poles $z_0 = 0, z_1 = -ia - i\sqrt{a^2 - 1}, z_2 = -ia + i\sqrt{a^2 - 1
 \item
 $g_0(z) = (z - z_0)f(z) = \frac{z^2 - 1}{(z + ia + i\sqrt{a^2-1})(z + ia - i\sqrt{a^2-1})}$
 
-$res_{z_0} = g_0(z_0) = 1$
+$res_{z_0} = g_0(z_0) = \boxed{1}$
 
 \item
 $g_1(z) = (z - z_1)f(z) = \frac{z^2 - 1}{z(z + ia - i\sqrt{a^2-1})}$
 
-$res_{z_1} = g_1(z_1) = \frac{a}{\sqrt{a^2 - 1}}$
+$res_{z_1} = g_1(z_1) = \boxed{\frac{a}{\sqrt{a^2 - 1}}}$
 
 \item
 $g_0(z) = (z - z_2)f(z) = \frac{z^2 - 1}{z(z + ia + i\sqrt{a^2-1})}$
 
-$res_{z_2} = g_2(z_2) = \frac{-a}{\sqrt{a^2 - 1}}$
+$res_{z_2} = g_2(z_2) = \boxed{\frac{-a}{\sqrt{a^2 - 1}}}$
 \end{itemize}
 
 \item
@@ -66,7 +67,7 @@ $\int_{\gamma} \frac{z^2 - 1}{z(z^2 + 2iaz - 1)} = \int_{\gamma} \frac{\frac{1}{
 Seulement $z_0$ et $z_2$ se trouvent dans $\gamma$. Donc, par la formule des résidus: $\int_{\gamma} \frac{z^2 - 1}{z(z^2 + 2iaz - 1)} = 2i\pi(res_{z_0} + res_{z_2}) = i (2\pi - \frac{2a\pi}{\sqrt{a^2-1}})$
 \end{itemize}
 
-Alors, $\int_{0}^{2\pi} \frac{sint}{sint + a} = 2\pi - \frac{2a\pi}{\sqrt{a^2-1}}$.
+Alors, $\int_{0}^{2\pi} \frac{sint}{sint + a} = \boxed{2\pi - \frac{2a\pi}{\sqrt{a^2-1}}}$.
 
 \end{enumerate}
 \end{solution}
@@ -97,10 +98,236 @@ Déterminer toutes les fonctions $f$ qui sont holomorphes sur $\mathbb{C} - \{ 0
 
 \begin{enumerate}
 \item
+Pour tout $z \in \mathbb{C} - \{ 0 \}$ on considère le disque $D(z,r = \frac{|z|}{2})$.
 
+Pour tout $y$ sur le disque $\frac{|z|}{2} < |y| < \frac{3|z|}{2}$, alors:
+
+\[ |f(y)| \leq C_0(|y| + \frac{1}{|y|}) < C_0(\frac{3}{2}|z| + \frac{2}{|z|}) < C_0(2|z| + \frac{2}{|z|}) = 2C_0(|z| + \frac{1}{|z|}) \]
+
+On a $\overline{D}(z,\frac{|z|}{2}) \subset \mathbb{C} - \{ 0 \}$, alors par les estimées de Cauchy:
+
+\[ \frac{|f'(z)|}{1!} = |f'(z)| \leq \frac{1}{r}\sup_{\partial D(z,r)}|f(z)| < \frac{2C_0}{r}(|z| + \frac{1}{|z|}) = 4C_0(1 + \frac{1}{|z|^2}) \]
+
+On prend $C = 4C_0$.
+
+\item
+\begin{itemize}
+\item
+\underline{Méthode 1}:
+
+$ | \frac{g(0 + z) - g(0)}{z} | = |\frac{g(z)}{z}| = |z|^2|f(z)| \leq C_0(|z|^3 + |z|) $
+
+$ \Rightarrow \lim \limits_{z \to 0, z \neq 0} | \frac{g(0 + z) - g(0)}{z} | = 0$
+
+\item
+\underline{Méthode 2}:
+
+Pour $z \in \mathbb{C} - \{ 0 \}$:
+
+\begin{align}
+|g'(z)| &= |3z^2f(z) + z^3f'(z)| \nonumber \\
+&\leq 3|z|^2|f(z)| + |z|^3|f'(z)| \nonumber \\
+&\leq 3C_0(|z|^3 + |z|) + C(|z|^3 + |z|)  \nonumber
+\end{align}
+
+$ \Rightarrow \lim \limits_{z \to 0} | g'(z) | = 0$
+\end{itemize}
+
+Donc $g$ est $\mathbb{C}$-dérivable en $0$, et aussi en $\mathbb{C} - \{ 0 \}$ car elle est un produit de fonctions holomorphes en $\mathbb{C} - \{ 0 \}$.
+
+\item
+Par les estimées de Cauchy pour $z_0 = 0$, et pour $n \geq 5$:
+
+\begin{align}
+|a_n| = \frac{|g^{(n)}(0)|}{n!} &\leq \frac{1}{r^n} \sup_{\partial D(0,r)}|g(z)| \nonumber \\
+&= \frac{1}{r^n} \sup_{\partial D(0,r)}|z^3f(z)| \nonumber \\
+& \leq \frac{C_0}{r^n}(r^4 + r^2) \text{ (car } |z^3f(z)| \leq C_0(|z|^4 + |z|^2) \text{ et } |z| = r) \nonumber \\
+&= C_0(\frac{1}{r^{n - 4}} + \frac{1}{r^{n - 2}}) \nonumber
+\end{align}
+
+En faisant $r \to +\infty$, on obtient que dans le développement au tour de $z_0 = 0$, on a $a_n = 0$ pour $n \geq 5$.
+
+Donc, $g$ est un polynóme de degré $\leq 4$, et en particulier $g^{(5)} = 0$.
+
+\item
+On sait que $f$ s'écrit: $f(z) = \sum_{i = -3}^{1} a_i z^i$
+
+Par $(*)$:
+
+\begin{align}
+| \frac{a_{-3}}{z^3} + \frac{a_{-2}}{z^2} + \frac{a_{-1}}{z} + a_0 + a_1 z | &\leq C_0(|z| + \frac{1}{|z|}) \nonumber \\
+| \frac{a_{-3}}{z^2} + \frac{a_{-2}}{z} + a_{-1} + a_0 z + a_1 z^2 | &\leq C_0(|z|^2 + 1) \nonumber
+\end{align}
+
+Si l'on considere les complexes dans le cercle $|z| \leq 1$, $C_0(|z|^2 + 1)$ est borné. Et en faisant $z \to 0$ on arrive à conclure que pour que la partie de gauche de l'inegalité soit bornée il faut avoir $a_{-3} = a_{-2} = 0$.
+
+Donc $f$ a la forme $\boxed{ z \mapsto \frac{a_{-1}}{z} + a_0 + a_1 z }$.
+
+Et les fonctions de cette forme vérifient $(*)$, puisque:
+
+\begin{align}
+|f(z)| &= | \frac{a_{-1}}{z} + a_0 + a_1 z | \nonumber \\
+&\leq |a_{-1}|\frac{1}{|z|} + |a_0| + |a_1| |z| \nonumber \\
+&\leq |a_{-1}|\frac{1}{|z|} + \frac{|a_0|}{2}(|z| + \frac{1}{|z|}) + |a_1| |z| \text{ (car } |z| + \frac{1}{|z|} \geq 2) \nonumber \\
+&\leq (|a_{-1}| + |a_0| + |a_1|)(|z| + \frac{1}{|z|}) \nonumber
+\end{align}
 
 \end{enumerate}
 
+\end{solution}
+
+
+\begin{exercice}
+Deux questions de dénombrabilité.
+
+\begin{enumerate}
+\item
+Montrer que l'ensemble des suites $(x_n)_{n \geq 0}$, dont les coefficients sont à valeurs dans $\{ 0,1 \}$, n'est pas dénombrable (on pourra s'inspirer de la démonstration du fait que $[0,1]$ n'est pas dénombrable).
+
+\item
+Montrer que l'ensemble des suites $(x_n)_{n \geq 0}$, dont les coefficients sont à valeurs dans $\{ 0,1 \}$ et qui convergent, est dénombrable.
+\end{enumerate}
+\end{exercice}
+
+\begin{solution}
+\begin{enumerate}
+\item
+Si l'ensemble de ces suites était dénombrable. Soit $(x^m)_{m \geq 0}$ la suite de ces suites.
+
+On peux construire la suite $(y_n)_{n \geq 0} = (1 - x^n_n)_{n \geq 0}$ qui est aussi dans l'ensemble. Mais, elle n'est pas inclus dans la suite $(x^m)_{m \geq 0}$ car par sa construction elle est differente de toutes les suites.
+
+Donc, on arrive à une contradiction et l'ensemble n'est pas dénombrable.
+
+\item
+On construira une bijection entre ces suites et les nombres entiers ce qui montre que l'ensemble est dénombrable.
+
+Comme les suites son convergentes, soit $(x_n)_{n \geq 0}$ une suite de l'ensemble, il existe $n_0 \geq 0$ tel que $\forall m \geq n_0, x_m = x_{n_0}$.
+
+Si $x_{n_0} = 0$, on associe à la suite le nombre $\sum_{i = 0}^{n_0 - 1} 2^i x_i$.
+
+Si $x_{n_0} = 1$, on associe à la suite le nombre $-(\sum_{i = 0}^{n_0 - 1} 2^i x_i) - 1$.
+
+Ce qui est bien une bijection vers les entiers, et alors l'ensemble est dénombrable pouisque les entiers son dénombrables.
+\end{enumerate}
+\end{solution}
+
+
+\begin{exercice}
+Pour tout $f \in L^2([0,1];\mathbb{C})$ et pour tout $x \in [0,1]$, on définit
+
+\[ T(f)(x) := ie^{i \pi x} \int_{[0,1]} (1_{[0,x]} - 1_{[x,1]}) e^{-i \pi t} f(t) dt \]
+
+\begin{enumerate}
+\item
+Montrer que $T: L^2([0,1];\mathbb{C}) \to L^2([0,1];\mathbb{C})$ est un opérateur borné.
+
+\item
+Soit $f \in L^2([0,1];\mathbb{C})$. Montrer que $T(f)$ admet un représentant continu et que $\| T(f) \|_{L^{\infty}} \leq \| f \|_{L^2}$
+
+\item
+Soit $(f_n)_{n \geq 0}$ une suite d'élements de $L^2([0,1];\mathbb{C})$ qui converge faiblement vers $f$ dans $L^2([0,1];\mathbb{C}$.
+
+Montrer que la suite $(T(f_n))_{n \geq 0}$ (ou plutôt la suite des répresentants continus) converge vers $T(f)$ en tout point de $[0,1]$.
+
+\item
+En déduire que $T$ es un opérateur compact.
+
+\item
+Montrer que $T$ est un opérateur hermitien.
+
+\item
+On suppose que $f \in \mathscr{C}([0,1];\mathbb{C})$. Calculer $T(f)'$, la derivée de $T(f)$, en fonction de $T(f)$ et de $f$.
+
+\item
+Déterminer les valeurs propres non nulles de $T$ et déterminer le spectre de $T$.
+\end{enumerate}
+\end{exercice}
+
+\begin{solution}
+\end{solution}
+
+
+\begin{exercice}
+Soit $\varphi : [0,1] \to \mathbb{R}$ une fonction 1-lipschitzienne i.e.
+
+\[ |\varphi(y) - \varphi(x)| \leq |y -x| \]
+
+pour tous $x,y \in [0,1]$.
+
+On note $\mathcal{E}$, l'espace des fonctions définies sur $[0,1]$, qui sont de la forme
+
+\[ h = \sum_{j = 0}^{n - 1} c_j 1_{]x_j,x_{j + 1}[}, \]
+
+où $n \geq 1$ est un entier, $c_0, \ldots, c_{n - 1}$ sont des réels et
+
+\[ 0 = x_0 < x_1 < \ldots < x_n = 1 \]
+
+est une partition de $[0,1]$ qui varient d'une fonction $h$ à une autre.
+
+Pout tout $h \in \mathcal{E}$, définissons
+
+\[ L(h) := \sum_{j = 0}^{n - 1} c_j (\varphi(x_{j + 1}) - \varphi(x_j)) \]
+
+\begin{enumerate}
+\item
+Montrer que $L: \mathcal{E} \to \mathbb{R}$ est linéaire et que, pour tout $h \in \mathcal{E}$,
+
+\[ |L(h)| \leq \| h \|_{L^1} \text{ et } |L(h)| \leq \| h \|_{L^2} \]
+
+\item
+Montrer qu'il existe $f \in \mathcal{L}^2([0,1];\mathbb{R})$ telle que, pour tout $h \in \mathcal{E}$,
+
+\[ L(h) = \int_{[0,1]}f(t)h(t)dt \]
+
+\item
+En déduire que, pour tout $h \in \mathcal{E}$,
+
+\[ \varphi(x) - \varphi(0) = \int_{[0,x]} f(t)dt \]
+
+\end{enumerate}
+\end{exercice}
+
+\begin{solution}
+\begin{enumerate}
+\item
+\begin{itemize}
+\item
+$|h| = \sum_{j = 0}^{n - 1}|c_j| 1_{]x_j,x_{j + 1}[}$
+
+\item
+$\| h \|_{L^1} = \int_{0}^1 |h(t)|dt = \sum_{j = 0}^{n - 1} |c_j|(x_{j + 1}-x_j)$
+
+\item
+$\| h \|_{L^2} = (\int_{0}^1 |h(t)|^2 dt)^{\frac{1}{2}} = (\sum_{j = 0}^{n - 1} |c_j|^2(x_{j + 1}-x_j))^{\frac{1}{2}}$
+
+\item
+\begin{align}
+|L(h)| &= |\sum_{j = 0}^{n - 1} c_j (\varphi(x_{j + 1}) - \varphi(x_j))| \nonumber \\
+&\leq  \sum_{j = 0}^{n - 1} |c_j| |(\varphi(x_{j + 1}) - \varphi(x_j))| \text{ (par l'inégalité triangulaire)} \nonumber \\
+&\leq \sum_{j = 0}^{n - 1} |c_j| |x_{j + 1} - x_{j}| \nonumber \text{ (car la fonction est 1-lipschitzienne)} \nonumber \\
+&= \sum_{j = 0}^{n - 1} |c_j| (x_{j + 1} - x_{j}) = \| h \|_{L^1} \nonumber
+\end{align}
+
+\item
+Par l'inégalité de Cauchy-Schwarz:
+
+\[ (\sum_{j=0}^{n - 1} |c_j|(x_{j + 1} - x_j))^2 \leq (\sum_{j = 0}^{n - 1} |c_j|^2(x_{j + 1} - x_j)(\underbrace{ \sum_{j = 0}^{n - 1}(x_{j + 1}-x_j)) }_{1}\]
+\[ \Rightarrow \| h \|_{L^1}^2 \leq \| h \|_{L^2}^2 \Rightarrow |L(h)| \leq \| h \|_{L^1} \leq \| h \|_{L^2} \]
+\end{itemize}
+
+\item
+Par la partie 1, $L$ est linéaire continue sur $\mathcal{L}^2([0,1];\mathbb{R})$. Donc par le théorème de représentation de Riesz, il existe une fonction $f \in \mathcal{L}^2([0,1];\mathbb{R})$ unique telle que:
+
+\[ \forall h \in \mathcal(E), L(h) = \langle f,h \rangle = \int_{[0,1]} f(t)h(t)dt \]
+
+\item
+Pour tout $x$, on choisit $h = 1 \cdot 1_{]0,x[} + 0 \cdot 1_{]x,1[}$.
+
+\[ 1 \cdot (\varphi(x) - \varphi(0)) + 0 \cdot (\varphi(1) - \varphi(x)) = L(h) = \int_{[0,1]} f(t)h(t)dt \]
+
+\[ \varphi(x) - \varphi(0) = \int_{[0,x]} f(t)dt \]
+
+\end{enumerate}
 \end{solution}
 
 \end{document}
