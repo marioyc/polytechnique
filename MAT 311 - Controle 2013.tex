@@ -203,9 +203,9 @@ On construira une bijection entre ces suites et les nombres entiers ce qui montr
 
 Comme les suites son convergentes, soit $(x_n)_{n \geq 0}$ une suite de l'ensemble, il existe $n_0 \geq 0$ tel que $\forall m \geq n_0, x_m = x_{n_0}$.
 
-Si $x_{n_0} = 0$, on associe à la suite le nombre $\sum_{i = 0}^{n_0 - 1} 2^i x_i$.
+Si $x_{n_0} = 0$, on associe à la suite le nombre $2^{n_0} + \sum_{i = 0}^{n_0 - 1} 2^i x_i$.
 
-Si $x_{n_0} = 1$, on associe à la suite le nombre $-(\sum_{i = 0}^{n_0 - 1} 2^i x_i) - 1$.
+Si $x_{n_0} = 1$, on associe à la suite le nombre $-(2^{n_0} + \sum_{i = 0}^{n_0 - 1} 2^i x_i) + 1$.
 
 Ce qui est bien une bijection vers les entiers, et alors l'ensemble est dénombrable pouisque les entiers son dénombrables.
 \end{enumerate}
