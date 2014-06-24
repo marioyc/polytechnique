@@ -22,6 +22,89 @@
 
 \maketitle
 
+\section{Introduction aux Probabilités}
+
+Soit $(B_i)_{i \in N}$ une partition finie ou dénombrable de $\Omega$.
+
+\begin{itemize}
+\item
+$B_i \bigcap B_j = \emptyset$
+\item
+$\bigcup_i B_i = \Omega$
+\end{itemize}
+
+\textbf{Formule des probabilités totales}: $\mathbb{P}(A) = \sum_i \mathbb{P}(A \bigcap B_i) = \sum_i \mathbb{P}(A|B_i) \mathbb{P}(B_i)$
+
+\textbf{Formule de Bayes}: Si $\mathbb{P}(A) > 0$,
+
+\[ \forall i \in \mathbb{N}, \mathbb{P}(B_i|A) = \frac{\mathbb{P}(A \bigcap B_i)}{\mathbb{P}(A)} = \frac{\mathbb{P}(A|B_i)\mathbb{P}(B_i)}{\sum_j \mathbb{P}(A|B_j)\mathbb{P}(B_j)} \]
+
+\section{Variables aléatoires discrètes}
+
+\begin{itemize}
+\item
+\textbf{Fonction génératrice:} Pour $X$ variable aléatoire à valeurs dans $\mathbb{N}$, et $s \in [0,1]$,
+
+\[ G_X(s) = \mathbb{E}(s^X) = \sum_{n} p_n s^n\text{, où }p_n = \mathbb{P}(X = n) \]
+
+\begin{proposition}
+
+\begin{enumerate}
+\item
+$G_X$ continue sur $[0,1]$, $C^\infty$ sur $[0,1[$. Elle caractérise la loi de $X$.
+
+\item
+$X \in \mathbb{L}^1 \Leftrightarrow G_X$ dérivable (à gauche) en $s = 1$, et
+
+\[ \mathbb{E}(X) = G'_X(1) \]
+
+\item
+$X(X - 1)\ldots(X - p) \in \mathbb{L}^1 \Leftrightarrow G_X$ est $p + 1$ fois dérivable en $1$, et
+
+\[ \mathbb{E}(X(X - 1)\ldots(X - p)) = G_X^{(p + 1)}(1) \]
+\end{enumerate}
+
+\end{proposition}
+
+\end{itemize}
+
+\section{Variables aléatoires réelles}
+
+\begin{itemize}
+\item
+Si $\mathbb{E}(X^2) < +\infty$, alors $\mathbb{E}(|X|) < +\infty$ car $|X| \leq 1 + X^2$, et
+
+\[ Var(X) = \mathbb{E}((X - \mathbb{E}(X))^2) = \mathbb{E}(X^2) - (\mathbb{E}(X))^2 \]
+\[ Var(aX + b) = a^2Var(X) \]
+
+\item
+\textbf{Variable uniforme sur $[a,b]$:}
+
+\[ f(x) = \left\{ 
+  \begin{array}{l l }
+    \frac{1}{b - a} & \quad \text{si }a \leq x \leq b\\
+    0 & \quad \text{sinon.}
+  \end{array} \right.\]
+\[ \mathbb{E}(X) = \frac{a + b}{2}, Var(X) = \frac{(b - a)^2}{12} \]
+
+\item
+\textbf{Variable exponentielle $\mathcal{E}(\lambda)$:} Soit $\lambda > 0$
+
+\[ f(x) = \left\{ 
+  \begin{array}{l l }
+    0 & \quad \text{si }x < 0\\
+    \lambda e^{-\lambda x} & \quad \text{sinon.}
+  \end{array} \right.\]
+\[ \mathbb{E}(X) = \frac{1}{\lambda}, Var(X) = \frac{1}{\lambda^2} \]
+
+\item
+\textbf{Variable normale de loi $\mathcal{N}(m,\sigma^2)$:}
+
+\[ f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x - m)^2}{2 \sigma^2}) \]
+\[ \mathbb{E}(X) = m, Var(X) = \sigma^2 \]
+
+\end{itemize}
+
 \section{Applications du Théorème de la Limite Centrale}
 
 \begin{theoreme}
