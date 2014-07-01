@@ -103,6 +103,124 @@ Si $\mathbb{E}(X^2) < +\infty$, alors $\mathbb{E}(|X|) < +\infty$ car $|X| \leq 
 \[ f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x - m)^2}{2 \sigma^2}) \]
 \[ \mathbb{E}(X) = m, Var(X) = \sigma^2 \]
 
+\item
+\textbf{Variable de loi gamma $\Gamma(\alpha, \theta)$}
+
+Soit $\alpha > 0, \Gamma(\alpha) = \int_{0}^{\infty} x^{\alpha - 1}e^{-x} dx$
+
+\begin{itemize}
+\item
+$\Gamma(\alpha + 1) = \alpha \Gamma(\alpha)$
+\item
+$\Gamma(1) = 1$
+\item
+$\Gamma(n + 1) = n!$ pour tout entier $n \geq 0$
+
+\[ f(x) = \left\{ 
+  \begin{array}{l l }
+    0 & \quad \text{si }x \leq 0\\
+    \frac{1}{\Gamma(\alpha)} \theta^\alpha x^{\alpha - 1} e^{-\theta x} & \quad \text{sinon.}
+  \end{array} \right.\]
+
+\[ \mathbb{E}(X) = \frac{\alpha}{\theta}, Var(X) = \frac{\alpha}{\theta^2}, \mathbb{E}(X^\beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)} \frac{1}{\theta^\beta} (\beta > -\alpha) \]
+
+\end{itemize}
+
+\item
+\textbf{Simulation d'une variable al\'eatoire par inversion de la fonction de r\'epartition}
+
+D\'efinissons la fonction inverse continue \'a gauche de $F$ par:
+
+\[ G(u) = \inf \{ x : F(x) \geq u \}, \forall u \in ]0,1[ \]
+
+On a $G(u) \leq x \Leftrightarrow u \leq F(x)$, et $F(G(u)) = u$ si $0 < u < 1$ et si la fonction $F$ est continue au point $G(u)$.
+
+\begin{proposition}
+Soit $U$ une variable al\'eatoire de loi uniforme sur $[0,1]$, $F$ une fonction de r\'epartition et $G$ son inverse. La variable al\'eatoire $Y = G(U)$ est alors une variable al\'eatoire de fonction de r\'epartition $F$.
+\end{proposition}
+
+\item
+$cov(X,Y) = \mathbb{E}((X - \mathbb{E}(X))(Y - \mathbb{E}(Y))) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y)$
+
+$cov(X,X) = Var(X)$
+
+$cov(aX + b,a'Y + b') = aa'cov(X,Y)$
+
+$Var(X_1 + \ldots + X_n) = Var(X_1) + \ldots + Var(X_n) + 2 \sum_{1 \leq i \leq j \leq n} cov(X_i,X_j)$
+
+\end{itemize}
+
+\section{Fonctions caractéristiques}
+
+\begin{itemize}
+\item
+Soit $X = (X_1,\ldots,X_d)$ un vecteur aléatoire de $\mathbb{R}^d$. Sa fonction caractéristique est la fonction de $\mathbb{R}^d$ dans $\mathbb{C}$ définie par:
+
+\[ u = (u_1,\ldots,u_d) \mapsto \phi_X(u) = \mathbb{E}(e^{i<u,X>}) \]
+-%Si $X$ est une variable à valeurs dans $\mathbb{R}^n$, sa fonction caractéristique est la fonction $\phi_X$ de $\mathbb{R}^n$ dans $C$ définie par: $\phi_X(u) = \mathbb{E}(e^{i \langle u, X \rangle})$
+
+\item
+\begin{proposition}
+La fonction $\phi_X$ est de module inférieur ou égal a 1, continue, avec: $\phi_X(0) = 1; \phi_X(-u) = \overline{\phi_X(u)} = \phi_{-X}(u)$.
+\end{proposition}
+
+\item
+Si $X$ est une v.a. réelle à densité $p_X$, $\phi_X(u) = \mathbb{E}(e^{iuX}) = \int_{\mathbb{R}} e^{iux} p_X(x)dx$
+
+\item
+Si $X$ est à valeurs entières: $\phi_X(u) = G_X(e^{iu}) = \sum_{k = 0}^{+\infty} \mathbb{P}(X = k) e^{iuk}$
+
+\item
+\textbf{X suit une loi binomiale $\mathcal{B}(n,p)$:} $\phi_X(u) = (pe^{iu} + 1 - p)^n$
+
+\item
+\textbf{X suit une loi de Poisson de param\'etre $\theta$:} $\phi_X(u) = e^{\theta(e^{iu} - 1)}$
+
+\item
+\textbf{X suit une loi uniforme sur $[a,b]$:} $\phi_X(u) = \frac{e^{iub} - e^{iua}}{iu(b - a)}$
+
+\item
+\textbf{X suit une loi exponentielle $\mathcal{E}(\lambda)$:} $\phi_X(u) = \frac{\lambda}{\lambda - iu}$
+
+\item
+\textbf{X suit une loi normale $\mathcal{N}(m,\sigma^2)$:} $\phi_X(u) = e^{ium-u^2\sigma^2/2}$
+
+\item
+\textbf{X suit une loi Gamma $\Gamma(\alpha,\lambda)$:} $\phi_X(u) = (\frac{\lambda}{\lambda - iu})^\alpha$
+
+\item
+\begin{theoreme}
+La fonction caract\'erisitique $\phi_X$ caract\'erise la loi du vecteur al\'eatoire $X$. Ainsi, si deaux vecteurs al\'eatoires $X$ et $Y$ ont même fonction caract\'eristique, ils ont même loi.
+\end{theoreme}
+
+\item
+\begin{proposition}
+Si $X$ et $Y$ sont deux vecteurs al\'eatoires ind\'ependants \`a valeurs dans $\mathbb{R^n}$, la fonction caract\'eristique de la somme $X + Y$ est donn\'ee par: $ \phi_{X + Y} = \phi_X \phi_Y$
+\end{proposition}
+
+\item
+Soit $X,Y$ ind\'ependantes, et $Z = X + Y$:
+
+\begin{itemize}
+\item
+$X$ suit loi normale $\mathcal{N}(m,\sigma^2)$ ey $Y$ suite une loi $\mathcal{N}(m',(\sigma')^2)$.
+
+Alors $Z$ suit une loi $\mathcal{N}(m + m',\sigma^2 + (\sigma')^2)$.
+
+\item
+$X$ et $Y$ suivent des lois de Poisson de param\`etres $\theta$ et $\theta'$.
+
+Alors $Z$ suit une loi de Poisson de param\`etre $\theta + \theta'$.
+
+\item
+$X$ suit loi binomiale $\mathcal{B}(n,p)$ ey $Y$ suite une loi $\mathcal{B}(m,p)$.
+
+Alors $Z$ suit une loi $\mathcal{B}(n + m,p)$.
+\end{itemize}
+
+\item
+Un vecteur al\'eatoire $X = (X_1,\ldots,X_n)$ \`a valeurs dans $\mathbb{R}^n$ est appel\'e un vecteur gaussien si toute combinaison lin\'eaire $\sum_{j = 1}^n a_j X_j = \langle a, X \rangle$, pour $a = (a_1,\ldots,a_n) \in \mathbb{R}^n$, suit une loi normale (avec la convention que la masse de Dirac au point $m$ est la loi normale $\mathcal{N}(m,0)$)
+
 \end{itemize}
 
 \section{Applications du Théorème de la Limite Centrale}
