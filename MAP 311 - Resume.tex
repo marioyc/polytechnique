@@ -24,29 +24,56 @@
 
 \section{Introduction aux Probabilités}
 
-Soit $(B_i)_{i \in N}$ une partition finie ou dénombrable de $\Omega$.
+\begin{itemize}
+\item
+\textbf{Expérience aléatoire ($\mathcal{E}$)}: une expérience qui reproduite dans des conditions identiques, peut conduire à plusieurs résultats possibles, et dont on ne peut prévoir le résultat par avance.
+
+\item
+\textbf{Espace d'états ($\Omega$)}: espace de tous les résultats possibles. Un résultat possible de l'expérience est noté $\omega (\omega \in \Omega)$.
+
+\item
+\textbf{Événement aléatoire}: sous-ensemble de $\Omega$ dont on peut dire au vu de l'expérience s'il est réalisé ou non.
+
+\item
+Nous notons par $\mathcal{A}$ l'ensemble de tous les événements. Nous pourrons prendre $\mathcal{A} = \mathcal{P}(\Omega)$, ensemble de toutes les parties de $\Omega$, mais pas toujours.
+
+\item
+Une \textbf{probabilité} sur l'espace $(\Omega, \mathcal{A})$ est une application de $\mathcal{A}$ dans $[0,1]$, notée $\mathbb{P}$, telle que:
 
 \begin{itemize}
 \item
-$B_i \bigcap B_j = \emptyset$
+On a $\mathbb{P}(\Omega) = 1$.
 \item
-$\bigcup_i B_i = \Omega$
+Pour toute suite (dénombrable) $(A_n)_n$ d'éléments de $\mathcal{A}$ deux-à-deux disjoints, on a $\mathbb{P}(\bigcup_{n}A_{n}) = \sum_n \mathbb{P}(A_n)$
 \end{itemize}
 
+\item
+On appelle le triplet $(\Omega, \mathcal{A}, \mathbb{P})$ un \textbf{espace de probabilité}.
+
+\item
+Soit $(B_i)_{i \in N}$ une \textbf{partition} finie ou dénombrable de $\Omega$ ($B_i \bigcap B_j = \emptyset$ et $\bigcup_i B_i = \Omega$).
+
+\begin{itemize}
+\item
 \textbf{Formule des probabilités totales}: $\mathbb{P}(A) = \sum_i \mathbb{P}(A \bigcap B_i) = \sum_i \mathbb{P}(A|B_i) \mathbb{P}(B_i)$
 
+\item
 \textbf{Formule de Bayes}: Si $\mathbb{P}(A) > 0$,
 
 \[ \forall i \in \mathbb{N}, \mathbb{P}(B_i|A) = \frac{\mathbb{P}(A \bigcap B_i)}{\mathbb{P}(A)} = \frac{\mathbb{P}(A|B_i)\mathbb{P}(B_i)}{\sum_j \mathbb{P}(A|B_j)\mathbb{P}(B_j)} \]
+\end{itemize}
+
+\end{itemize}
 
 \section{Variables aléatoires discrètes}
 
 \begin{itemize}
 \item
-\textbf{Fonction génératrice:} Pour $X$ variable aléatoire à valeurs dans $\mathbb{N}$, et $s \in [0,1]$,
+\textbf{Fonction génératrice:} Pour $X$ variable aléatoire à valeurs dans $\mathbb{N}$, et $\forall s \in [0,1]$,
 
 \[ G_X(s) = \mathbb{E}(s^X) = \sum_{n} p_n s^n\text{, où }p_n = \mathbb{P}(X = n) \]
 
+\item
 \begin{proposition}
 
 \begin{enumerate}
@@ -62,9 +89,28 @@ $X \in \mathbb{L}^1 \Leftrightarrow G_X$ dérivable (à gauche) en $s = 1$, et
 $X(X - 1)\ldots(X - p) \in \mathbb{L}^1 \Leftrightarrow G_X$ est $p + 1$ fois dérivable en $1$, et
 
 \[ \mathbb{E}(X(X - 1)\ldots(X - p)) = G_X^{(p + 1)}(1) \]
+
+En particulier: $Var(X) = G_X''(1) + G_X'(1) - (G_X'(1))^2$.
 \end{enumerate}
 
 \end{proposition}
+
+\item
+\textbf{Variable aléatoire de Bernoulli:}
+\[ \mathbb{P}(X = 0) = 1 - p,\text{ }\mathbb{P}(X = 1) = p \]
+\[ G_X(s) = 1-p+ps \Rightarrow \mathbb{E}(X) = p,\text{ }Var(X) = p(1-p) \]
+
+\item
+\textbf{Variable aléatoire binomiale $\mathcal{B}(n,p)$:}
+
+\[ \text{Pour } k \in \{ 0,\ldots,n \},\text{ }\mathbb{P}(X = k) = \binom{n}{k} p^k(1 - p)^{n - k} \]
+\[ G_X(s) = (1 - p + ps)^n \Rightarrow \mathbb{E}(X) = np,\text{ }Var(X) = np(1-p) \]
+
+\item
+\textbf{Variable aléatoire géometrique:}
+
+\item
+\textbf{Variable aléatoire de Poisson:}
 
 \end{itemize}
 
@@ -146,7 +192,7 @@ $cov(X,X) = Var(X)$
 
 $cov(aX + b,a'Y + b') = aa'cov(X,Y)$
 
-$Var(X_1 + \ldots + X_n) = Var(X_1) + \ldots + Var(X_n) + 2 \sum_{1 \leq i \leq j \leq n} cov(X_i,X_j)$
+$Var(X_1 + \ldots + X_n) = Var(X_1) + \ldots + Var(X_n) + 2 \sum_{1 \leq i < j \leq n} cov(X_i,X_j)$
 
 \end{itemize}
 
@@ -195,7 +241,7 @@ La fonction caract\'erisitique $\phi_X$ caract\'erise la loi du vecteur al\'eato
 
 \item
 \begin{proposition}
-Si $X$ et $Y$ sont deux vecteurs al\'eatoires ind\'ependants \`a valeurs dans $\mathbb{R^n}$, la fonction caract\'eristique de la somme $X + Y$ est donn\'ee par: $ \phi_{X + Y} = \phi_X \phi_Y$
+Si $X$ et $Y$ sont deux vecteurs al\'eatoires ind\'ependants \`a valeurs dans $\mathbb{R}^n$, la fonction caract\'eristique de la somme $X + Y$ est donn\'ee par: $ \phi_{X + Y} = \phi_X \phi_Y$
 \end{proposition}
 
 \item
