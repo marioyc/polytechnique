@@ -1,0 +1,168 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{PCs MAT432}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{EDP d'ordre un et méthode des caractéristiques}
+
+\begin{exercice}{1}
+
+\begin{enumerate}
+\item
+Soit $T > 0$. On se donne une fonction dérivable $w : [0,T[ \to \mathbb{R}$ et une fonction continue $v : [0,T[ \to \mathbb{R}$ telles que
+
+\[ \forall t \in [0,T[, w'(t) \leq v(t) w(t) \]
+
+Montrer que: $\forall t \in [0,T[, w(t) \leq w(0) e^{\int_{0}^t v(s)ds}$
+
+\textbf{Solution}
+
+$f(t) = w(t) e^{-\int_{0}^{t} v(s)ds}$
+
+$f'(t)= \underbrace{[w'(t) - w(t)v(t)]}_{\leq 0} \underbrace{e^{-\int_{0}^{t} v(s)ds}}_{> 0} \leq 0$
+
+$f(t) = w(t) e^{-\int_{0}^{t} v(s)ds} \leq f(0) = w(0)$
+
+$\boxed{w(t) \leq w(0) e^{\int_{0}^t v(s)ds}}$
+
+\item
+Soit $u \in \mathcal{C}^0([0,T[,\mathbb{R})$. On suppose qu'il existe une constante réelle $C$ et une fonction continue et positive $v : [0,T] \to \mathbb{R_+}$ telle que
+
+\[ \forall t \in [0,T[, u(t) \leq C + \int_0^t u(s)v(s)ds \]
+
+Montrer que: $\forall t \in [0,T[, u(t) \leq C e^{\int_0^t v(s)ds}$
+
+\textbf{Solution}
+
+$\underbrace{u(t)v(t)}_{w'(t)} \leq v(t) \underbrace{[C + \int_0^t u(s)v(s)ds]}_{w(t)}$
+
+Par la partie 1: $C + \int_0^t u(s) v(s) ds \leq C e^{\int_0^t v(s)ds}$
+
+Et comme: $u(t) \leq C + \int_0^t u(s)v(s)ds$
+
+$\boxed{u(t) \leq C e^{\int_0^t v(s)ds}}$
+
+\item
+Soit $f \in \mathcal{C}^1([0,+\infty[ \times \mathbb{R}, \mathbb{R})$. On suppose qu'il existe des constantes réelles positives $A$ et $B$ telles que
+
+\[ \forall(t,x) \in [0,+\infty[ \times \mathbb{R}, |f(t,x)| \leq A + B |x| \]
+
+Montrer que les solutions (maximales) de l'équation différentielle
+
+\[ \begin{cases}
+y'(t) = f(t,y(t)) \\
+y(0) = y_0
+\end{cases} \]
+
+sont définies sur $\mathbb{R}$.
+
+\textbf{Notes}
+
+\begin{itemize}
+\item
+On appelle \textbf{équation différentielle d'ordre 1} toute équation du type:
+
+\[ y'(t) = f(t,y(t)) \ldots (E) \]
+
+où $U$ est un ouvert de $\mathbb{R} \times E$ et $f : U \to E$ une application continue.
+
+\item
+Une \textbf{solution} de l'équation différentielle $(E)$ est un couple $(I,\varphi)$ où $I$ est un intervalle de $\mathbb{R}$, et $\varphi : I \to E$ est une application dérivable telle que:
+
+\[ \begin{cases}
+(t, \varphi(t)) \in U & \forall t \in I \\
+\varphi'(t) = f(t,\varphi(t)) & \forall t \in I
+\end{cases} \]
+
+\item
+Soit $(I_1,\varphi_1)$ et $(I_2,\varphi_2)$ deux solutions de l'équation différentielle $(E)$. On dit que la solution $(I,\varphi_1)$ est un \textbf{prolongement} de la solution $(I_2,\varphi_2)$ si:
+
+\begin{itemize}
+\item
+$I_2 \subset I_1$
+\item
+$\forall t \in I_2, \varphi_2(t) = \varphi_1(t)$
+\end{itemize}
+
+\item
+Une solution $(I,\varphi)$ de $(E)$ est dite \textbf{maximale} lorsqu'elle n'admet aucun prolongement autre qu'elle même.
+
+\item
+\textbf{\emph{Théorème de Cauchy-Lipschitz}}: Soient $U$ un ouvert de $\mathbb{R} \times E, f : U \to E$ une application de classe $\mathcal{C}^1$ sur $U$, $(t_0,y_0) \in U$. Il existe une \textbf{unique solution maximale} du problème de Cauchy
+
+\[ \begin{cases}
+y'(t) = f(t,y(t)) \\
+y(t_0) = y_0
+\end{cases} \]
+
+De plus, cette solution maximale $(I,\varphi)$ vérifie:
+
+\begin{itemize}
+\item
+son intervalle de définition $I$ est ouvert
+\item
+toute solution de $(C)$ est restriction de $(I,\varphi)$
+\end{itemize}
+
+\end{itemize}
+
+\textbf{Solution}
+
+\begin{itemize}
+\item
+On a l'unicité de la solution maximale par Cauchy-Lipschitz (car $f$ est $\mathcal{C}^1$)
+
+$\exists y : [0,T[ \to \mathbb{R}$ solution maximale avec $T > 0$ (T : temps de vie)
+
+\item
+\textbf{Rappel}: Si $T < \infty$, il y a "explosion"
+
+\[ \varlimsup_{t \to T^-} |y(t)| = +\infty \]
+
+(pour $y$ définie sur $\mathbb{R_+} \times \mathbb{R}^d$).
+
+\textbf{Corollaire}: s'il existe une fonction continue $g : \mathbb{R_+} \to \mathbb{R}$ telle que:
+
+\[ t \in [0,T[ , |y(t)| \leq g(t) \]
+
+alors $T = \infty$
+
+\item
+Par l'absurde, supposons $T < \infty$:
+
+\begin{align*}
+y(t) &= y_0 + \int_0^t f(s,y(s)) ds \\
+|y(t)| &\leq |y_0| + \int_0^t |f(s,y(s))| ds \\
+&\leq |y_0| + \int_0^t (A + B|y(s)|) ds \\
+&\leq |y_0| + At + \int_0^t B|y(s)| ds \\
+&< |y_0| + AT + \int_0^t B|y(s)| ds
+\end{align*}
+
+Par la partie 2 avec $u(t) = |y(t)|, C = |y_0| + AT, v(t) = B$:
+
+\[ \forall 0 \leq t < T, |y(t)| < (|y_0| + AT)e^{Bt} \]
+
+Donc il n'y a pas d'explosion et $T = \infty$. Contradiction.
+
+\end{itemize}
+
+\end{enumerate}
+
+\end{exercice}
+
+
+
+\end{document}

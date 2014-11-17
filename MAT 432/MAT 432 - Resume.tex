@@ -1,0 +1,208 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newtheorem{theoreme}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lemme}{Lemme}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{exemple}[1][Exemple]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{Résumé MAT432}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{EDP d'ordre un et méthode des caractéristiques}
+
+\subsection{Équation de transport (à coefficients constants)}
+
+\subsubsection{Problème de Cauchy homogène}
+
+\[ \begin{cases}
+\partial_t u + b \cdot \nabla_x u = 0 & t \geq 0, x \in \mathbb{R}^d \\
+u(t = 0) = g & x \in \mathbb{R}^d
+\end{cases} \]
+
+où $b = (b_1, \ldots, b_d) \in \mathbb{R}^d$ et $g: \mathbb{R}^d \to \mathbb{R}$ sont donnés
+
+\begin{itemize}
+\item
+\textbf{Courbe caractéristique}: $\gamma_{\lambda}(t) = \lambda + bt, \lambda \in \mathbb{R}^d, t \geq 0$ qui vérifie:
+
+\[ \begin{cases}
+\gamma'_{\lambda}(t) = b \\
+\gamma_{\lambda}(0) = \lambda
+\end{cases} \]
+
+\item
+$z(t) = u(t,\gamma_{\lambda}(t)) = u(t,\lambda + bt)$
+
+$z'(t) = \partial_t u(t,\lambda + bt) + b \cdot \nabla_x u(t,\lambda + bt) = 0$
+
+$u(t,\underbrace{\lambda + bt}_{x}) = u(0,\lambda) = g(\lambda) \Rightarrow \boxed{u(t,x) = g(x - bt)}$
+
+\end{itemize}
+
+\subsubsection{Équation non homogène}
+
+\[ \begin{cases}
+\partial_t u + b \cdot \nabla_x u = f & t \geq 0, x \in \mathbb{R}^d \\
+u(t = 0) = g
+\end{cases} \]
+
+où $b \in \mathbb{R}^d$ ainsi que $f(t,x)$ et $g(x)$ sont donnés.
+
+\begin{itemize}
+\item
+$z(t) = u(t,\gamma_{\lambda}(t)) = u(t,\lambda + bt)$
+
+$z'(t) = \partial_t u(t,\lambda + bt) + b \cdot \nabla_x u(t,\lambda + bt) = f(t,\lambda + bt)$
+
+$z(t) = z(0) + \int_{0}^{t} f(s,\lambda + bs) ds$
+
+$u(t,\underbrace{\lambda + bt}_{x}) = \underbrace{u(0,\lambda)}_{g(\lambda)} + \int_{0}^{t} f(s,\lambda + bs) ds$
+
+$\boxed{u(t,x) = g(x - bt) + \int_{0}^{t} f(s,x -b(t - s)) ds}$
+
+\item
+\textbf{Principe de Duhamel}: Si l'on sait résoudre le problème de Cauchy homogène, alors on peut résoudre le problème non homogéne.
+
+\end{itemize}
+
+\subsection{Équation des ondes en dimension un}
+
+\[ \begin{cases}
+\partial^2_t u - \partial^2_x u = 0 & t \geq 0, x \in \mathbb{R} \\
+u(t = 0) = g & x \in \mathbb{R} \\
+\partial_t u(t = 0) = h & x \in \mathbb{R}
+\end{cases} \]
+
+où $g(x)$ et $h(x)$ sont des fonctions données.
+
+\begin{itemize}
+\item
+L'équation est d'ordre 2 en temps ce qui conduit à prescrire une donnée initiale à la fois sur $u$ et $\partial_t u$ en $t = 0$.
+
+\item
+$(\partial^2_t - \partial^2_x)u = (\partial_t + \partial_x)(\partial_t - \partial_x)u$
+
+\item
+On pose $v(t,x) = (\partial_t u - \partial_x u)(t,x)$
+
+\[ \begin{cases}
+\partial_t v + \partial_x v = 0 & t \geq 0, x \in \mathbb{R} \\
+v(t = 0,x) = h(x) - g'(x) & x \in \mathbb{R}
+\end{cases} \]
+
+Par la solution de l'équation de transport avec $d = 1$ et $b = 1$:
+
+$v(t,x) = v(0,x - t) \Rightarrow \boxed{v(t,x) = h(x - t) - g'(x - t)}$
+
+\item
+Maintenant on doit résoudre:
+
+\[ \begin{cases}
+\partial_t u - \partial_x u = v & t \geq 0, x \in \mathbb{R} \\
+u(t = 0) = g & x \in \mathbb{R}
+\end{cases} \]
+
+Par la solution de l'équation de transport avec $d = 1$ et $b = -1$:
+
+$u(t,x) = g(x + t) + \int_{0}^t v(s,x + (t - s)) ds$
+
+$u(t,x) = g(x + t) + \int_{0}^t (h(x + t - 2s) - g'(x + t - 2s)) ds$
+
+$y = x + t - 2s \Rightarrow ds = -\frac{1}{2}dy$
+
+$u(t,x) = g(x + t) - \frac{1}{2} \int_{x + t}^{x - t} (h(y) - g'(y)) dy$
+
+$\boxed{u(t,x) = \frac{1}{2}[g(x + t) + g(x - t)] + \frac{1}{2} \int_{x - t}^{x + t} h(y)dy}$ (Formule d'Alembert)
+
+\item
+Toute fonction de la forme $u(t,x) = G(x - t) + H(x + t)$ est solution de $\partial^2_t u - \partial^2_x u = 0$.
+
+\item
+\textbf{Regularité}: Il suffit de prendre $g$ de classe $C^2$ et $h$ de classe $C^1$ pour avoir une solution classique.
+
+\item
+\textbf{Domaine de dépendence}: Pour $t_0 > 0, x_0 \in \mathbb{R}^d$, on considère le triangle
+
+\[ \mathcal{T}_0 (t_0,x_0) = \{(t,x); 0 \leq t \leq t_0, |x - x_0| \leq t_0 - t\} \]
+
+La valeur de la solution $u(t_0,x_0)$ au point $(t_0,x_0)$ ne dépend que de $g_{|[x_0-t_0,x_0+t_0]}$ et $h_{|[x_0-t_0,x_0+t_0]}$, les restrictions de $g$ et $h$ à l'intervalle $[x_0-t_0,x_0+t_0]$.
+
+Commen conséquence, on voit que si $g$ et $h$ sont nulles sur $[x_0-t_0,x_0+t_0]$, alors $u(t_0,x_0) = 0$, et même dans le triangle $\mathcal{T}_0 (t_0,x_0)$.
+
+\end{itemize}
+
+\subsection{EDP non linéaire d'ordre un, en dimension un}
+
+\[ \text{Équation de Hopf Burgers: } \begin{cases}
+\partial_t u +u \partial_x (u) = 0 & t \geq 0, x \in \mathbb{R} \\
+u(t = 0) = g & x \in \mathbb{R}
+\end{cases} \]
+
+\begin{itemize}
+\item
+La demarche que nous allons adpoter est générale est s'étend sans difficulté aux équations: $\partial_t u + a(u) \partial_x u$ sous des hypothèses naturelles pour $a(u)$.
+
+\item
+\textbf{Courbes caractéristiques}: comme l'équation considérée s'écrit sous la forme $\partial_t u + u \partial_x u$, on s'inspire de la section sur l'équation de transport en considérant la famille de courbes caractéristiques $\Gamma_\lambda$, d'équation $x = \gamma_{\lambda}(t)$, pour tout $\lambda \in \mathbb{R}$, où:
+
+\[ \Gamma_\lambda : \begin{cases}
+\gamma'_{\lambda}(t) = u(t,\gamma_{\lambda}(t)) \\
+\gamma_{\lambda}(t = 0) = \lambda
+\end{cases} \]
+
+$z(t) = u(t,\gamma_{\lambda}(t))$
+
+$z'(t) = \partial_t u(t,\gamma_{\lambda}(t)) + \underbrace{\gamma'_{\lambda}(t)}_{u(t,\gamma_{\lambda}(t))} \partial_x u(t,\gamma_{\lambda}(t)) = 0$
+
+$z(t) = z(0) = u(0,\lambda) = g(\lambda) \Rightarrow \boxed{\gamma_{\lambda}(t) = \lambda + g(\lambda)t} \text{  } \boxed{u(t,\lambda + g(\lambda)t) = g(\lambda)}$
+
+La détermination explicite de $u(t,x)$ en fonction de $t$ et $x$ dépend maintenant de la résolution de l'équation: $x = \lambda + g(\lambda) t$
+
+\item
+On pose $w(t) = w_\lambda(t) = \partial_x u(t,\gamma_{\lambda}(t))$, $w(0) = \partial_x u(0,\lambda) = g'(\lambda)$
+
+$w'(t) = \underbrace{\partial_t \partial_x}_{\partial_x \partial_t} u(t,\gamma_{\lambda}(t)) + \gamma'_{\lambda}(t) \partial^2_x u(t,\gamma_{\lambda}(t))$
+
+$w'(t) = [-\partial_x(u \partial_x u) + u\partial^2_x u](t,\gamma_{\lambda}(t)) = -(\partial_x u)^2 (t,\gamma_{\lambda}(t)) = -w^2(t)$
+
+$-\frac{w'(t)}{w^2(t)} = (\frac{1}{w(t)})' = 1 \Rightarrow \frac{1}{w(t)} = t + \frac{1}{g'(\lambda)} \Rightarrow \boxed{w(t) = \frac{g'(\lambda)}{1 + g'(\lambda)t}}$
+
+\item
+Le fait que $w(t)$ soit ou non bien défini pour tout $t \geq 0$ dépend manifestement du signe de $g'(\lambda)$.
+
+\begin{itemize}
+\item
+Si $\forall \lambda$, $g'(\lambda) \geq 0$, $T^{*} = +\infty$ (temps de vie de la solution).
+
+\item
+Si $\exists \lambda / g'(\lambda) < 0$, $T^{*} = -\frac{1}{\inf_{\lambda \in \mathbb{R}}\{ g'(\lambda)\} }  < +\infty$
+\end{itemize}
+
+Il apparaît d'après ce calcul qu'une solution classique $u(t,x)$ du problème ne peut exister que sur un intervalle de la forme $[0,\tau]$, où $0 \leq \tau < T^{*}$, puisque sinon $\partial_x u(t)$ serait mal définie à $T^{*}$.
+
+\item
+À $t$ fixée, on définit $h_t(\lambda) = \lambda + g(\lambda)t$
+
+$h'(\lambda) = 1 + g'(\lambda)t > 0$ sur $[0,T^{*}[$
+
+L'image de $h_t$ est $\mathbb{R}$ et $h_t$ es bijective.
+
+$u(t,x) = g(h^{-1}_t(x))$
+
+\end{itemize}
+
+\end{document}
