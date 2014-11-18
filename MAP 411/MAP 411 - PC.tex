@@ -1,0 +1,75 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{PCs MAP 411}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Introduction aux EDP et aux différences finies}
+
+\begin{exercice}{1}
+
+Soit $A \in \mathbb{R}^{N x N}$ une matrice symétrique positive. On considère l'équation différentielle
+
+\begin{equation}
+U'(t) = -AU(t)
+\end{equation}
+
+avec $U(0) = U_0 \in \mathbb{R}^N$. On chreche à étudier les propiétés de deux schémas aux différences finis permettant de résoudre numériquement cette équation, c.à.d. de calculer une approximation $U^n$ de $U(n \Delta t)$ où $\Delta t$ désigne le pas de discrétisation en temps.
+
+Le premir schéma, dit schéma explicite, s'écrit
+
+\begin{equation}
+\frac{U^{n + 1} - U^n}{\Delta t} = -A U^n
+\end{equation}
+
+et le deuxième schéma, dit schéma implicite, s'écrit
+
+\begin{equation}
+\frac{U^{n + 1} - U^n}{\Delta t} = -A U^{n + 1}
+\end{equation}
+
+\begin{enumerate}
+\item
+Montrer que les deux schémas sont consistants d'ordre 1. Quelle est le schéma le plus rapide?
+
+\item
+Montrer que la solution de $(1)$ vérifie $\| U(t) \| \leq \| U_0 \|$.
+
+Un schéma d'approximation de l'équation $(1)$ est dit inconditionnellement stable par rapport à $A$ et $\Delta t$ s'il existe une constante $K$ telle que pour tout $A$ et tout $\Delta t > 0$,
+
+\begin{equation}
+\| U^n \| \leq K \| U^0 \| \text{ pour tout } n\Delta \leq T \text{ et tout } U^0 \in \mathbb{R}^N
+\end{equation}
+
+\item
+Les schémas $(2)$ et $(3)$ sont-ils inconditionnelement stables?
+
+\item
+Montrer que le schéma explicite $(2)$ est conditionnellement stable, c'est à dire que sous une certaine condition portant sur $\Delta t$ et $A$, il existe une constante $K$ telle que $(4)$ soit vérifié.
+
+\item
+Montrer que les schémas $(2)$ et $(3)$ s'écrivent sous la forme $U^{n + 1} = B(A, \Delta t)U^n$. QUe signifie la stabilité pour la matrice $B(A, \Delta t)$?
+
+\item
+Déduire de la consistance et de la stabilité la convergence des deux schémas avec une vitesse de convergence d'ordre 1, c'est à dire que
+
+\[ \sup_{n \Delta t < T} |U^n - U(n \Delta t)| \leq C(T,U) \Delta t \]
+\end{enumerate}
+
+\end{exercice}
+
+
+
+\end{document}
