@@ -1,0 +1,82 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{solution}[1][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{INF 421 Quiz 1}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+%\section{Applications du Théorème de la Limite Centrale}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{exercice} (Red and Blue Balls)
+
+Consider the following game. We have an urn containing 777 red balls and
+77 blue balls. As long as there are at least two balls in the urn, we do the
+following: We remove two randomly chosen balls from the urn. If they have
+the same color, we throw them away and add a new red ball to the urn. If
+they are of different color, we throw away the red ball and put the blue ball
+back into the urn. Which of the following statements is true?
+
+\begin{enumerate}[(a)]
+\item
+The game always ends with one red ball in the urn.
+\item
+The game always ends with one blue ball in the urn.
+\item
+The game always ends with one ball in the urn, it can have either color.
+\item
+Neither of the above is true.
+\end{enumerate}
+
+\end{exercice}
+
+
+\begin{solution}
+
+The possibilities are:
+
+\begin{itemize}
+\item
+we take 2 blue balls and put a red ball
+\item
+we take a red ball
+\end{itemize}
+
+So, in each turn the number of balls decreases by 1, and the parity of the number of blue balls doesn't change. Therefore, in the end we will have only one blue ball (Answer b).
+
+\end{solution}
+
+
+\begin{exercice} (Largest and Smallest Element)
+
+Let $a[0..n-1]$ an array of n elements. Find both the smallest and the largest element by something more clever than using $2(n - 1)$ comparisons.
+
+\end{exercice}
+
+\begin{solution}
+We can start by comparing elements $a[2i]$ and $a[2i + 1]$ ($0 \leq i \leq \frac{n - 2}{2}$), if $a[2i + 1] < a[2i]$ we swap them.
+
+So we've formed couples where the first element is a candidate to being the smallest and the second one is a candidate to being the largest. If n is odd, we can add a copy of the last number to the end of the array. So we have $\lceil \frac{n}{2} \rceil$ couples, which we formed in $\lfloor \frac{n}{2} \rfloor$ comparisons.
+
+Now we only need $\lceil \frac{n}{2} \rceil - 1$ comparisons to find the minimum and $\lceil \frac{n}{2} \rceil - 1$ to find the maximum.
+
+So in total we need $\lfloor \frac{n}{2} \rfloor + 2 * \lceil \frac{n}{2} \rceil - 2$ comparisons.
+
+\end{solution}
+
+\end{document}
