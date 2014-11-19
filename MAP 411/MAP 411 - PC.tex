@@ -4,6 +4,8 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 
+\setlength\parindent{0pt}
+
 \newenvironment{exercice}[1][Exercice]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
@@ -40,9 +42,39 @@ et le deuxième schéma, dit schéma implicite, s'écrit
 \frac{U^{n + 1} - U^n}{\Delta t} = -A U^{n + 1}
 \end{equation}
 
+\textbf{Notes}
+
+\begin{itemize}
+\item
+$U(t) = e^{-At}U_0$
+
+$e^{-At} = \sum_{n = 0}^{\infty} \frac{A^n(-t)^n}{n!}$
+
+\item
+$A = P^t D P, D = diag(\lambda_1, \ldots, \lambda_n)$ et $\lambda_i > 0$ car $A$ est positive.
+
+$V = PU \Rightarrow V'(t) = -DV(t) \Rightarrow V_i(t) = e^{\lambda_i t}V_{0,i}$
+\end{itemize}
+
 \begin{enumerate}
 \item
 Montrer que les deux schémas sont consistants d'ordre 1. Quelle est le schéma le plus rapide?
+
+\textbf{Solution}
+
+$\bar{U}^n = U(n \Delta t)$ : solution exacte au moment $n \Delta t$
+
+\begin{align*}
+\bar{U}^{n + 1} - \bar{U}^n &= U'(n \Delta t) (\Delta t) + U''(n \Delta t)\frac{(\Delta t)^2}{2}  + \mathcal{O} ((\Delta t)^3) \\
+\frac{\bar{U}^{n + 1} - \bar{U}^n}{\Delta t} &= U'(n \Delta t) + \underbrace{U''(n \Delta t)}_{\| U''(n \Delta t) \| \leq \sup_{t \leq T} \| U''(t) \|}\frac{(\Delta t)}{2} + \mathcal{O} ((\Delta t)^2) \\
+&= -A \bar{U}^n + \mathcal{O}(\Delta t)
+\end{align*}
+
+\begin{align*}
+\bar{U}^{n + 1} - \bar{U}^n &= U'(n \Delta t + \Delta t) (\Delta t) - U''(n \Delta t + \Delta t)\frac{(\Delta t)^2}{2}  + \mathcal{O} ((\Delta t)^3) \\
+\frac{\bar{U}^{n + 1} - \bar{U}^n}{\Delta t} &= U'(n \Delta t + \Delta t) - U''(n \Delta t + \Delta t)\frac{(\Delta t)}{2} + \mathcal{O} ((\Delta t)^2) \\
+&= -A \bar{U}^{n + 1} + \mathcal{O}(\Delta t)
+\end{align*}
 
 \item
 Montrer que la solution de $(1)$ vérifie $\| U(t) \| \leq \| U_0 \|$.
