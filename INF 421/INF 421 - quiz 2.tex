@@ -1,0 +1,87 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{solution}[1][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+
+
+\begin{document}
+
+\title{INF 421 Quiz 2}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\begin{exercice} (Finding a Local Minimum)
+
+\begin{itemize}
+\item
+Let $a[0..n-1]$ be an array with n entries from a totally ordered set (e.g. real numbers).
+
+\item
+An element $a[i]$ with $0 < i < n - 1$ is called \textit{local minimum} if $a[i - 1] \geq a[i] \leq a[i + 1]$. Analogously, $a[0]$ is a local minimum if $a[0] \leq a[1]$ and $a[n - 1]$ is a local minimum if $a[n - 1] \leq a[n - 2]$.
+
+\item
+Give an efficient way to compute a local minimum of $a$.
+\end{itemize}
+
+\end{exercice}
+
+
+\begin{solution}
+
+We start by checking if $a[0] \leq a[1]$ or $a[n - 1] \leq a[n - 2]$, if one of those statements is true then we've found a local minimum. Otherwise, there will be a local minimum between these two elements, and now we can solve the problem by divide and conquer.
+
+If we have an interval of elements $a[i], a[i + 1], \ldots, a[j]$ such that $a[i] > a[i + 1]$ and $a[j] > a[j - 1]$, we look at the element $a[ \lfloor \frac{i + j}{2} \rfloor ]$:
+
+\begin{itemize}
+\item
+If $a[ \lfloor \frac{i + j}{2} \rfloor - 1 ] \geq a[ \lfloor \frac{i + j}{2} \rfloor ] \leq a[ \lfloor \frac{i + j}{2} \rfloor + 1 ]$: then we've found a local minimum, and we are done.
+
+\item
+Otherwise, if $a[ \lfloor \frac{i + j}{2} \rfloor - 1 ] \leq a[ \lfloor \frac{i + j}{2} \rfloor ]$: then we solve the problem for the interval $a[i], a[i + 1], \ldots, a[ \lfloor \frac{i + j}{2} \rfloor ]$.
+
+\item
+Otherwise, if $a[ \lfloor \frac{i + j}{2} \rfloor ] \geq a[ \lfloor \frac{i + j}{2} \rfloor + 1 ]$: then we solve the problem for the interval $a[ \lfloor \frac{i + j}{2} \rfloor ], a[ \lfloor \frac{i + j}{2} \rfloor + 1 ], \ldots, a[j]$.
+\end{itemize}
+
+So in total we find a local minimum with complexity $\mathcal{O}(lg n)$.
+
+\end{solution}
+
+
+\begin{exercice} (Gray Codes)
+
+\begin{itemize}
+\item
+Let $n$ be a positive integer and $N = 2^n$.
+
+\item
+A sequence $x_0,x_1,\ldots,x_N$ of bit-strings of length $n$ is called \textit{Gray code} if:
+
+\begin{itemize}
+\item
+$\{ x_0, x_1, \ldots x_{N - 1} \} = \{ 0,1 \}^n$
+
+\item
+for all $i$, $x_{i - 1}$ and $x_i$ differ in exactly one bit
+\end{itemize}
+
+\item
+Show that for all $n$, a Gray code of length $n$ exists.
+\end{itemize}
+
+\end{exercice}
+
+\begin{solution}
+\end{solution}
+
+\end{document}
