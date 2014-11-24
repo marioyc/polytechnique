@@ -205,4 +205,166 @@ $u(t,x) = g(h^{-1}_t(x))$
 
 \end{itemize}
 
+
+\section{Convolution, Équations de Laplace et de Poisson}
+
+\subsection{Produit de convolution}
+
+\begin{itemize}
+\item
+\begin{theoreme}
+(Théorème de Fubini)
+
+\begin{enumerate}
+\item
+Fonctions (mesurables) \textbf{positives}: $H: \mathbb{R}^{d_1} \times \mathbb{R}^{d_2} \to \bar{\mathbb{R}}_+ = [0,+\infty[ \bigcup \{+\infty\}$
+
+\begin{align*}
+\int_{\mathbb{R}^{d_1}} H(x,y) dx dy &= \int_{\mathbb{R}^{d_1}} (\int_{\mathbb{R}^{d_2}} H(x,y) dy) dx \\
+&= \int_{\mathbb{R}^{d_2}} (\int_{\mathbb{R}^{d_1}} H(x,y) dx) dy
+\end{align*}
+
+\item
+$h \in L^1(\mathbb{R}^{d_1} \times \mathbb{R}^{d_2})$
+
+Pour presque tout $x$, $y \mapsto h(x,y)$ est dans $L^1(\mathbb{R}^{d_2})$, et $\varphi(x) = \int_{\mathbb{R}^{d_2}} h(x,y) dy \in L^1(\mathbb{R}^{d_1})$
+
+\[ \int_{\mathbb{R}^{d_1}} h(x,y) dx dy = \int_{\mathbb{R}^{d_1}} (\int_{\mathbb{R}^{d_2}} h(x,y) dy) dx \]
+
+\end{enumerate}
+
+\textbf{Mode d'emploi}: on utilise $(1)$ sur $|h|$, puis si $\int_{\mathbb{R}^{d_1} \times \mathbb{R}^{d_2}} |h| < +\infty$, on utilise $(2)$.
+\end{theoreme}
+
+\item
+\begin{definition}
+Si $f$ et $g$ appartiennent à $L^1(\mathbb{R}^d)$, alors le produit de convolution $f \star g$ est défini par
+
+\[ (f \star g)(x) = \int f(x - y)g(y) dy \int g(x - y) f(y) dy \]
+\end{definition}
+
+\item
+\begin{theoreme}
+Soit $f,g \in L^1(\mathbb{R}^d)$ et $h(x,y)= f(x - y)g(y)$
+
+\begin{enumerate}
+\item
+Pour presque tout $x \in \mathbb{R^d}$, $y \mapsto h(x,y)$ est intégrable sur $\mathbb{R}^d$.
+
+\item
+$f \star g \in L^1(\mathbb{R}^d)$, $\| f \star g \|_{L^1} \leq \| f \|_{L^1} \| g \|_{L^1}$
+\end{enumerate}
+\end{theoreme}
+
+\item
+\textbf{Propiétés}:
+
+\begin{enumerate}
+\item
+$f \star g = g \star f$
+
+\item
+$(f \star g) \star h = f \star (g \star h)$
+
+\item
+$f \in L^1, g \in L^2 \Rightarrow f \star g \in L^2, \| f \star g \|_{L^2} \leq \| f \|_{L^1} \| g \|_{L^2}$
+
+\item
+$f \in L^1, g \in C^0_b$ (ensemble des fonctions continues et bornées sur $\mathbb{R}^d$)
+
+$\Rightarrow f \star g \in C^0_b$
+\item
+$f \in L^1, g \in C^1_b = \{ C^1,g \in C^0_b, \frac{\partial g}{\partial x_j} \in C^0_b \}$
+
+$\Rightarrow f \star g \in C^1_b$ et $\frac{\partial}{\partial x_j}(f \star g) = f \star (\frac{\partial}{\partial x_j} g)$
+
+\item
+$f \in L^1_{loc}(\mathbb{R}^d) = \{f \text{ mesurable et } \forall K complet de \mathbb{R}^d, f_{|K} \in L^1(K)\}$
+
+$g \in C^1_c(\mathbb{R}^d) = \{ g \in C^1(\mathbb{R}^d) \text{ et } \exists R > 0 / g_{|\mathbb{R}^d \ B_{R}(0)} \equiv 0 \}$
+
+$\Rightarrow f \star g \in L^1_{loc}(\mathbb{R}^d)$
+\end{enumerate}
+
+\item
+\textbf{Elément neutre}: $\nexists f \in L^1, \forall g \in L^1, f \star g = g$
+
+\item
+\textbf{Approximation de l'identité}: 
+
+Soit $h \in L^1(\mathbb{R}^d)$ vérifiant $\int_{\mathbb{R}^d} h = 1 (h \geq 0)$.
+
+Posons, pour $\epsilon > 0$, $h_{\epsilon} (x)  = \epsilon^{-d} h(\frac{x}{\epsilon})$
+
+\begin{theoreme}
+Pour toute fonction $f \in L^1(\mathbb{R}^d)$ [resp. $L^2(\mathbb{R}^d)$], les fonctions $f \star h_\epsilon$ convergent vers $f$ en moyenne ($\| f \star h_\epsilon - f \|_{L^1} \to 0$) [resp. en moyenne quadratique] lorsque $\epsilon$ tend vers 0.
+\end{theoreme}
+
+Si de plus, $h \in C^{\infty}$, alors $\forall \epsilon > 0$, $f \star h_\epsilon \in C^{\infty}$ et $\| f \star h_\epsilon - f \|_{L^1} \to 0$
+\end{itemize}
+
+\subsection{Rappel d'intégration}
+
+\begin{itemize}
+\item
+Soit $\varphi \geq 0$ ou $\varphi \in L^1([0,+\infty[)$ et $\rho(d)$ le volume de la boule unité $B_{\mathbb{R}^d}(0,1)$ de $\mathbb{R}^d$. On a:
+
+\[ d \rho(d) \int_{0}^{+\infty} \varphi(r) dr = \int_{\mathbb{R}^d} |x|^{1 - d} \varphi(|x|) dx \]
+
+Cette formule est une généralisation de formules bien connues en dimension d'espace 2 et 3:
+
+\[ 2 \pi \int_{0}^{+\infty} \varphi(r) r dr = \int_{\mathbb{R}^2} \frac{\varphi(|x|)}{|x|} dx \text{ et } 4 \pi \int_{0}^{+\infty} \varphi(r) r^2 dr = \int_{\mathbb{R}^3} \frac{\varphi(|x|)}{|x|^2} dx \]
+
+\item
+\textbf{Application}: critére de Riemman en dimension d
+
+\begin{align*}
+|x|^\alpha \in L^1(B_1(0)) &\Leftrightarrow \int_{|x| < 1} |x|^\alpha dx < +\infty \\
+&\Leftrightarrow \int_{0}^{1} \frac{r^\alpha}{r^{1 - d}} dr < +\infty \\
+&\Leftrightarrow \alpha - 1 + d > -1 \Leftrightarrow \alpha > -d
+\end{align*}
+
+\begin{align*}
+(1 + |x|)^\alpha \in L^1(\mathbb{R}^d) &\Leftrightarrow \int_{\mathbb{R}^d} (1 + |x|)^\alpha dx < +\infty \\
+&\Leftrightarrow \int_{0}^{1} r^{\alpha - 1 + d} dr < +\infty \\
+&\Leftrightarrow \alpha < -d
+\end{align*}
+
+\end{itemize}
+
+\subsection{Équations de Laplace et de Poisson dans $\mathbb{R}^d$ ($d \geq 2$)}
+
+\begin{itemize}
+\item
+\textbf{Équation de Laplace}: $\Delta u = 0$ dans $\mathbb{R}^d$
+
+\item
+\textbf{Équation de Poisson}: $-\Delta u = f$ dans $\mathbb{R}^d$
+\end{itemize}
+
+\subsubsection{Solution fondamentale du laplacien}
+
+\begin{itemize}
+\item
+\textbf{L'équation de Laplace est invariante par rotation}: Pour toute matrice orthogonale $\Theta$ de taille $d \times d$, si $u(x)$ est solution, alors $u(\Theta x)$ est aussi une solution.
+
+\begin{align*}
+\partial_{x_i} u(\Theta x) &= \sum_{j = 1}^d (\partial_{x_j} u)(\Theta x) \Theta_{ji} \\
+\partial_{x_i}^2 u(\Theta x) &= \sum_{j = 1}^d \sum_{k = 1}^d (\partial_{x_k} \partial_{x_j} u)(\Theta x) \Theta_{ji} \Theta_{ki} \\
+\Delta u(\Theta x) &= \sum_{i = 1}^d \sum_{j = 1}^d \sum_{k = 1}^d (\partial_{x_k} \partial_{x_j} u)(\Theta x) \Theta_{ji} \Theta_{ki} \\
+&= \sum_{j = 1}^d \sum_{k = 1}^d (\partial_{x_k} \partial_{x_j} u)(\Theta x) \underbrace{[\sum_{i = 1}^d \Theta_{ji} \Theta_{ki}]}_{\delta_{jk}} \\
+&= \sum_{j = 1}^d (\partial^2_{x_j} u)(\Theta x) = 0
+\end{align*}
+
+\item
+On cherche des solutions de la forme: $u(x) = v(|x|) = v(r)$ où $r = |x|$
+
+\begin{align*}
+\partial_{x_i} u(x) &= \frac{x_i}{|x|} v'(|x|) \\
+\partial^2_{x_i} u(x) &= (\frac{1}{|x|} - \frac{x_i^2}{|x|^3}) v'(|x|) + \frac{x_i^2}{|x|^2} v''(|x|) \\
+\Delta u(x) &= \boxed{\frac{d - 1}{r} v'(r) + v''(r) = 0}
+\end{align*}
+
+\end{itemize}
+
 \end{document}
