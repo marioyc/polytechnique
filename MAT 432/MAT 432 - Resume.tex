@@ -17,7 +17,7 @@
 
 \begin{document}
 
-\title{Résumé MAT432}
+\title{Amphis MAT432}
 \author{Mario Ynocente Castro}
 
 \maketitle
@@ -279,7 +279,7 @@ $f \in L^1, g \in C^1_b = \{ C^1,g \in C^0_b, \frac{\partial g}{\partial x_j} \i
 $\Rightarrow f \star g \in C^1_b$ et $\frac{\partial}{\partial x_j}(f \star g) = f \star (\frac{\partial}{\partial x_j} g)$
 
 \item
-$f \in L^1_{loc}(\mathbb{R}^d) = \{f \text{ mesurable et } \forall K complet de \mathbb{R}^d, f_{|K} \in L^1(K)\}$
+$f \in L^1_{loc}(\mathbb{R}^d) = \{f \text{ mesurable et } \forall \text{ K complet de } \mathbb{R}^d, f_{|K} \in L^1(K)\}$
 
 $g \in C^1_c(\mathbb{R}^d) = \{ g \in C^1(\mathbb{R}^d) \text{ et } \exists R > 0 / g_{|\mathbb{R}^d \ B_{R}(0)} \equiv 0 \}$
 
@@ -365,6 +365,71 @@ On cherche des solutions de la forme: $u(x) = v(|x|) = v(r)$ où $r = |x|$
 \Delta u(x) &= \boxed{\frac{d - 1}{r} v'(r) + v''(r) = 0}
 \end{align*}
 
+\item
+$\frac{v''}{v'} = (ln (v'))' = -\frac{d - 1}{r} = -(d - 1)(ln r)'$
+
+$ln(v') = -(d - 1)ln r + a \Rightarrow \boxed{v' = cr^{-(d - 1)}}$
+
+\begin{itemize}
+\item
+$d = 2$: $v' = \frac{c}{r} \Rightarrow v = clnr + c_2$
+
+\item
+$d \geq 3$: $v' = cr^{-(d - 1)} \Rightarrow v = cr^{-d + 2} + c_2$
+\end{itemize}
+
+\item
+On définit la \textbf{solution fondamentale du Laplacien}:
+\[\Phi (x) =\begin{cases}
+-\frac{1}{2 \pi} ln |x| & d = 2 \\
+\frac{1}{d(d - 2)\rho(d)} |x|^{-(d - 2)} & d \geq 3
+\end{cases}\]
+
+\end{itemize}
+
+\subsubsection{Résolution de l'équation de Poisson}
+
+\begin{theoreme}
+Soit $f$ de classe $\mathcal{C}^2$ sur $\mathbb{R}^d$, à support compact. On définit, pourt tout $x \in \mathbb{R}^d$,
+
+\[ u(x) = \int_{\mathbb{R}^d} \Phi(x - y) f(y) dy = (\Phi \star f)(x) \]
+
+Alors,
+
+\begin{enumerate}
+\item
+La fonction $u$ est de classe $\mathcal{C}^2$ sur $\mathbb{R}^d$.
+
+\item
+$-\Delta u = f$ dans $\mathbb{R}^d$
+\end{enumerate}
+\end{theoreme}
+
+\textbf{Preuve}:
+
+\begin{itemize}
+\item
+Consiste à régulariser la fonction $\Phi$ à l'origine et à passer à la limite après convolution.
+
+\item
+Nous nous limitions au cas $d = 3$. Dans ce cas:
+
+\[ \Phi(x) = \frac{1}{4 \pi |x|}, \Phi \in \mathcal{C}^\infty (\mathbb{R}^3 \setminus \{0 \}) \]
+
+\item
+On considère, pour tout $0 < \epsilon < 1$, $\Phi_\epsilon$ une approximation de $\Phi$ vérifiant:
+
+\[\begin{cases}
+\Phi_\epsilon \text{ est de clase } \mathcal{C}^2 \text{ sur } \mathbb{R}^3, \Phi_\epsilon(x) = \Phi_\epsilon(|x|) ;\\
+\Phi_\epsilon(x) = \Phi(x) \text{ pour tout } |x| \geq \epsilon ;\\
+\lim_{\epsilon \to 0} \| \Phi_\epsilon - \Phi \|_{L^1} = 0 ;\\
+|\partial_{x_k} \Phi_\epsilon(x)|  \leq C \epsilon^{-2} \text{ pour tout } k = 1,2,3 \text{ et } |x| \leq \epsilon ;\\
+|\partial_{x_j} \partial_{x_k} \Phi_\epsilon(x)| \leq C \epsilon^{-3} \text{ pour tout } j,k = 1,2,3 \text{ et } |x| \leq \epsilon
+\end{cases}\]
+
+On peut poser: $\Phi_\epsilon(x) = \alpha_\epsilon |x|^4 + \beta_\epsilon |x|^2 + \gamma_\epsilon$, pour tout $|x| \leq \epsilon$
+
+et ajuster les paramètres $\alpha_\epsilon, \beta_\epsilon, \gamma_\epsilon$ pour que $\Phi_\epsilon$ soit de classe $\mathcal{C}^2$.
 \end{itemize}
 
 \end{document}
