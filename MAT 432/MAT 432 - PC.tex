@@ -163,6 +163,149 @@ Donc il n'y a pas d'explosion et $T = \infty$. Contradiction.
 
 \end{exercice}
 
+\begin{exercice}{4}
 
+Soit $b \in \mathcal{C}^1(\mathbb{R}^d,\mathbb{R}^d)$. On suppose que toutes les solutions maximales de l'équation différentielle
+
+\[ y'(t) = b(y(t)) \]
+
+sont définies sur $\mathbb{R}$, et on note $Y(t,y_0)$, la valeur au temps $t$ de la solution maximale $y$ de donnée initiale $y(0) = y_0$. On admet que l'application $Y: \mathbb{R} \times \mathbb{R}^d \to \mathbb{R}^d$ est de classe $\mathcal{C}^1$ sur $\mathbb{R} \times \mathbb{R}^d$.
+
+\begin{enumerate}
+
+\item
+Montrer que
+
+\[ \forall (s,t) \in \mathbb{R}^2, \forall y_0 \in \mathbb{R}^d, Y(t,Y(s,y_0)) = Y(s + t,y_0) \]
+
+En déduire que
+
+\[ \forall (t,y_0) \in \mathbb{R} \times \mathbb{R}^d, \frac{\partial Y}{\partial t}(t,y_0) = \frac{\partial Y}{\partial y_0}(t,y_0)b(y_0) \]
+
+où $\frac{\partial Y}{\partial y_0}(t,y_0)$ désigne la matrice jacobienne de $y_0 \mapsto Y(t,y_0)$.
+
+\textbf{Solution}
+
+On considère les fonctions de $t$: $y_1(t) = Y(t,Y(s,y_0))$ et $y_2(t) = Y(s + t,y_0)$
+
+\begin{itemize}
+\item
+$y_1(0) = Y(0,Y(s,y_0)) = Y(s,y_0)$
+
+$y_1'(t) = \partial_t Y(t,S,y_0) = b(Y(t,Y(s,y_0)) = b(y_1(t))$
+
+\item
+$y_2(0) = Y(s,y_0)$
+
+$y_2'(t) = \partial_t Y(s + t,y_0) = b(Y(s + t,y_0)) = b(y_2(t))$
+\end{itemize}
+
+Donc on a 2 solutions maximales de $y' = b \circ y$ avec la même donnée initiale. Or Cauchy-Lipschitz implique l'unicité.\\
+
+En dérivant par rapport à $s$:
+
+\begin{itemize}
+\item
+à gauche: $\frac{\partial Y}{\partial y_0}(t,Y(s,y_0)) \frac{\partial Y}{\partial t}(s,y_0) = \frac{\partial Y}{\partial y_0}(t,Y(s,y_0)) b(Y(s,y_0))$
+
+\item
+à droite: $\frac{\partial Y}{\partial t}(t + s,y_0)$
+\end{itemize}
+
+Pour $s = 0$: $\frac{\partial Y}{\partial t}(t,y_0) = \frac{\partial Y}{\partial y_0}(t,y_0)b(y_0)$
+
+\item
+Soit $t \in \mathbb{R}$. En déduire que l'application
+
+\begin{align*}
+Y(t,\cdot): \mathbb{R}^d &\to \mathbb{R}^d \\
+y_0 &\mapsto Y(t,y_0)
+\end{align*}
+
+réalise un $\mathcal{C}^1$-difféomorphisme de $\mathbb{R}^d$ sur $\mathbb{R}^d$. Quelle est son application réciproque?
+
+\textbf{Solution}
+
+Soit $Y_t = Y(t,\cdot) \in \mathcal{C}^1$
+
+Par la partie 1:
+
+\begin{align*}
+Y_t \circ Y_s &= Y_{t + s} \\
+Y_0 &= Id_{\mathbb{R}^d}
+\end{align*}
+
+Alors $Y_{-t} \circ Y_t = Y_t \circ Y_{-t} = Id_{\mathbb{R}^d}$, c'est-à-dire $\boxed{(Y_t)^{-1} = Y_{-t}}$. Or, $Y_{-t}$ est $\mathcal{C}^1$, donc $Y_t$ est un $\mathcal{C}^1$-difféomorphisme.
+
+\item
+Soit $u_0 \in \mathcal{C}^1(\mathbb{R}^d,\mathbb{R})$. On considère une solution $u \in \mathcal{C}^1(\mathbb{R} \times \mathbb{R}^d,\mathbb{R})$ de l'équation de transport, à coefficients non constants,
+
+\begin{equation}
+\frac{\partial u}{\partial t}(t,x) + b(x) \cdot \nabla u(t,x) = 0,\text{ et }u(0,x) = u_0(x), \text{ pour }t \in \mathbb{R} \text{ et } x \in \mathbb{R}^d.
+\end{equation}
+
+Montrer que
+
+\[ \forall(t,x) \in \mathbb{R} \times \mathbb{R}^d, u(t,x) = u_0(Y(-t,x)) \]
+
+\item
+Déterminer les solutions $u \in \mathcal{C}^1(\mathbb{R} \times \mathbb{R}^d,\mathbb{R})$ de l'équation de transport $(1)$.
+
+\item
+\textit{Application}. Soit $u_0 \in \mathcal{C}^1(\mathbb{R}^d,\mathbb{R})$. Déterminer les solutions $u \in \mathcal{C}^1(\mathbb{R} \times \mathbb{R}^d,\mathbb{R})$ de l'équation de transport
+
+\[ \frac{\partial u}{\partial t}(t,x) + x \cdot \nabla u(t,x) = 0,\text{ et }u(0,x) = u_0(x), \text{ pour }t \in \mathbb{R} \text{ et } x \in \mathbb{R}^d. \]
+
+\item
+Déterminer les solutions $u$, de classe $\mathcal{C}^1$ sur leur domaine de définition, de l'équation de transport
+
+\[ \frac{\partial u}{\partial t}(t,x) + x^2 \cdot \nabla u(t,x) = 0,\text{ et }u(0,x) = x^2. \]
+
+Quel est le domaine de définition de ces solutions?
+
+\end{enumerate}
+
+\end{exercice}
+
+\section{Produit de convolution}
+
+\begin{exercice}{1}
+Soient $\alpha$ et $\beta$ deux nombres réels strictement positifs.
+
+\begin{enumerate}
+\item
+Montrer l'existence et calculer la convolée suivante: $e^{-\alpha x} 1_{]0,+\infty[}(x) \star e^{-\beta x} 1_{]0,+\infty[}(x)$.
+
+\textbf{Solution}
+
+\[ \underbrace{e^{-\alpha x} 1_{]0,+\infty[}(x)}_{f \in L^1} \star \underbrace{e^{-\beta x} 1_{]0,+\infty[}(x)}_{g \in L^1} = \int_{\mathbb{R}} e^{-\alpha y} \underbrace{1_{]0,+\infty[}(y)}_{y > 0} e^{-\beta(x - y)} \underbrace{1_{]0,+\infty[}(x - y)}_{x > y} dy \]
+
+$(f * g)(x) = 0$ si $x \leq 0$, sinon
+
+\begin{align*}
+\int_0^x e^{-\alpha x} e^{-\beta(x - y)} dy &= e^{-\beta x} \int_0^x e^{(\beta - \alpha)y} dy  = e^{-\beta x} \left[ \frac{e^{(\beta - \alpha)y}}{\beta - \alpha} \right]^x_0 \\
+&= e^{-\beta x}(\frac{e^{(\beta - \alpha)x} - 1}{\beta - \alpha}) = \frac{e^{-\alpha x} - e^{-\beta x}}{\beta - \alpha}
+\end{align*}
+
+\[ \boxed{e^{-\alpha x} 1_{]0,+\infty[}(x) \star e^{-\beta x} 1_{]0,+\infty[}(x) = \frac{e^{-\alpha x} - e^{-\beta x}}{\beta - \alpha} 1_{x > 0}} \]
+
+\item
+Notons $f_\alpha(x) = e^{-x} x^{\alpha - 1} 1_{]0,+\infty[}(x)$.
+
+\begin{itemize}
+\item
+Montrer que $f_\alpha$ est dans $L^1(\mathbb{R})$.
+
+\item
+Notons $B(\alpha,\beta) = \int_0^1 u^{\alpha - 1}(1-u)^{\beta - 1}$. Montrer la formule $f_\alpha \star f_\beta = B(\alpha,\beta) f_{\alpha + \beta}$.
+
+\item
+Montrer la \textit{formule des compléments}: $B(\alpha,\beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$, où $\Gamma(\alpha) = \int_0^{+\infty} e^{-u} u^{\alpha - 1} du$.
+
+\item
+En déduire la relation $g_\alpha \star g_\beta = g_{\alpha + \beta}$ où $g_\alpha = \frac{1}{\Gamma(\alpha)}f_\alpha$.
+\end{itemize}
+\end{enumerate}
+\end{exercice}
 
 \end{document}
