@@ -1,0 +1,172 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newtheorem{theoreme}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lemme}{Lemme}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{exemple}[1][Exemple]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{MPSI - Résumé}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Limites et continuité}
+
+\subsection{Continuité}
+
+\begin{itemize}
+\item
+Soit $f : X \to \mathbb{R}$ une fonction.
+
+\begin{itemize}
+\item
+On dit qu'elle est \textbf{continue} en $a \in X$ si $f(x) \underset{x \to a}{\rightarrow} f(a)$. Sinon, on dit qu'elle est \textbf{discontinue} en $a$.
+
+\item
+On dit que $f$ est \textbf{continue} si elle est continue en tout point de $X$.
+
+\end{itemize}
+
+\item
+\begin{theoreme}
+Soit $f : X \to \mathbb{R}$ une fonction, $a \in \mathbb{R}$ adhérent à $X$ et $L \in \mathbb{R}$.
+Si $f(x) \underset{x \to a}{\rightarrow} L$, alors, pour toute suite $(x_n)_{n \in \mathbb{N}}$ à valeurs dans $X$ et tendant vers $a$, on a $f(x_n) \underset{n \to +\infty}{\rightarrow} L$
+\end{theoreme}
+
+\textbf{Remarque}:
+
+\begin{itemize}
+\item
+Le théorème est particulièrement utile pour démonrer qu'une fonction \textbf{n'admet pas de limite finie en un point}. Il suffit d'exhiber deux suites $(x_n)_{n \in \mathbb{N}}$ et $(y_n)_{n \in \mathbb{N}}$ ayant toutes les deux pour limites $a$ et telles que $\underset{n \to +\infty}{\lim} f(x_n)$ et $\underset{n \to +\infty}{\lim} f(y_n)$ existent et soient différentes.
+
+\item
+En particulier, pour démontrer qu'une fonction n'est pas continue en $a$, il suffit d'exhiber une suite $(x_n)_{n \in \mathbb{N}}$ convergeant vers $a$ et telle que $(f(x_n))_{n \in \mathbb{N}}$ ne converge pas vers $f(a)$.
+
+\end{itemize}
+
+\item
+\begin{theoreme}
+Soit $a \in \mathbb{R} \setminus X$ un point adhérent à $X$ et $f:X \to \mathbb{R}$ une fonction.
+Il existe un prolongement $\tilde{f}$ de $f$ à $X \bigcup \{ a \}$ qui soit continue en $a$ si, et seulement si, $f$ admet une limite en $a$. Dans ce cas, un tel prolongement est unique et $\tilde{f}(a) = \underset{a}{\lim} f$.
+On l'appelle le \textbf{prolongement par continuité de $f$ en a}.
+\end{theoreme}
+
+\item
+Soit, $f: I \to \mathbb{R}$ une fonction.
+
+\begin{itemize}
+\item
+Soit $K$ un réel positif. On dit que $f$ est \textbf{K-lipschitzienne} lorsque:
+
+\[ \forall(x,y) \in I^2 |f(y) - f(x)| \leq K|y - x| \]
+
+\item
+On dit que $f$ est \textbf{lipschitzienne} lorsqu'il existe un réel $K$ tel que $f$ soit K-lipschitzienne.
+\end{itemize}
+
+\begin{theoreme}
+Toute fonction lipschitzienne est continue
+\end{theoreme}
+
+\item
+\begin{theoreme} \textbf{(des valeurs intermédiares)}
+Soit $a$ et $b$ deux réels, avec $a < b$, et $f \in \mathcal{C}([a,b],\mathbb{R})$.
+Si $f(a)f(b) \leq 0$, il existe alors $c \in [a,b]$ tel que $f(c) = 0$.
+\end{theoreme}
+
+\begin{corollaire}
+Soit $f \in \mathcal{C}(I,\mathbb{R})$. Notons $a$ et $b$ respectivement les extrémités inférieure et supérieure de $I$.
+Si $f$ a des limites dans $\bar{\mathbb{R}}$ en $a$ et $b$, et si $\underset{a}{\lim} f$ et $\underset{b}{\lim} f$ sont tous les deux non nuls et de signe opposé, alors il existe $c \in I$ tel que $f(c) = 0$.
+\end{corollaire}
+
+\item
+\begin{theoreme}
+L'\textbf{image d'un intervalle} par une fonction réelle continue est un intervalle.
+\end{theoreme}
+
+\begin{theoreme} \textbf{(image d'un segment)}
+Soit $f : [a,b] \to \mathbb{R}$ une fonction continue, avec $a < b$. Alors:
+
+\begin{itemize}
+\item
+$f$ est majorée et admet un maximum
+
+\item
+$f$ est minorée et admet un minimum
+
+\item
+$f([a,b])$ est un segment
+\end{itemize}
+\end{theoreme}
+
+\item
+\begin{theoreme} \textbf{(de la limite monotone)}
+Soit $f$ une fonction montone définie sur un intervalle ouvert $I = ]a,b[$, avec $(a,b) \in \bar{\mathbb{R}}^2$ et $a < b$. Alors $\underset{x \to a}{\lim} f(x)$ et $\underset{x \to b}{\lim} f(x)$ existent dans $\bar{\mathbb{R}}$.
+\end{theoreme}
+
+\end{itemize}
+
+\section{Dérivation}
+
+\begin{itemize}
+\item
+\begin{proposition}
+Soit $a \in I$ et $f : I \to \mathbb{R}$ une fonction. Si $f$ est dérivable en $a$, alors $f$ est continue en $a$.
+\end{proposition}
+
+\item
+\begin{theoreme} \textbf{(de Rolle)}
+Soit $a$ et $b$ deux réels, avec $a < b$, et $f : [a,b] \to \mathbb{R}$ une fonction continue sur $[a,b]$, dérivable sur $]a,b[$, telle que $f(a) = f(b)$.
+Alors il existe $c \in ]a,b[$ tel que $f'(c) = 0$.
+\end{theoreme}
+
+\item
+\begin{theoreme} \textbf{(des accroissements finis)}
+Soit $a$ et $b$ deux réels, avec $a < b$, et $f : [a,b] \to \mathbb{R}$ une fonction continue sur $[a,b]$, dérivable sur $]a,b[$.
+Il existe alors $c \in ]a,b[$ tel que $f(b) - f(a) = f'(c)(b - a)$.
+\end{theoreme}
+
+\item
+\begin{theoreme} \textbf{(Inégalité des accroissements finis)}
+Soit $f : I \to \mathbb{R}$ une fonction continue sur $I$ et dérivable sur l'intérieur de $I$. On suppose qu'il existe un réel $M$ tel que, pour tout $x$ de l'intérieur de $I$, on ait $|f'(x)| \leq M$. Alors $f$ est $M$-lipschitzienne, c'est-à-dire:
+
+\[ \forall(x,y) \in I^2 \text{ } |f(y) - f(x)| \leq M|y - x| \]
+\end{theoreme}
+
+\item
+Soit $f : I \to \mathbb{R}$ une fonction. On dit que $f$ est de \textbf{classe $\mathcal{C}^1$} sur I si elle est dérivable sur $I$ et la fonction $f'$ est continue.
+
+\item
+Soit $f : I \to \mathbb{R}$ une fonction.
+
+\begin{itemize}
+\item
+Soit $n \in \mathbb{N}$. On dit que $f$ est de \textbf{classe $\mathcal{C}^n$} si elle est $n$ fois dérivable et si la fonction $f^{(n)}$ est continue.
+
+\item
+On dit qu'elle est de \textbf{classe $\mathcal{C}^\infty$} lorsqu'elle est de classe $\mathcal{C}^n$ pour tout entier naturel $n$.
+
+\end{itemize}
+
+\item
+\begin{theoreme} \textbf{(Formule de Leibniz)}
+Soit $n \in \mathbb{N}$ et $(f,g) \in \mathcal{C}^n(I,\mathbb{R})^2$. Alors la fonction $fg$ est de classe $C^n$ et:
+
+\[ (fg)^{(n)} = \sum_{k = 0}^n \binom{n}{k} f^{(k)} g^{(n - k)} \]
+\end{theoreme}
+
+\end{itemize}
+
+\end{document}
