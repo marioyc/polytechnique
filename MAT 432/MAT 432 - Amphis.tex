@@ -432,4 +432,219 @@ On peut poser: $\Phi_\epsilon(x) = \alpha_\epsilon |x|^4 + \beta_\epsilon |x|^2 
 et ajuster les paramètres $\alpha_\epsilon, \beta_\epsilon, \gamma_\epsilon$ pour que $\Phi_\epsilon$ soit de classe $\mathcal{C}^2$.
 \end{itemize}
 
+\section{Séries de Fourier et applications}
+
+\subsection{Méthode de séparation des variables}
+
+\[ \begin{cases}
+\partial_t u - \partial_x^2 u = 0 & t \geq 0, x \in ]0,2\pi[ \\
+u(t = 0) = g & x \in ]0,2\pi[ 
+\end{cases} \]
+
+\begin{itemize}
+
+\item
+On compléte par des conditions aux limites à choisir parmi:
+
+\begin{itemize}
+\item
+Conditions de Dirichlet: $u(t,0) = u(t,2\pi) = 0$
+\item
+Conditions de Neumann: $\partial_x u(t,0) = \partial_x u(t,2\pi) = 0$ (la chaleur ne s'échappe pas)
+\item
+Conditions périodiques: $u(t,0) = u(t,2\pi)$, $\partial_x u(t,0) = \partial_x u(t,2\pi)$
+\end{itemize}
+
+Pour l'instant, on choisit de compléter l'équation par des conditions périodiques, et on laisse libre la donnée initiale:
+
+\[ \begin{cases}
+\partial_t u - \partial_x^2 u = 0 & t \geq 0, x \in ]0,2\pi[ \\
+u(t,0) = u(t,2\pi) & t \geq 0 \\
+\partial_x u(t,0) = \partial_x u(t,2\pi) = 0 & t \geq 0
+\end{cases} \]
+
+\item
+On cherche une solution ayant la forme: $u(t,x) = v(t)w(x)$
+
+\[ v'(t) w(x) = v(t)w''(x) \Rightarrow \frac{v'(t)}{v(t)} = \frac{w''(x)}{w(x)} = a \]
+
+\[ v(t) = e^{at} ; \begin{cases}
+w(0) = w(2\pi) \\
+w'(0) = w'(2\pi) \\
+w'' = aw
+\end{cases}\]
+
+\item
+Distinguons les différents possibilités selon le signe de $a$:
+
+\begin{itemize}
+\item
+$a > 0$: $w(x) = b_1 e^{\sqrt{a}x} + b_2 e^{-\sqrt{a}x}$, qui ne convient pas aux conditions aux limites.
+
+\item
+$a = 0$: $w(x) = b_1 x + b_2 \Rightarrow b_1 = 0$
+
+\item
+$a < 0$: $w(x) = b_1 e^{i \sqrt{-a}x} + b_2 e^{-i \sqrt{-a}x}$
+
+Une telle fonction vérifie les conditions aux limites si $\sqrt{-a} = k \in \mathbb{N}$, et donc
+
+\[ w(x) = b_1 e^{ikx} + b_2 e^{-ikx}, v(t) = e^{-k^2t} \]
+
+On vient de trouver une famille de solutions:
+
+\[ u(t,x) = (b_1 e^{ikx} + b_2 e^{-ikx})e^{-k^2t} \]
+
+correspondant aux données initiales du type:
+
+\[ u(0,x) = b_1 e^{ikx} + b_2 e^{-ikx} \]
+
+\item
+Question naturelle: Est-ce que toute donnée initiale $g(x)$ peut être décomposée sous la forme
+
+\[ g(x) = \underset{k \in \mathbb{Z}}{\sum} c_k e^{ikx}, c_k \in \mathbb{C} \text{ ?} \]
+
+\end{itemize}
+
+\end{itemize}
+
+\subsection{Rappels sur les bases hilbertiennes}
+
+\begin{itemize}
+
+\item
+Si $H$ est un espace vectoriel sur $\mathbb{C}$, un \textbf{produit} scalaire sur $H$ est une application $(f,g) \mapsto (f|g)$ de $H \times H$ dans $\mathbb{C}$ possédant les propiétés suivantes.
+
+\begin{enumerate}
+\item
+\textit{sesquilinerité}: le produit scalaire est antiliniéaire par rapport à la première variable et linéaire par rapport à la seconde. On a notamment
+
+\[ (\lambda f | g ) = \bar{\lambda}(f | g) \text{ , } (f | \lambda g) = \lambda (f | g) \]
+
+\item
+\textit{symétrie hermitienne}: $(g | f) = \bar{(f | g)}$
+
+\item
+Le produit scalaire est \textit{défini positif}:
+
+\[ (f | f) \geq 0 \text{ pour tout } f \in H \text{ et } f \neq 0 \Leftrightarrow (f | f) > 0 \]
+
+\end{enumerate}
+
+Un espace vectoriel muni d'un produit scalaire est appelé \textbf{espace préhilbertien}. Il est canoniquement muni d'une structure d'espace vectoriel normé en posant: $\| f \| = \sqrt{(f | f)}$
+
+\item
+On appelle \textbf{espace de Hilbert} un espace préhilbertien qui est complet pour la norme associée.
+
+\item
+Pour tout sous-ensemble $A$ de l'espace de Hilbert $H$, on pose
+
+\[ A^\perp = \{ f \in H | \forall a \in A, (a | f) = 0 \} \]
+
+L'ensemble $A^\perp$ est un sous-espace vectoriel fermé de $H$.
+
+\item
+Pour $A \subset H$, on note $Vect(A)$ l'espace vectoriel engendré par $A$, c'est-à-dire l'ensemble des éléments $h \in H$ qui sont combinaison linéaire d'élements de $A$:
+
+\[ h = \sum_{j = 1}^N \lambda_j a_j; \lambda_j \in \mathbb{C}, a_j \in A \]
+
+\item
+A est dit \textbf{total} si $Vect(A)$ est \textbf{dense} dans $H$ ($\overline{Vect(A)} = H$), c'est-à-dire
+
+\[ \forall h \in H, h = \underset{n \to +\infty}{\lim} h_n, \text{ où } h_n \in Vect(A) \]
+
+\item
+\textbf{(Critère de totalité)} $A$ est total $\Leftrightarrow A^\perp = \{ 0 \}$.
+
+\textbf{Démonstration:}
+
+\begin{itemize}
+
+\item
+Notons $F$ les sous-espace vectoriel fermé $\overline{Vect(A)}$ et montrons que $\boxed{A^\perp = \overline{Vect(A)}^\perp}$.
+
+\item
+Tout vecteur orthogonal aux éléments de $F$ est en particulier orthogonal aux éléments de $A$. Réciproquement, si $g$ appartient à $A^\perp$, on a $(g|\sum \lambda_j a_j) = 0$ et $g$ est orthogonal aux éléments de $Vect(A)$. Tout élement $f$ de $F$ est limite d'une suite $f_k$ d'éléments de $Vect(A)$, on a donc: $0 = (f_k | g) \to (f | g)$.
+
+\item
+Par définition, $A$ est total si $F = H$, ce qui est équivalente à $F^\perp = \{ 0 \}$ et donc à $A^\perp = \{ 0 \}$.
+
+\end{itemize}
+
+\item
+On dit qu'un espace de Hilbert $H$ est \textbf{séparable} s'il existe une suite finie ou infinie d'élements de $H$ qui forme un sous-ensemble total de $H$.
+
+\item
+On appel \textbf{base hilbertienne} de $H$ une suite finie ou infinie $(e_j),j =1,2,\ldots$ qui est total et qui vérifie : $(e_j | e_k) = \delta_{jk}$
+
+\item
+\begin{theoreme}
+H est séparable $\Leftrightarrow$ il existe des bases hilbertiennes
+\end{theoreme}
+
+\item
+\begin{theoreme}
+Soient $H$ un espace de Hilbert séparable, et $(e_j),j = 1,2,\ldots$ une base hilbertienne de $H$.
+
+\begin{enumerate}
+\item
+Tout élément $f \in H$ peut se décomposer de façon unique sous forme d'une série convergente dans $H$
+
+\[ f = \underset{j}{\sum}c_j(f)e_j, \text{ où } c_j(f) = (e_j | f) \in \mathbb{C} \]
+
+De plus, $\| f \|^2 = \underset{j}{\sum}|c_j(f)|^2 < \infty$
+
+\item
+Réciproquement, pour des scalaires $\gamma_j$ vérifiant $\sum_j |\gamma_j|^2 < \infty$, la série $\sum_j \gamma_j e_j$ converge dans $H$ et sa somme $f$ vérifie $c_j(f) = \gamma_j$ pour tout $j$
+
+\end{enumerate}
+\end{theoreme}
+
+\item
+\textbf{Bases de l'espace $L^2(A \times B)$:} Soient $A \subset \mathbb{R^{d_1}}$ et $B \subset \mathbb{R^{d_2}}$, et soient $(e_j)_{j \in \mathbb{N}}$ et $(f_j)_{j \in \mathbb{N}}$ des bases hilbertiennes de $L^2(A)$ et $L^2(B)$ respectivement.
+
+Alors les fonctions $\varphi_{jk}(x,y) = e_j(x) f_k(y)$, pour $(j,k) \in \mathbb{N}^2$, forment une base hilbertienne de $L^2(A \times B)$.
+
+\end{itemize}
+
+\subsection{Série de Fourier et fonctions $L^2$}
+
+\begin{itemize}
+
+\item
+$L^2_{per}([0,1]) = \{f, \text{(mesurables) } \int_0^1 |f|^2 < +\infty \}$ isométrique à $L^2([0,1])$.
+
+\item
+$(L^2_{per}([0,1]);\int_0^1 \bar{f}g)$ est un espace de Hilbert.
+
+\item
+\begin{theoreme}
+Les fonction $e_k(x) = e^{2i \pi kx}, k \in \mathbb{Z}$ forment une base hilbertienne de $L^2_{per}([0,1])$.
+\end{theoreme}
+
+\item
+\begin{corollaire}
+$\forall f \in L^2$, $f$ se décompose:
+
+\[ f = \underset{k \in \mathbb{Z}}{\sum} c_k(f) e^{2i \pi kx}, \text{ où } c_k(f) = (e^{2i \pi k}|f) = \int_0^1 e^{-2i \pi kx} f(x) dx \]
+
+De plus, $\| f \|_{L^2}^2 = \underset{k \in \mathbb{Z}}{\sum} |c_k(f)|^2 < \infty$
+\end{corollaire}
+
+\end{itemize}
+
+\subsection{En dimension $d \geq 2$}
+
+\begin{itemize}
+
+\item
+$f : \mathbb{R}^d \to \mathbb{C}$ est périodique de période $\mathbb{Z}^d$ si $f(x + w) = f(x), \forall x \in \mathbb{R}^d, \forall w \in \mathbb{Z}^d$
+
+\item
+\begin{theoreme}
+$\{ e^{2i \pi (k \cdot x)}, k \in \mathbb{Z}^d \}$ est une base hilbertienne de $L_{per}^2([0,1]^d)$.
+\end{theoreme}
+
+\end{itemize}
+
 \end{document}
