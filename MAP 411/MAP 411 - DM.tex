@@ -1,0 +1,384 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage{showframe}
+\usepackage{fullpage}
+
+\setlength\parindent{0pt}
+
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{Approximation numérique et optimisation \\ Devoir maison}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Problème sur les différences finies}
+
+On considére l'équation de la chaleur dans $(0,1)$ avec conditions aux limites de périodicité(de période 1)
+
+\[ \begin{cases}
+\frac{\partial u}{\partial t} - \nu \frac{\partial^2 u}{\partial x^2} = 0 & \text{pour } (x,t) \in (0,1) \times \mathbb{R}^+_* \\
+u(t,x + 1) = u(t,x) & \text{pour } (x,t) \in \mathbb{R} \times \mathbb{R}^+_* \\
+u(0,x) = u_0(x) & \text{pour } x \in (0,1).
+\end{cases} \label{eq:chaleur} \tag{1} \]
+
+Pour $\Delta t > 0$ et $\Delta x = 1/N > 0$ (avec N un entier positif), on définit les noeuds d'un maillage régulier
+
+\[ (t_n,x_j) = (n \Delta t,j \Delta x) \text{ pour } n \geq 0, j \in \mathbb{Z}. \]
+
+On note $u^n_j$ une approximation discrète au point $(t_n,x_j)$ de la solution exacte $u(t,x)$.
+
+On note aussi
+
+\[ \sigma^n_j = u^n_{j - 1} - 2u^n_j + u^n_{j + 1}. \]
+
+On considère le schéma suivant
+
+\[ \frac{1}{12}\frac{u^{n+1}_{j+1} - u^{n}_{j+1}}{\Delta t} + \frac{5}{6}\frac{u^{n+1}_{j} - u^{n}_{j}}{\Delta t} + \frac{1}{12}\frac{u^{n+1}_{j-1} - u^{n}_{j-1}}{\Delta t} - \nu \frac{\sigma^{n + 1}_j + \sigma^n_j}{2(\Delta x)^2} = 0, \]
+
+avec la donnée initiale $u^0_j = u_0(x_j)$ et la condition aux limites $u^n_{j + N} = u^n_j, \forall j$.
+
+\begin{enumerate}
+
+\item
+Vérifier que ce schéma permet bien de calculer les inconnues $u^{n + 1}_j$ en fonction des $u^n_j$ et qu'il est consistant.
+
+\textbf{Solution:}
+
+\underline{Calculer $u^{n + 1}_j$}:
+
+Avec $c = \frac{\nu \Delta t}{2(\Delta x)^2}$ on peut expresser le schéma comme:
+
+\[ \left(\frac{1}{12} - c\right) u^{n + 1}_{j + 1} + \left(\frac{5}{6} + 2c\right) u^{n + 1}_j + \left(\frac{1}{12} - c\right) u^{n + 1}_{j - 1} = \left(\frac{1}{12} + c\right)u^n_{j + 1} + \left(\frac{5}{6} - 2c\right)u^n_j + \left(\frac{1}{12} + c\right)u^n_{j - 1} \]
+
+ou, $Au^{n + 1} = Bu^n$ avec
+
+$A = \begin{bmatrix}
+\frac{5}{6} + 2c  & \frac{1}{12} - c     & 0      &        & 0     & \frac{1}{12} - c  \\
+\frac{1}{12} - c  & \ddots & \ddots & \ddots &        & 0 \\
+0 & \ddots & \ddots & \ddots & \ddots &    \\
+   & \ddots & \ddots & \ddots & \ddots & 0  \\
+0  &        & \ddots & \ddots & \ddots & c \\
+\frac{1}{12} - c & 0      &        & 0     & \frac{1}{12} - c      & \frac{5}{6} + 2c
+\end{bmatrix},\ B = \begin{bmatrix}
+\frac{5}{6} - 2c  & \frac{1}{12} + c     & 0      &        & 0     & \frac{1}{12} + c  \\
+\frac{1}{12} + c  & \ddots & \ddots & \ddots &        & 0 \\
+0 & \ddots & \ddots & \ddots & \ddots &    \\
+   & \ddots & \ddots & \ddots & \ddots & 0  \\
+0  &        & \ddots & \ddots & \ddots & c \\
+\frac{1}{12} + c & 0      &        & 0     & \frac{1}{12} + c      & \frac{5}{6} - 2c
+\end{bmatrix}$
+
+ce qui permet de bien calculer les valeurs de $u^{n + 1}_j$ en fonction des $u^n_j$ quand la matrice $A$ est inversible.
+
+Pour montrer qu'elle est inversible, on montrera qu'elle est définie positive. Pour tout $x \in \mathbb{R}^{N \times 1}$ non nul:
+
+\begin{align*}
+x^t A x &= (\frac{5}{6} + 2c)\sum_{i = 1}^N x_i^2 + (\frac{1}{12} - c)\sum_{i = 1}^N (x_i x_{i - 1} + x_i x_{i + 1}) \\
+&= (\frac{5}{6} + 2c)\sum_{i = 1}^N x_i^2 + (\frac{1}{6} - 2c)\sum_{i = 1}^N x_i x_{i + 1} \\
+&= 2c \sum_{i = 1}^N (x_i^2 - x_i x_{i + 1}) + \frac{1}{6} \sum_{i = 1}^N (5x_i^2 + x_i x_{i + 1}) \\
+&= c \sum_{i = 1}^N(x_i - x_{i + 1})^2 + \frac{4}{6} \sum_{i = 1}^N x_i^2 + \frac{1}{12} \sum_{i = 1}^N (x_i + x_{i + 1})^2 > 0
+\end{align*}
+
+Donc $A$ est définie positive.
+
+\underline{Consistance}:
+
+Lorsque $\Delta t$ et $\Delta x$ tendent vers zero indépendemment:
+
+\begin{itemize}
+\item
+$\dfrac{u(t_{n + 1},x_j) - u(t_n,x_j)}{\Delta t} = u_t(t_n,x_j) + \frac{\Delta t}{2}u_{tt}(t_n,x_j) + \mathcal{O}(\Delta t)$
+
+\item
+$\dfrac{u(t_{n + 1},x_{j + 1}) - u(t_n,x_{j + 1})}{\Delta t} + \dfrac{u(t_{n + 1},x_{j - 1}) - u(t_n,x_{j - 1})}{\Delta t} =$
+
+$u_t(t_n,x_{j + 1}) + u_t(t_n,x_{j - 1}) + \frac{\Delta t}{2}u_{tt}(t_n,x_{j + 1}) + \frac{\Delta t}{2}u_{tt}(t_n,x_{j - 1}) + \mathcal{O}(\Delta t) =$
+
+$2u_t(t_n,x_j) + (\Delta t) u_{tt}(t_n,x_j) + \mathcal{O}(\Delta t + \Delta x)$
+
+\item
+$\sigma(t_n,x_j) = u(t_n,x_{j - 1}) - 2u(t_n,x_j) + u(t_n,x_{j + 1}) = (\Delta x)^2 u_{xx}(t_n,x_j) + \mathcal{O}((\Delta x)^3)$
+
+\item
+$\dfrac{\sigma(t_{n + 1},x_j) + \sigma(t_n,x_j)}{2(\Delta x)^2} = \frac{1}{2}u_{xx}(t_{n + 1},x_j) + \frac{1}{2}u_{xx}(t_n,x_j) + \mathcal{O}(\Delta x) =$
+
+$u_{xx}(t_n,x_j) + \frac{\Delta t}{2}u_{txx}(t_n,x_j) + \mathcal{O}(\Delta t + \Delta x)$
+
+\item
+$F_{\Delta t, \Delta x}(\{ t_{n + i},x_{j + k} \}_{-1 \leq i \leq 1,\ -1 \leq k \leq 1}) =$
+
+$\underbrace{(u_t - \nu u_{xx})}_{0} + \frac{\Delta t}{2}\underbrace{(u_{tt} - \nu u_{txx})}_{0} + \mathcal{O}(\Delta t + \Delta x)$
+
+Alors, on conclut que le schéma est consistant et précis au moins à l'ordre 1 en espace et à l'ordre 1 en temps.
+
+\end{itemize}
+
+\item
+Montrer que le schéma est stable en norme $L^2$. Que peut-on dire de sa convergence?
+
+\textbf{Solution:}
+
+En appliquant la transformée de Fourier on a que:\\
+
+$\hat{U}^{n + 1}(k)[(\frac{1}{12} - c)(e^{2i\pi k\Delta x} + e^{-2i\pi k\Delta x}) + (\frac{5}{6} + 2c)] =  \hat{U}^n(k)[(\frac{1}{12} + c)(e^{2i\pi k\Delta x} + e^{-2i\pi k\Delta x}) + (\frac{5}{6} - 2c)]$\\
+
+Soit $\theta = 2\pi k \Delta x$:
+
+\[ \boxed{\hat{U}^{n + 1}(k) = \underbrace{\dfrac{(\frac{1}{6} + 2c) \cos\theta + (\frac{5}{6} - 2c)}{(\frac{1}{6} - 2c) \cos\theta + (\frac{5}{6} + 2c)}}_{A(k)} \hat{U}^n(k)} \]
+
+\[ \hat{U}^{n + 1}(k) = A(k)^n \hat{U}^0(k) \]
+
+\begin{itemize}
+\item
+$(\frac{1}{6} - 2c) \cos\theta + (\frac{5}{6} + 2c) = (\frac{5}{6} + \frac{1}{6} \cos\theta) + 2c(1 - \cos\theta) > 0$
+
+\item
+$A(k) = -1 + \dfrac{\frac{1}{3}\cos\theta + \frac{5}{3}}{(\frac{1}{6} - 2c) \cos\theta + (\frac{5}{6} + 2c)} > -1$
+
+\item
+$A(k) = 1 - \dfrac{4c(1 - \cos\theta)}{(\frac{1}{6} - 2c) \cos\theta + (\frac{5}{6} + 2c)} \leq 1$
+
+\end{itemize}
+
+Donc $|A(k)| \leq 1$, et par la formule de Plancherel:
+
+\begin{align*}
+\| u^n \|_2^2 &= \int_0^1 |u^n(x)|^2 dx = \underset{k \in \mathbb{Z}}{\sum} |\hat{U}^n(k)|^2 = \underset{k \in \mathbb{Z}}{\sum} |A(k)|^{2n} |\hat{U}^0(k)|^2 \\
+&\leq \underset{k \in \mathbb{Z}}{\sum} |\hat{U}^0(k)|^2 = \int_0^1 |u^0(x)|^2 dx = \| u^0 \|_2^2
+\end{align*}
+
+Donc le schéma est stable en norme $L^2$. Et maintenant on a toutes les hypothèses necessaires pour appliquer le théorème de Lax et conclure que le schéma est convergent.
+
+\item
+Montrer que le schéma est précis à l'ordre 2 en temps et 4 en espace. Indication: il est commode de centrer les formules de Taylor autour du point $((n + 1/2) \Delta t,j \Delta x)$.
+
+\textbf{Solution:}
+
+Lorsque $\Delta t$ et $\Delta x$ tendent vers zero indépendemment:
+
+\begin{itemize}
+
+\item
+$\dfrac{u(t_{n + 1},x_j) - u(t_n,x_j)}{\Delta t} = u_t(t_{n + 1 / 2},x_j) + \mathcal{O}((\Delta t)^2)$
+
+\item
+$\dfrac{u(t_{n + 1},x_{j + 1}) - u(t_n,x_{j + 1})}{\Delta t} + \dfrac{u(t_{n + 1},x_{j - 1}) - u(t_n,x_{j - 1})}{\Delta t} =$
+
+$u_t(t_{n + 1 / 2},x_{j + 1}) + u_t(t_{n + 1 / 2},x_{j - 1}) + \mathcal{O}((\Delta t)^2) =$
+
+$2u_t(t_{n + 1 / 2},x_j) + (\Delta x)^2\ u_{tx} + \mathcal{O}((\Delta t)^2 + (\Delta x)^4)$
+
+\item
+$\sigma(t_n,x_j) = u(t_n,x_{j - 1}) - 2u(t_n,x_j) + u(t_n,x_{j + 1}) =$
+
+$(\Delta x)^2\ u_{xx}(t_n,x_j) + \frac{(\Delta x)^4}{12}\ u_{xxxx}(t_n,x_j) + \mathcal{O}((\Delta x)^4)$
+
+\item
+$\dfrac{\sigma(t_{n + 1},x_j) + \sigma(t_n,x_j)}{2(\Delta x)^2} = u_{xx}(t_{n + 1/2},x_j) + \frac{(\Delta x)^2}{12}u_{xxxx}(t_{n + 1/2},x_j) + \mathcal{O}((\Delta t)^2 + (\Delta x)^4)$
+
+\item
+$F_{\Delta t, \Delta x}(\{ t_{n + i},x_{j + k} \}_{-1 \leq i \leq 1,\ -1 \leq k \leq 1}) =$
+
+$\underbrace{(u_t - \nu u_{xx})}_{0} + \frac{(\Delta x)^2}{12}\underbrace{(u_{txx} - \nu u_{xxxx})}_{0} + \mathcal{O}((\Delta x)^4 + (\Delta t)^2)$
+
+\end{itemize}
+
+Alors, on conclut que le schéma est précis à l'ordre 4 en espace et à l'ordre 2 en temps.
+
+\end{enumerate}
+
+\section{Problème sur la notion de masse ajoutée}
+
+\[ \begin{cases}
+m \frac{d^2\vec{r}}{dt^2} + k\vec{r} = \vec{f} + \int_{\Gamma} p\vec{n}\ ds \text{ pour } t > 0,\\
+\vec{r}(0) = \vec{r}^0, \frac{d\vec{r}}{dt}(0) = \vec{r}^1
+\end{cases} \label{eq:position} \tag{2} \]
+
+\[ \begin{cases}
+\text{div} \vec{u} = 0, \vec{u} = \nabla \phi & \text{dans } \Omega_f,\\
+\vec{u} \cdot \vec{n} = 0 & \text{sur } \Gamma_{ext},\\
+\vec{u} \cdot \vec{n} = \frac{d\vec{r}}{dt} \cdot \vec{n} & \text{sur } \Gamma,
+\end{cases} \label{eq:potentiel} \tag{3} \]
+
+\[ p = p_0 - \frac{\partial \phi}{\partial t} , \]
+
+\[ \begin{cases}
+-\Delta \phi_k & \text{dans } \Omega_f,\\
+\frac{\partial \phi_k}{\partial n} = 0 & \text{sur } \Gamma_{ext},\\
+\frac{\partial \phi_k}{\partial n} = \vec{e}_k \cdot \vec{n} & \text{sur } \Gamma,
+\end{cases} \label{eq:auxiliare} \tag{4} \]
+
+\begin{enumerate}
+\item
+Vérifier que si $\varphi_k$ est solution de \eqref{eq:auxiliare} alors $\phi_k + C$, où $C$ est une constante quelconque, est aussi solution de \eqref{eq:auxiliare}. De même, vérifier que
+
+\[ \int_\Gamma \vec{e}_k \cdot \vec{n}\ ds = 0 \]
+
+\textbf{Solution:}
+
+Soit $\varphi_k = \phi_k + C$. On a $\nabla \varphi_k = \nabla \phi_k$, et $\Delta \varphi_k = \Delta \phi_k$. Alors,
+
+\begin{itemize}
+\item
+$-\Delta \varphi_k = 0$
+\item
+$\frac{\partial \varphi_k}{\partial n} = \nabla \varphi_k \cdot n = \nabla \phi_k \cdot n = \frac{\partial \phi_k}{\partial n}$
+\end{itemize}
+
+On conclut que $\varphi_k$ est aussi une solution de \eqref{eq:auxiliare}.
+
+Par le corollaire 3.1.4 avec $u = \phi_k$, et $v = 1$:
+
+\[ \int_{\Omega_f} \underbrace{\Delta \phi_k}_{0} dx = -\int_{\Gamma_{ext}} \underbrace{\frac{\partial \phi_k}{\partial n}}_{0} ds + \int_{\Gamma} \underbrace{\frac{\partial \phi_k}{\partial n}}_{\vec{e}_k \cdot \vec{n}} ds \Rightarrow \boxed{ \int_{\Gamma} \vec{e}_k \cdot \vec{n}\ ds = 0 } \]
+
+\item
+Pour obtenir l'unicité de la solution on va utiliser l'espace de fonctions suivant
+
+\[ V = \left\lbrace v \in C^1(\overline{\Omega}_f) \text{ tel que } \int_{\Omega_f} v(x) dx = 0 \right\rbrace \]
+
+A l'aide de cet espace $V$, donner une formulation variationnelle de \eqref{eq:auxiliare}. En supposant que la solution $\phi_k$ est de classe $C^2$, montrer que cette formulation variationnelle est équivalente à \eqref{eq:auxiliare}.
+
+\textbf{Solution:}
+
+\underline{Formulation variationnelle}:
+
+On multiplie l'équation par $v \in V$ et on utilise le Corollaire 3.1.4:
+
+\[ \int_{\Omega_f} \Delta \phi_k v\ dx = 0 \]
+
+\[ \int_{\Omega_f} \nabla \phi_k \cdot \nabla v\ dx + \int_{\Gamma_{ext}} \underbrace{\frac{\partial \phi_k}{\partial n}}_{0} v\ ds - \int_{\Gamma} \underbrace{\frac{\partial \phi_k}{\partial n}}_{\vec{e}_k \cdot \vec{n}} v\ ds = 0 \]
+
+\[ \boxed{ \int_{\Omega_f} \nabla \phi_k \cdot \nabla v\ dx = \int_{\Gamma} (\vec{e}_k \cdot \vec{n}) v\ ds, \forall v \in V } \label{eq:fv} \tag{F.V.} \]
+
+\underline{Réciproquement}:
+
+En utilisant le Corollaire 3.1.4 on obtient:
+
+\[ -\int_{\Omega_f} \Delta \phi_k v\ dx = \int_{\Gamma} (\vec{e}_k \cdot \vec{n} - \frac{\partial \phi_k}{\partial n}) v\ ds + \int_{\Gamma_{ext}} \frac{\partial \phi_k}{\partial n} v\ ds, \forall v \in V \]
+
+Pour toute fonction $\varphi \in C^\infty_c(\Omega_f)$, on prend $v = \varphi - \underbrace{\frac{1}{|\Omega_f|} \int_{\Omega_f} \varphi\ dx}_{m(\varphi)}$ et $v \in V$.
+
+\[ -\int_{\Omega_f} \Delta \phi_k (\varphi - m(\varphi)) dx = -m(\varphi) \left[\int_{\Gamma} (\vec{e}_k \cdot \vec{n} - \frac{\partial \phi_k}{\partial n}) \ ds + \int_{\Gamma_{ext}} \frac{\partial \phi_k}{\partial n} \ ds\right] \]
+
+En utilisant la première partie et le corollaire 3.1.4 avec $u = \phi_k$ et $v = 1$, pour obtenir que $\int_{\Omega_f} \Delta \phi_k\ dx = -\int_{\Gamma_{ext}} \frac{\partial \phi_k}{\partial n}\ ds + \int_{\Gamma} \frac{\partial \phi_k}{\partial n}\ ds$, l'égalité se reduit à
+
+\[ -\int_{\Omega_f} \Delta \phi_k \varphi\ dx = 0 \]
+
+Par le Lemme 3.1.7 : $\boxed{-\Delta \phi_k = 0$ dans $\Omega_f}$
+
+Maintenant l'équation devient:
+
+\[ \int_{\Gamma_{ext}} \frac{\partial \phi_k}{\partial n} v\ ds = \int_{\Gamma} (\frac{\partial \phi_k}{\partial n} - \vec{e}_k \cdot \vec{n}) v\ ds, \forall v \in V  \]
+
+Si cette fois ci on prend, pour toute fonction $\varphi \in C^\infty_c(\bar{\Omega}_f)$, $v = \varphi - m(\varphi) \in V$, on obtient:
+
+\[ \int_{\Gamma_{ext}} \frac{\partial \phi_k}{\partial n} \varphi\ ds - \int_{\Gamma} (\frac{\partial \phi_k}{\partial n} - \vec{e}_k \cdot \vec{n}) \varphi\ ds = 0  \]
+
+Donc $\boxed{\frac{\partial \phi_k}{\partial n} = 0$ sur $\Gamma_{ext}}$ et $\boxed{\frac{\partial \phi_k}{\partial n} = \vec{e}_k \cdot \vec{n}$ sur $\Gamma}$.
+
+\item
+Calculer la solution $\phi(t,x)$ de \eqref{eq:potentiel} en fonction de la famille $(\phi_k(x))_{1 \leq k \leq N}$ et de $\frac{d \vec{r}}{dt}(t)$.
+
+\textbf{Solution:}
+
+On montrera que $\boxed{ \phi(t,x) = \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \phi_k(x) }$ est une solution de \eqref{eq:potentiel}.
+
+D'abbord on calcule $\vec{u}$:
+
+\[
+\vec{u} = \nabla \phi 
+= \underset{i = 1}{\overset{N}{\sum}} \left[ \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \frac{\partial \phi_k}{\partial x_i} \right] \vec{e}_i 
+= \underset{k = 1}{\overset{N}{\sum}} \left[ \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \sum_{i = 1}^N \frac{\partial \phi_k}{\partial x_i} \vec{e}_i \right]
+\]
+\[ \boxed{\vec{u} = \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \nabla \phi_k} \]
+
+\begin{itemize}
+
+\item
+Dans $\Omega_f$: div$\vec{u} = \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \underbrace{\Delta \phi_k}_{0} = 0$
+
+\item
+$\vec{u} \cdot \vec{n} = \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) (\nabla \phi_k \cdot \vec{n}) = \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \frac{\partial \phi_k}{\partial n}$
+
+\begin{itemize}
+\item
+Sur $\Gamma_{ext}$: $\vec{u} \cdot \vec{n} = 0$
+
+\item
+Sur $\Gamma$: $\vec{u} \cdot \vec{n} = \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) (\vec{e}_k \cdot \vec{n}) = \left[ \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d \vec{r}}{dt} \cdot \vec{e}_k \right) \vec{e}_k \right] \cdot \vec{n} = \frac{d \vec{r}}{dt} \cdot \vec{n}$
+
+\end{itemize}
+
+\end{itemize}
+
+\item
+En déduire qu'il existe une matrice constante $M$ de taille $N$, dite tenseur de masse ajoutée, telle que la solution de \eqref{eq:position} est solution de
+
+\[ \begin{cases}
+(m\text{Id} + M)\frac{d^2\vec{r}}{dt^2} + k\vec{r} = \vec{f} \text{ pour } t > 0,\\
+\vec{r}(0) = \vec{r}^0, \frac{d\vec{r}}{dt}(0) = \vec{r}^1
+\end{cases} \label{eq:masse} \tag{5} \]
+
+où Id est la matrice identité.
+
+\textbf{Solution:}
+
+On veut simplifier: $\int_{\Gamma} p\vec{n}\ ds = \int_{\Gamma} \left[ p_0 - \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d^2 \vec{r}}{dt^2} \cdot \vec{e}_k \right) \phi_k \right] \vec{n}\ ds$
+
+\begin{itemize}
+
+\item
+$\int_{\Gamma} p_0\vec{n}\ ds = p_0 \int_{\Gamma} \vec{n}\ ds = p_0 \int_{\Gamma} \left[ \underset{i = 1}{\overset{N}{\sum}} (\vec{n} \cdot \vec{e}_i)\vec{e}_i \right] ds = p_0 \underset{i = 1}{\overset{N}{\sum}} \left[ \int_{\Gamma} (\vec{n} \cdot \vec{e}_i\ ds) \right] \vec{e}_i$\\
+\\
+D'après la partie 1: $\int_\Gamma \vec{e}_k \cdot \vec{n}\ ds = 0$
+
+On conclut que:$\boxed{ \int_{\Gamma} p_0\vec{n}\ ds = 0 }$
+
+\item
+$\int_{\Gamma} \left[ \underset{k = 1}{\overset{N}{\sum}} \left( \frac{d^2 \vec{r}}{dt^2} \cdot \vec{e}_k \right) \phi_k \right] \vec{n}\ ds = \underset{k = 1}{\overset{N}{\sum}} \left[ \left( \int_{\Gamma}  \phi_k \vec{n}\ ds \right) \left( \frac{d^2 \vec{r}}{dt^2} \cdot \vec{e}_k \right) \right]$
+
+$ = \underset{k = 1}{\overset{N}{\sum}} \underset{i = 1}{\overset{N}{\sum}} \left( \int_{\Gamma}   (\vec{n} \cdot \vec{e}_i)\phi_k\ ds \right) \vec{e}_i \left( \frac{d^2 \vec{r}}{dt^2} \cdot \vec{e}_k \right)$
+
+\end{itemize}
+
+Donc on a que: $\boxed{ M_{i,j} = \int_{\Gamma} (\vec{n} \cdot \vec{e}_i) \phi_j\ ds }$ pour $1 \leq i,j \leq N$.
+
+\item
+Montrer que la matrice $M$ est symétrique définie positive. Indication: utiliser la formulation variationnele de \eqref{eq:auxiliare}.
+
+\textbf{Solution:}
+
+\underline{Symétrique}:
+
+On utilise \eqref{eq:fv} avec $\varphi = \phi_j$:
+
+\[ M_{ij} = \int_{\Gamma} (\vec{n} \cdot \vec{e}_i)\phi_j\ ds = \int_{\Gamma} \nabla \phi_i \cdot \nabla \phi_j\ ds \]
+
+Et avec $\varphi = \phi_i$:
+
+\[ M_{ji} = \int_{\Gamma} (\vec{n} \cdot \vec{e}_j)\phi_i\ ds = \int_{\Gamma} \nabla \phi_j \cdot \nabla \phi_i\ ds \]
+
+Donc, $M_{ij} = M_{ji}$ et $M$ est symétrique.
+
+\underline{Définie positive}:
+
+Pour tout $x \in \mathbb{R}^{N \times 1}$ non nul:
+
+\begin{align*}
+x^t M x &= \sum_{i = 1}^N \sum_{j = 1}^N M_{ij} x_i x_j \\
+&= \int_{\Omega_f} (\sum_{i = 1}^N y_i \nabla \phi_i) \cdot (\sum_{i = 1}^N y_i \nabla \phi_i) \\
+&= \int_{\Omega_f} \nabla(\sum_{i = 1}^N y_i \phi_i) \cdot \nabla(\sum_{i = 1}^N y_i \phi_i) > 0
+\end{align*}
+
+car $\sum_{i = 1}^N y_i \phi_i \in V$ et s'il était constant, il serait nul. Donc $M$ est définie positive.
+
+\end{enumerate}
+
+\end{document}
