@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{fullpage}
 
 \newtheorem{theoreme}{Théorème}
 \newtheorem{proposition}{Proposition}
@@ -21,6 +22,30 @@
 \author{Mario Ynocente Castro}
 
 \maketitle
+
+\section{Théorie de la mesure}
+
+\begin{proposition}
+Soit $\Omega$ un ouvert de $\mathbb{R}^N$ non vide et $f : \Omega \to \mathbb{R}$ une fonction définie p.p. sur $\Omega$. Alors
+
+\begin{align*}
+f\text{ mesurable} &\Leftrightarrow f^{-1}(]\lambda,+\infty[) \text{ mesurable pour tout } \lambda \in \mathbb{R}\\
+&\Leftrightarrow f^{-1}([\lambda,+\infty[) \text{ mesurable pour tout } \lambda \in \mathbb{R}\\
+&\Leftrightarrow f^{-1}(I) \text{ mesurable pour tout intervalle } I \subset \mathbb{R}
+\end{align*}
+
+\end{proposition}
+
+Si $f,g : [a,b] \to R$ sont mesurables.
+
+\begin{itemize}
+\item
+ $|f|, \alpha f(\forall \alpha \in \mathbb{R})$ et $f + g$ sont mesurables.
+\item
+Toute fonction continue p.p. est mesurable
+\item
+Si $f$ est mesurable et $f = g$ p.p. sur $[a,b]$, alors $g$ est mesurable.
+\end{itemize}
 
 \section{Espaces de Hilbert}
 
