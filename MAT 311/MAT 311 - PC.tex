@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{fullpage}
 
 \newenvironment{exercice}[1][Exercice]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
@@ -18,6 +19,42 @@
 \author{Mario Ynocente Castro}
 
 \maketitle
+
+\section{Espaces de Lebesgue et transformée de Fourier}
+
+\begin{exercice}
+Soit $\alpha > 0$. On définit $f : [0,1] \to \mathbb{R}$ telle que
+
+\[f(x) = \begin{cases}
+\dfrac{1}{x^\alpha} \text{ si } x \neq 0 \\
+0 \text{ sinon}
+\end{cases}\]
+
+Montrer que $f \in \mathcal{L}^2([0,1]) $ si et seulement si $\alpha < \frac{1}{2}$.
+
+\begin{solution}
+
+$f$ est mesurable car elle est discontinue seulement en $x = 0$.
+
+\begin{itemize}
+
+\item
+$\alpha = \frac{1}{2}$
+
+$\int_0^1 \left(\dfrac{1}{x^\alpha}\right)^2 dx = \int_0^1 \dfrac{1}{x^{2\alpha}}dx = \int_0^1 \dfrac{1}{x}dx = \underset{\epsilon \to 0^+}{\lim} \int_\epsilon^1 \dfrac{1}{x}dx = \underset{\epsilon \to 0^+}{\lim}[\ln 1 - \ln \epsilon] = +\infty$
+
+\item
+$\alpha > 0, \alpha \neq \frac{1}{2}$
+
+$\int_0^1 \left(\dfrac{1}{x^\alpha}\right)^2 dx = \int_0^1 \dfrac{1}{x^{2\alpha}}dx = \underset{\epsilon \to 0^+}{\lim} \int_\epsilon^1 \dfrac{1}{x^{2\alpha}}dx = \underset{\epsilon \to 0^+}{\lim}\left[ \dfrac{1}{-2\alpha + 1} - \dfrac{\epsilon^{-2\alpha + 1}}{-2\alpha + 1} \right]$
+
+La limite est finie si et seulement si $-2\alpha + 1 > 0$, c'est-à-dire, $\alpha < \frac{1}{2}$.
+
+\end{itemize}
+
+\end{solution}
+
+\end{exercice}
 
 \section{Espaces de Hilbert}
 
