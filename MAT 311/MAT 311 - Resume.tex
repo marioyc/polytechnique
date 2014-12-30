@@ -47,6 +47,22 @@ Toute fonction continue p.p. est mesurable
 Si $f$ est mesurable et $f = g$ p.p. sur $[a,b]$, alors $g$ est mesurable.
 \end{itemize}
 
+\section{Espaces de Lebesgue}
+
+\begin{theoreme}
+(Densité de $\mathcal{C}_c(\Omega)$ dans $L^1(\Omega)$)
+L'espace $\mathcal{C}_c(\Omega)$ s'identifie à un sous-espace de $L^1(\Omega)$. Autrement dit, pour tout $\varepsilon > 0$ et toute fonction $f$ intégrable sur $\Omega$, il existe $f_\varepsilon \in \mathcal{C}_c(\Omega)$ telle que
+
+\[ \| f - f_\varepsilon \|_{L^1(\Omega)} \leq \varepsilon \]
+\end{theoreme}
+
+\begin{corollaire}
+(Continuité $L^1$ des translations)
+Pour toute fonction $f$ intégrable sur $\mathbb{R}^N$
+
+\[ \lim_{|y| \to 0} \int_{\mathbb{R}^N} |f(x - y) - f(x)| dx = 0 \]
+\end{corollaire}
+
 \section{Espaces de Hilbert}
 
 \begin{definition}

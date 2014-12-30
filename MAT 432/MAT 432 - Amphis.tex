@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{fullpage}
 
 \newtheorem{theoreme}{Théorème}
 \newtheorem{proposition}{Proposition}
@@ -646,5 +647,58 @@ $\{ e^{2i \pi (k \cdot x)}, k \in \mathbb{Z}^d \}$ est une base hilbertienne de 
 \end{theoreme}
 
 \end{itemize}
+
+\subsection{Équation de la chaleur sur $[0,1]^d$}
+
+\[ \begin{cases}
+\partial_t u - \Delta_x u = 0 & t > 0,x \in ]0,1[^d \\
+u(t = 0) = g & g \in L_{per}^2([0,1]^d)
+\end{cases} \]
+
+\section{Transformée de Fourier dans $L^2$}
+
+\subsection{Rappels}
+
+\begin{itemize}
+
+\item
+\begin{definition}
+À tout $f \in L^1(\mathbb{R}^d)$ la transformation de Fourier $\mathcal{F}$ associe la fonction $\hat{f} = \mathcal{F}(f)$ qui est définie sur $R^d$ par la formule
+
+\[ \hat{f}(\xi) := \int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx, \]
+
+pour tout $\xi \in \mathbb{R}^d$.
+\end{definition}
+
+\item
+\begin{theoreme}
+(Théorème de Riemman-Lebesgue)
+Soit $f \in L^1(\mathbb{R}^d)$ et $\hat{f} = \mathcal{F}(f)$. Alors la fonction $\hat{f}$ est continue sur $\mathbb{R}^d$,
+
+\[ \lim_{|\xi| \to +\infty} \hat{f}(\xi) = 0 \]
+\[ \| \hat{f} \|_{L^\infty} \leq \| f \|_{L^1} \]
+\end{theoreme}
+
+\textbf{Démonstration:}
+
+\begin{itemize}
+\item
+Pour tout $\xi \in \mathbb{R}^d$
+
+\[ |\hat{f}(\xi)| = |\int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx| \leq  \int_{\mathbb{R}^d} |e^{-i \xi \cdot x} f(x)| dx = \int_{\mathbb{R}^d} |f(x)|dx = \| f \|_{L^1} \]
+
+\item
+Soit $(\xi_n)_{n \geq 0}$ une suite de $\mathbb{R}^d$ qui converge vers $\xi \in \mathbb{R}^d$. Alors, la suite de fonctions $x \mapsto e^{-i \xi_n \cdot x}f(x)$ converge simplement vers $x \mapsto e^{-i \xi \cdot x} f(x)$ p.p. sur $\mathbb{R}^d$ et $|e^{-i \xi_n \cdot x} f(x)| \leq |f(x)|$. Commme $f \in L^1(\mathbb{R}^d)$, on en déduit que $|f| \in L^1(\mathbb{R}^d)$ et par le Théorème de la convergence dominée
+
+\[ \lim_{n \to +\infty} \hat{f}(\xi_n) = \lim_{n \to +\infty} \int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx = \int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx = \hat{f}(\xi) \]
+
+Ce qui démontre que $\hat{f}$ est continue sur $\mathbb{R}^d$.
+\end{itemize}
+
+\end{itemize}
+
+\subsection{TF dans $L^2$}
+
+\subsection{Espaces de Sobolev $H^S(\mathbb{R}^d)$, $s \geq 0$}
 
 \end{document}
