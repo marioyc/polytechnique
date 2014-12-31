@@ -693,7 +693,31 @@ Soit $(\xi_n)_{n \geq 0}$ une suite de $\mathbb{R}^d$ qui converge vers $\xi \in
 \[ \lim_{n \to +\infty} \hat{f}(\xi_n) = \lim_{n \to +\infty} \int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx = \int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx = \hat{f}(\xi) \]
 
 Ce qui démontre que $\hat{f}$ est continue sur $\mathbb{R}^d$.
+
+\item
+Pour $\xi \neq 0$, on a
+
+\[ \hat{f}(\xi) = \int_{\mathbb{R}^d} e^{-i \xi \cdot x} f(x) dx = -\int_{\mathbb{R}^d} e^{-i \xi \cdot (x + \frac{\pi}{|\xi|^2}\xi)} f(x) dx = -\int_{\mathbb{R}^d} e^{-i \xi \cdot y} f(y - \frac{\pi}{|\xi|^2}\xi) dy \]
+
+\[ \hat{f}(\xi) = \frac{1}{2} \int_{\mathbb{R}^d} e^{-i \xi \cdot x} \left( f(x) - f(x - \frac{\pi}{|\xi|^2}\xi) \right) dx \]
+
+de sorte que
+
+\[ |\hat{f}(\xi)| \leq \frac{1}{2} \int_{\mathbb{R}^d} | f(x) - f(x - \frac{\pi}{|\xi|^2}\xi) | dx \]
+
+tend vers 0 lorsque $|\xi| \to +\infty$ par continuité $L^1$ des translations.
+
 \end{itemize}
+
+\item
+\begin{theoreme}
+(Théorème d'inversion de Fourier dans $L^1$)
+Soit $f \in L^1(\mathbb{R}^d)$ telle que $\hat{f} \in L^1(\mathbb{R}^d)$. Alors, pour presque tout $x \in \mathbb{R}^d$
+
+\[ f(x) = (2\pi)^{-d} \int_{\mathbb{R}^d} e^{+i x \cdot \xi} \hat{f}(\xi) d\xi \]
+
+ou $f = (2\pi)^{-d} \bar{\mathcal{F}}(\hat{f})$ p.p.
+\end{theoreme}
 
 \end{itemize}
 
