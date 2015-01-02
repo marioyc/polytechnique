@@ -23,6 +23,228 @@
 
 \maketitle
 
+\section{Éléments de Topologie}
+
+\begin{definition}
+Une suite $(x_n)_{n \geq 0}$ d'un espace métrique $(X,d)$ est une \textbf{suite de Cauchy} si
+
+\[ \forall \varepsilon > 0, \exists n_0 \in \mathbb{N}, \text{ tel que } (\forall n,m \geq n_0, d(x_n,x_m) < \varepsilon= \]
+\end{definition}
+
+\begin{itemize}
+\item
+Une suite qui converge est automatiquement une suite de Cauchy et qu'une suite de Cauchy est toujours borné.
+\item
+Une suite de Cauchy n'est, en général, pas convergente.
+\end{itemize}
+
+\begin{lemme}
+Dans un espace métrique $(X,d)$, une suite de Cauchy $(x_n)_{n \geq 0}$ qui possède une valeur d'adhérence est convergent.
+\end{lemme}
+
+\begin{definition}
+(Espace complet)
+Un espace métrique $(X,d)$ est \textbf{complet} si et seulement si toute suite de Cauchy converge dans $X$.
+\end{definition}
+
+\begin{theoreme}
+Un espace vectoriel normé de dimension finie, muni de la distance assoicée à la norme, est un espace métrique complet.
+\end{theoreme}
+
+\begin{definition}
+Un espace de Banach est un espace vectoriel normé complet.
+\end{definition}
+
+\section{Théorie de l'intégration de Lebesgue}
+
+\begin{theoreme}
+Si $f \in \mathcal{L}^1(\Omega)$, et si
+
+\[ \int_\Omega |f(x)| dx = 0, \]
+
+alors $f = 0$ p.p. sur $\Omega$.
+\end{theoreme}
+
+\begin{proposition}
+Soit $f \in \mathcal{L}^1(\Omega)$. Alors $|f| < +\infty$ p.p. sur $\Omega$.
+\end{proposition}
+
+\begin{theoreme}
+(Théorème de la convergence monotone de Beppo Levi)
+Soit $(f_n)_{n \geq 0}$ suite croissante p.p. sur $\Omega$ de fonctions de $\mathcal{L}^1(\Omega)$, telle que la suite des intégrales des fonctions $f_n$ vérifie
+
+\[ \sup_{n \geq 0} \int_\Omega f_n(x) dx < +\infty \]
+
+Alors, il existe $f \in \mathcal{L}^1(\Omega)$ telle que $f_n \to f$ p.p. sur $\Omega$ et
+
+\[ \lim_{n \to \infty} \int_\Omega f_n(x) dx = \int_\Omega f(x) dx. \]
+\end{theoreme}
+
+\begin{theoreme}
+(Lemme de Fatou)
+Soit $(f_n)_{n \geq 0}$ une suite de fonctions de $\mathcal{L}^1(\Omega)$ telles que $f_n \geq 0$ p.p. sur $\Omega$. On suppose que la suite des intégrales des fonctions $f_n$ vérifie
+
+\[ \sup_{n \geq 0} \int_\Omega f_n(x) dx < +\infty \]
+
+Alors, $\underline{lim}_{n \to +\infty} f_n \in \mathcal{L}^1(\Omega)$ et
+
+\[ \int_\Omega \underline{\lim}_{n \to +\infty} f_n(x) dx \leq \underline{\lim}_{n \to +\infty} \int_\Omega f_n(x) dx. \]
+\end{theoreme}
+
+\begin{theoreme}
+(Théorème de la convergence dominée de Lebesgue)
+Soit $(f_n)_{n \geq 0}$ une suite de fonctions de $\mathcal{L}^1(\Omega)$. Supposons que $f_n \to f$ p.p. sur $\Omega$ et qu'il existe $F \in \mathcal{L}^1(\Omega)$ telle que $|f_n| \leq F$ p.p. sur $\Omega$. Alors, $f \in \mathcal{L}^1(\Omega)$ et
+
+\[ \lim_{n \to +\infty} \int_\Omega f_n(x) dx = \int_\Omega f(x) dx. \]
+\end{theoreme}
+
+\begin{definition}
+Une fonction $f : \Omega \to [-\infty,+\infty]$ est mesurable s'il existe une suite $(f_n)_{n \geq 0}$ de fonctions continues à support compact qui sont définies sur $\Omega$ et qui converge vers $f$ p.p. sur $\Omega$.
+\end{definition}
+
+\begin{proposition}
+La classe des fonctions mesurables sur $\Omega$ vérifie les propiétés suivantes:
+
+\begin{enumerate}
+\item
+toute fonction continue sur $\Omega$ est mesurables;
+
+\item
+toute fonction continue par morceaux sur un intervalle $I \subset \mathbb{R}$ est mesurable;
+
+\item
+toute fonction appartenant à $\mathcal{L}^+(\Omega)$ est mesurable;
+
+\item
+si $f_1, \ldots, f_N$, définies sur $\Omega$, sont mesurables et si $\Phi : \mathbb{R}^N \to \mathbb{R}$ est continue, alors la fonction
+
+\[ \Phi(f_1,\ldots,f_N) := \Phi(f_1(x),\ldots,f_N(x)), \]
+
+est mesurable sur $\Omega$.
+\end{enumerate}
+\end{proposition}
+
+\begin{corollaire}
+On a les énocés suivants:
+
+\begin{enumerate}
+\item
+si $f,g : \Omega \to \mathbb{R}$ sont mesurables et si $\lambda, \mu \in \mathbb{R}$, alors les fonctions $\lambda f + \mu g$ et $fg$ sont mesurables sur $\Omega$;
+
+\item
+toute fonction appartenant à $\mathcal{L}^1(\Omega)$ est mesurable sur $\Omega$;
+
+\item
+si $f,g : \Omega \to \mathbb{R}$ sont mesurables, alors les fonctions $\max(f,g)$ et $\min(f,g)$ sont mesurables. En particulier, $f^+,f^-$ et $|f|$ sont mesurables si $f$ est mesurable.
+\end{enumerate}
+\end{corollaire}
+
+\begin{theoreme}
+Soit $f$, fonction mesurable sur $\Omega$. Supposons qu'il existe $g \in \mathcal{L}^1(\Omega)$ telle que $|f| \leq g$ p.p. sur $\Omega$. Alors $f \in \mathcal{L}^1(\Omega)$.
+\end{theoreme}
+
+\begin{theoreme}
+Soit $(f_n)_{n \geq 0}$ une suite de fonctions mesurables, définies sur $\Omega$ et $f$ une fonction définie sur $\Omega$, telles que $f_n \to f$ p.p. sur $\Omega$. Alors, la fonction $f$ est mesurable.
+\end{theoreme}
+
+\begin{corollaire}
+Soit $f : \Omega \to \mathbb{R}$ une fonction mesurable telle que $f(x) \neq 0$ p.p. sur $\Omega$. Alors la fonction $x \mapsto 1/f(x)$, qui est définie p.p. sur $\Omega$, est mesurable sur $\Omega$.
+\end{corollaire}
+
+\begin{theoreme}
+(Théorème de la convergence monotone de B. Levi)
+Soit $(f_n)_{n \geq 0}$ unes suite de fonctions mesurables sur $\Omega$, à valeurs dans $[0,+\infty]$. Alors
+
+\[ \int_\Omega \left( \sum_{n = 0}^\infty f_n(x) \right) dx = \sum_{n = 0}^\infty \int_\Omega f_n(x) dx \in [0,+\infty]. \]
+\end{theoreme}
+
+\begin{theoreme}
+(Continuité des intégrales paramétriques)
+Soient $I$ un intervalle ouvert de $\mathbb{R}$ et $\Omega$ un ouvert de $\mathbb{R}^N$, supposés non vides. Soit $f : I \times \Omega \to \mathbb{C}$ telle que, pour tout $t \in I$, la fonction $f(t,\cdot) \in \mathcal{L}^1(\Omega;\mathbb{C})$ et, pour presque tout $x \in \Omega$, la fonction $t \mapsto f(t,x)$ est continue en $t_0 \in I$. On suppose de plus qu'il existe une fonction $\Phi \in \mathcal{L}^1(\Omega)$ telle que, pour presque tout $x \in \Omega$ et pour tout $t \in I$, on ait
+
+\[ |f(t,x)| \leq \Phi(x). \]
+
+Alors, la fonction $F$ définie sur $I$ par
+
+\[ F(t) := \int_\Omega f(t,x) dx, \]
+
+est continue en $t_0$ et
+
+\[ \lim_{t \to t_0} \int_\Omega f(t,x) dx = \int_\Omega \lim_{t \to t_0} f(t,x) dx. \]
+\end{theoreme}
+
+\begin{theoreme}
+(Dérivation sous le signe somme)
+Soient $I$ un intervalle ouvert de $\mathbb{R}$ et $\Omega$ un ouvert de $\mathbb{R}^N$, tous deux supposés non vides. Soit $f : I \times \Omega \to \mathbb{C}$ telle que, pour tout $t \in I$, la fonction $f(t,\cdot) \in \mathcal{L}^1(\Omega;\mathbb{C})$ et, pour presque tout $x \in \Omega$, la fonction $t \mapsto f(t,x)$ est dérivable sur $I$. On suppose de plus qu'il existe $\Phi \in \mathcal{L}^1(\Omega)$ telle que, pour presque tout $x \in \Omega$ et pour tout $t \in I$, on ait
+
+\[ \left|\dfrac{\partial f}{\partial t}(t,x)\right| \leq \Phi(x). \]
+
+Alors, la fonction $F$ définie sur $I$ par
+
+\[ F(t) := \int_\Omega f(t,x) dx, \]
+
+est dérivable sur $I$ et sa dérivée est donnée par
+
+\[ F'(t) = \int_\Omega \dfrac{\partial f}{\partial t}(t,x) dx \]
+
+De plus, si pour presque tout $x \in \Omega$, la fonction $f(\cdot,x) \in \mathcal{C}^1(I;\mathbb{C})$ alors la fonction $F \in \mathcal{C}^1(I;\mathbb{C})$.
+\end{theoreme}
+
+\section{Propiétés de l'intégrale de Lebesgue}
+
+\begin{theoreme}
+(Inégalité de Jensen)
+Soient $f,g$ deux fonctions mesurables définies p.p. sur $\Omega$ et à valeurs réelles, et soit $\Phi : \mathbb{R} \to \mathbb{R}$ une fonction convece. Supposons que $g \geq 0$ .p. sur $\Omega$ et que
+
+\[ \int_\Omega g(x) dx = 1. \]
+
+Si $fg$ et $\Phi(f)g \in \mathcal{L}^1(\Omega)$, alors
+
+\[ \Phi \left( \int_\Omega f(x)g(x) dx \right) \leq \int_\Omega \Phi(f(x))g(x) dx. \]
+\end{theoreme}
+
+\begin{theoreme}
+(Inégalité de Hölder)
+Soient $f,g : \Omega \to \mathbb{R}$ deux fonctions mesurables, et soient $p,q > 1$ tels que $\frac{1}{p} + \frac{1}{q} = 1$. Alors
+
+\[ \int_\Omega |f(x) g(x)|dx \leq \left( \int_\Omega |f(x)|^p dx \right)^{1 / p} \left( \int_\Omega |g(x)|^q dx \right)^{1 / q}. \]
+\end{theoreme}
+
+\begin{lemme}
+Soit $p > 1$ et $q = \frac{p}{p - 1}$, de sorte que $\frac{1}{p} + \frac{1}{q} = 1$. Alors, pour tous $X,Y > 0$, on a
+
+\[ X^{1 / p} Y^{1/ q} \leq \frac{X}{p} + \frac{Y}{q}. \]
+\end{lemme}
+
+\begin{theoreme}
+(Inégalité de Minkowski)
+Soient $f, g : \Omega \to \mathbb{R}$ deux fonctions mesurables, et $p \in [1,+\infty[$. Alors
+
+\[ \left( \int_\Omega |f(x) + g(x)|^p dx \right) \leq \left( \int_\Omega |f(x)|^p dx \right)^{1 / p} + \left( \int_\Omega |g(x)|^p dx \right)^{1 / p} \]
+\end{theoreme}
+
+\begin{theoreme}
+(Théorème de Fubini)
+Soient $\Omega_1 \subset \mathbb{R}^{N_1}$ et $\Omega_2 \subset \mathbb{R}^{N_2}$ deux ouverts non vides et $f \in \mathcal{L}^1(\Omega_1 \times \Omega_2)$. Alors:
+
+\begin{enumerate}
+\item
+pour presque tout $x_2 \in \Omega_2$, la fonction $x_1 \mapsto f(x_1,x_2)$ appartient à $\mathcal{L}^1(\Omega_1)$;
+
+\item
+la fonction définie p.p. sur $\Omega_2$ par $x_2 \mapsto \int_{\Omega_1} f(x_1,x_2) dx_1$ appartient à $\mathcal{L}^1(\Omega_2)$;
+
+\item
+on a l'égalité
+
+\[ \int \int_{\Omega_1 \times \Omega_2} f(x_1,x_2) dx_1 dx_2 = \int_{\Omega_1} \int_{\Omega_2} f(x_1,x_2) dx_2 dx_1 = \int_{\Omega_2} \int_{\Omega_1} f(x_1,x_2) dx_1 dx_2 \]
+\end{enumerate}
+\end{theoreme}
+
+\begin{theoreme}
+(Théorème de Tonelli)
+\end{theoreme}
+
 \section{Théorie de la mesure}
 
 \begin{proposition}
@@ -35,17 +257,6 @@ f\text{ mesurable} &\Leftrightarrow f^{-1}(]\lambda,+\infty[) \text{ mesurable p
 \end{align*}
 
 \end{proposition}
-
-Si $f,g : [a,b] \to R$ sont mesurables.
-
-\begin{itemize}
-\item
- $|f|, \alpha f(\forall \alpha \in \mathbb{R})$ et $f + g$ sont mesurables.
-\item
-Toute fonction continue p.p. est mesurable
-\item
-Si $f$ est mesurable et $f = g$ p.p. sur $[a,b]$, alors $g$ est mesurable.
-\end{itemize}
 
 \section{Espaces de Lebesgue}
 
