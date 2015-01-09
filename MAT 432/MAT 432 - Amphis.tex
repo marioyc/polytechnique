@@ -719,10 +719,83 @@ Soit $f \in L^1(\mathbb{R}^d)$ telle que $\hat{f} \in L^1(\mathbb{R}^d)$. Alors,
 ou $f = (2\pi)^{-d} \bar{\mathcal{F}}(\hat{f})$ p.p.
 \end{theoreme}
 
+\item
+\begin{corollaire}
+Si $f$ est une fonction sommable dont la transformée de Fourier est nulle, on a $f = 0$ p.p. Si deux fonctions sommables $g$ et $h$ ont même transformée de Fourier, elles coïncident presque partout.
+\end{corollaire}
+
+\item
+\begin{theoreme}
+Soit $f$ une fonction sommable de classe $\mathcal{C}^1$, dont les dérivées partielles sont également sommables. On a alors
+
+\[ \mathcal{F}[\partial f / \partial x_j] = i \xi_j \hat{f}(\xi) \]
+\end{theoreme}
+
+\item
+\begin{theoreme}
+Soit $f$ une fonction sommable telle que les fonctions $x \mapsto x_j f(x)$ soient aussi sommables. Alors $\hat{f}$ est de classe $\mathcal{C}^1$ et on a
+
+\[ \mathcal{F}[x_j f(x)] = i \frac{\partial}{\partial \xi_j}\hat{f}(\xi) \]
+\end{theoreme}
+
 \end{itemize}
 
 \subsection{TF dans $L^2$}
 
+\begin{itemize}
+\item
+\begin{lemme}
+Soient $f$ et $g$ appartenant à $L^1(\mathbb{R}^d)$ et dont les transformées de Fourier appartiennent également à $L^1(\mathbb{R}^d)$. Les fonctions $f, g, \hat{f}$ et $\hat{g}$ sont alors de carré sommable, et on a
+
+\[ (\hat{f} | \hat{g}) = (2\pi)^d (f | g) \text{ où } (f | g) = \int_{\mathbb{R}^d} \overline{f(x)} g(x) dx \]
+\end{lemme}
+
+\item
+\begin{lemme}
+Soient $f$ et $g$ appartenant à $L^1 \cap L^2$. Leurs transformées de Fourer sont alors dans $L^2$ et on a $(\hat{f} | \hat{g}) = (2\pi)^d (f | g)$.
+\end{lemme}
+
+\item
+\begin{theoreme}
+Soit $f \in L^2(\mathbb{R}^d)$. Pour toute suite $f_j$ d'éléments de $L^1 \cap L^2$ qui converge vers $f$ en moyenne quadratique, la suite des $\hat{f}_j$ converge en moyenne quadratique. La limite pas (à l'égalité presque partout près) de la suite $f_j$ choisie, on la note $\hat{f}$ out $\mathcal{F} f$.
+
+L'application $f \mapsto (2\pi)^{-d/2} \mathcal{F}f$ est une application linéaire, bijective, isométrique de $L^2$ sur lui-même. L'application inverse est $(2\pi)^{-d/2} \overline{\mathcal{F}}$.
+\end{theoreme}
+
+\item
+\begin{theoreme}
+Soit $f$ de classe $\mathcal{C}^1$ dans $\mathbb{R}^d$ telle que $f$ et ses dérivées partielles soient de carré sommable. On a alors
+
+\[ \mathcal{F}[\partial f / \partial x_j] = i \xi_j \hat{f}(\xi). \]
+\end{theoreme}
+
+\item
+\begin{theoreme}
+Soient $f \in L^1(\mathbb{R}^d)$ et $g \in L^2(\mathbb{R}^d)$. On a alors
+
+\[ \mathcal{F}[f \star g](\xi) = \hat{f}(\xi) \hat{g}(\xi). \]
+\end{theoreme}
+
+\item
+\begin{theoreme}
+Soient $f, g \in L^2(\mathbb{R}^d)$. On a alors
+
+\[ \mathcal{F}[fg] = (2\pi)^{-d} \hat{f} \star \hat{g} \]
+\end{theoreme}
+\end{itemize}
+
 \subsection{Espaces de Sobolev $H^S(\mathbb{R}^d)$, $s \geq 0$}
+
+\begin{itemize}
+\item
+\[ H^1(\mathbb{R}^d) = \{ f \in L^2(\mathbb{R}^d);\ \| f \|^2_{H^1(\mathbb{R}^d)} = \int_{\mathbb{R}^d} (1 + |\xi|^2) |\hat{f}(\xi)|^2 d\xi < +\infty \} \]
+
+$H^1(\mathbb{R}^d)$, muni du produit scalaire $(f | g)_{H^1} = \int_{\mathbb{R}^d} (1 + |\xi|^2) \overline{\hat{f}(\xi)} \hat{g}(\xi) d\xi$ est un espace de Hilbert.
+
+\item
+Pour $s \geq 0$, on définit plus généralement les espaces $H^s(\mathbb{R}^d)$ par
+
+\[ H^s(\mathbb{R}^d) = \{ f \in L^2(\mathbb{R}^d);\ \| f \|^2_{H^s(\mathbb{R}^d)} = \int_{\mathbb{R}^d} (1 + |\xi|^2)^s |\hat{f}(\xi)|^2 d\xi < +\infty\} \]
+\end{itemize}
 
 \end{document}
