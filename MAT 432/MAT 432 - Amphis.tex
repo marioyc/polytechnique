@@ -16,6 +16,9 @@
 \newenvironment{exemple}[1][Exemple]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
+\newenvironment{exercice}[1][Exercice]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
 \begin{document}
 
 \title{Amphis MAT432}
@@ -786,16 +789,158 @@ Soient $f, g \in L^2(\mathbb{R}^d)$. On a alors
 
 \subsection{Espaces de Sobolev $H^S(\mathbb{R}^d)$, $s \geq 0$}
 
-\begin{itemize}
-\item
 \[ H^1(\mathbb{R}^d) = \{ f \in L^2(\mathbb{R}^d);\ \| f \|^2_{H^1(\mathbb{R}^d)} = \int_{\mathbb{R}^d} (1 + |\xi|^2) |\hat{f}(\xi)|^2 d\xi < +\infty \} \]
 
 $H^1(\mathbb{R}^d)$, muni du produit scalaire $(f | g)_{H^1} = \int_{\mathbb{R}^d} (1 + |\xi|^2) \overline{\hat{f}(\xi)} \hat{g}(\xi) d\xi$ est un espace de Hilbert.
-
-\item
+\\ \\
 Pour $s \geq 0$, on définit plus généralement les espaces $H^s(\mathbb{R}^d)$ par
 
 \[ H^s(\mathbb{R}^d) = \{ f \in L^2(\mathbb{R}^d);\ \| f \|^2_{H^s(\mathbb{R}^d)} = \int_{\mathbb{R}^d} (1 + |\xi|^2)^s |\hat{f}(\xi)|^2 d\xi < +\infty\} \]
+
+\section{Amphi 5}
+
+\subsection{Espace de Schwartz}
+
+\[ \mathcal{S}(\mathbb{R}^d) = \{ \varphi \in \mathcal{C}^\infty(\mathbb{R}^d); \forall \alpha, \beta \in \mathbb{N}^d, \sup_{x \in \mathbb{R}^d} |x^\alpha \partial^\beta_x \varphi(x)| < \infty \} \]
+
+\[ x^\alpha = x_1^{\alpha_1} x_2^{\alpha_2} \ldots x_d^{\alpha_d}\ ;\ \partial^\beta_x = \partial^{\beta_1}_{x_1} \partial^{\beta_2}_{x_2} \ldots \partial^{\beta_d}_{x_d} \]
+
+Espace comode pour la transformée de Fourier
+
+\subsection{Formules pour la T.F. de fonctions radiales}
+
+\begin{itemize}
+\item
+On dit que $f$ est radiale si $f(x) = F(r);\ r = |x|.$
+
+\item
+Il est équivalente de dire que pour toute rotation $\Theta$ centrée à l'origine, on a $f(\Theta x) = f(x)$ pour tout $x \in \mathbb{R}^d$.
+
+\item
+Si $f$ est sommable et radiale, $\hat{f}$ est également radiale.
+
+\begin{align*}
+\hat{f}(\Theta \xi) &= \int e^{-ix \cdot \Theta\xi} f(x) dx = \int e^{-i(\Theta^{-1}x) \cdot \xi} f(x) dx \\
+&= \int e^{-iy \cdot \epsilon f(y) dy} = \hat{f}(\xi)
+\end{align*}
+
+\textbf{Notation}: $\hat{f}(\xi) = \Phi(\rho);\ \rho = |\xi|$.
+
+\item
+\textbf{d = 1:} $f$ est paire, $\Phi(\rho) = 2 \int_0^\infty cos(\rho r) F(r) dr$
+
+\item
+\textbf{d = 2:} En notant $(e_1,e_2)$ la base de $\mathbb{R}^2$
+
+\[ \Phi(\rho) = \hat{f}(\rho e_1) = \int_{\mathbb{R}^2} e^{-i\rho e_1 \cdot x} f(x) dx = \int_0^\infty \int_0^{2\pi} e^{-i\rho r \cos \theta} F(r) r\ d\theta\ dr \]
+
+Fonction de Bessel $J_0$: $J_0(t) = \frac{1}{2\pi} \int_0^{2\pi} e^{-it \cos \theta} d\theta = \frac{2}{\pi} \int_0^{\pi / 2} \cos(t \cos\theta) d\theta$
+
+\[ \Phi(\rho) = 2\pi \int_0^\infty r J_0(\rho r) F(r) dr \]
+
+\item
+\textbf{d = 3:}
+
+\begin{itemize}
+\item
+Soit $\xi \in \mathbb{R}^3$ et $S^2$ la sphère unité de $\mathbb{R}^3$, on démontre:
+
+\[ \int_{\nu \in S^2} e^{-i \xi \cdot \nu} d \sigma_\nu = 4\pi \frac{sin \rho}{\rho} \]
+
+En coordonnées sphériques
+$\begin{cases}
+x_1 = \sin \varphi \cos \theta \\
+x_2 = \sin \varphi \sin \theta \\
+x_3 = \cos \varphi \\
+\theta \in [0,2\pi], \varphi \in [0,\pi]
+\end{cases}$
+
+\begin{align*}
+\int_{\nu \in S^2} e^{-i \xi \cdot \nu} d \sigma_\nu &= \int_{\nu \in S^2} e^{-i \rho e_3 \cdot \nu} d \sigma_\nu = \int_{\theta = 0}^{2\pi} \int_{\varphi = 0}^\pi e^{-i \rho \cos \varphi} \sin \varphi\ d\varphi\ d\theta \\
+&= 2\pi \left[ \frac{e^{-i \rho \cos \varphi}}{i \rho} \right]^\pi_0 = \frac{4\pi}{\rho} \frac{e^{i\rho} - e^{-i\rho}}{2i} = 4\pi \frac{sin \rho}{\rho}
+\end{align*}
+
+\item
+$\Phi(\rho) = \hat{f}(\xi) = \int_{\mathbb{R}^3} e^{-i \xi \cdot x} F(|x|) dx = \int_{r = 0}^\infty F(r) \left( \int_{S^2} e^{-ir \xi \cdot \nu} d\sigma_\nu \right) r^2 dr$
+
+$\Phi(\rho) = \frac{4 \pi}{\rho} \int_0^\infty r \sin(\rho r) F(r) dr$
+\end{itemize}
+
+\end{itemize}
+
+\subsection{Eq. stationnaire d'ordre 2, à coef. constants dans $\mathbb{R}^3$}
+
+\begin{itemize}
+\item
+Cas typique: $-\Delta u + \lambda u = f, \lambda > 0, \mathbb{R}^3$
+
+$\mathcal{F}(\Delta u) = -(\sum_{j = 1}^3 \xi_j^2) \hat{u} = -|\xi|^2 \hat{u}$
+
+Les deux membres de l'équation ont même transformée de Fourier: $(|\xi|^2 + \lambda) \hat{u} = \hat{f} \Rightarrow \boxed{\hat{u}(\xi) = \frac{\hat{f}(\xi)}{|\xi|^2 + \lambda}}$
+
+$u = (2\pi)^{-3} \bar{\mathcal{F}} \left( \dfrac{\hat{f}}{|\xi|^2 + \lambda} \right) = f \star g$ où $\hat{g} = \dfrac{1}{|\xi|^2 + \lambda},\ g(|x|) = \dfrac{e^{-\sqrt{\lambda} |x|}}{4 \pi |x|}$
+
+\item
+$f \in H^s \Rightarrow u \in H^{s + 2}$
+
+\item
+\begin{exercice}
+$f \in H^s, s > \frac{d}{2}$, alors $u$ est de classe $\mathcal{C}^2$.
+\end{exercice}
+
+\item
+De façon plus générale, EDP second ordre à coef. constantes
+
+\[ Lu = -\sum_{j,k = 1}^d a_{j,k} \frac{\partial^2 u}{\partial x_j \partial x_k}(x) + \sum_{j = 1}^d b_j \frac{\partial u}{\partial x_j} + cu;\ Lu = f \]
+
+En prenant la transformée de Fourier
+
+\[ P(\xi) \hat{u} = \hat{f};\ P(\xi) = \sum_{j,k = 1}^d a_{j,k} \xi_k \xi_j + i \sum_{j = 1}^d \xi_j + c \]
+
+On dit que $L$ est elliptique s'il existe $\theta > 0$ telle que
+
+\[ \forall \xi \in \mathbb{R}^d, \sum_{j,k = 1} a_{j,k} \xi_j \xi_k \geq \theta |\xi|^2. \]
+
+\item
+\begin{exercice}
+Si $L$ est elliptique, $\exists \gamma_0$, tel que $\forall \gamma > \gamma_0$, $(L + \gamma) u = f$ se résolut en Fourier.
+\end{exercice}
+\end{itemize}
+
+\subsection{Eq. de la chaleur sur $\mathbb{R}^d$}
+
+\[\begin{cases}
+\partial_t u - \Delta_x u = 0;\ t > 0, x \in \mathbb{R}^d \\
+u(t = 0,x) = g(x) \text{ donnée}
+\end{cases}\]
+
+\begin{itemize}
+\item
+On définit la T. F. partielle de $(t,x) \mapsto u(t,x)$ en $x$
+
+\[ \hat{u}(t,\xi) = \int_{\mathbb{R}^d} e^{-ix \cdot \xi} u(t,x) dx \]
+\[ \widehat{-\Delta u} = |\xi|^2 \hat{u},\ \widehat{\partial_t u} = \partial_t \hat{u} \]
+
+\[\begin{cases}
+\partial_t(\hat{u}(t,\xi)) + |\xi|^2 \hat{u}(t,\xi) = 0 \\
+\hat{u}(t = 0,\xi) = \hat{g}(\xi)
+\end{cases} \Rightarrow \hat{u}(t,\xi) = \hat{g}(\xi) e^{-t|\xi|^2} \]
+
+\[ u(t,x) = (2\pi)^{-d} \hat{F}(\hat{g}(\xi)\ e^{-t|\xi|^2}) = (g \star G_t)(x) \text{ où } G_t(x) = \frac{1}{(4\pi t)^{d / 2}e^{-\frac{|x|^2}{4t}}} \]
+
+\item
+\begin{theoreme}
+Soit $g \in L^1(\mathbb{R}^d)$(ou $L^2$), alors la fonction $u(t,x)$
+
+\begin{enumerate}
+\item
+$u \in C^\infty(]0,\infty[ \times \mathbb{R}^d)$
+\item
+$\partial_t u - \Delta u = 0; \forall t > 0, \forall x \in \mathbb{R}^d$
+\item
+$\lim_{t \to 0^+} \| u(t) - g \|_{L^1 (\text{ ou } L^2)} = 0$
+\end{enumerate}
+\end{theoreme}
 \end{itemize}
 
 \end{document}
