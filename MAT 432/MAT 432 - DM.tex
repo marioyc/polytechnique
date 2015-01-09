@@ -1,0 +1,256 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fullpage}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\title{Analyse de Fourier et théorie spectrale \\ Devoir maison}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+Dans tout le devoir $d \geq 3$.
+
+\textbf{Préliminaire :} montrer qu'il existe une fonction $\varphi : \mathbb{R}^d \to [0,1]$ de classe $\mathcal{C}^\infty$, telle que
+
+\[ \varphi \equiv 1 \text{ pour } |x| < \frac{1}{2},\ \varphi \equiv 0 \text{ pour } |x| > 1. \]
+
+\textbf{Solution :}
+
+On a la fonction $\mathcal{C}^\infty$
+
+\[f(x) = \begin{cases}
+exp(-1/x) &\text{ si } x > 0 \\
+0 &\text{ si } x \leq 0
+\end{cases}\]
+
+Et on peut construir la fonction $\boxed{g(x) = \frac{f(1 - x)}{f(1 - x) + f(x - 1/4)}}$
+
+Comme pour tout $x$ on a que $f(1 - x) + f(x - 1/4) > 0$, elle est $\mathcal{C}^\infty$ et:
+
+\begin{itemize}
+\item
+Pour $x \leq 1/4$: $g(x) = 1$,
+\item
+Pour $1/4 < x < 1$ : $0 < g(x) < 1$,
+\item
+Pour $x \geq 1$: $g(x) = 0$.
+\end{itemize}
+
+Maintenant, on peut prendre pour $x \in \mathbb{R}^d$: $\boxed{\varphi(x) = g(\| x \|^2)}$
+
+\begin{center}
+\textbf{Exercice A}
+\end{center}
+
+On considère un réel $1 < p \leq \frac{d}{d - 2}$. Le but de l'exercice est de montrer que la seule solution positive de clase $\mathcal{C}^2$ de l'équation suivante:
+
+\[ -\Delta u = u^p \text{ sur } \mathbb{R}^d \label{eq:A} \tag{1} \]
+
+est la solution nulle.
+
+\textbf{A.1.} Pour $R > 0$, on définit
+
+\[ \psi_R(x) = \varphi^m(x / R) \text{ où } m = \frac{2p}{p - 1}. \]
+
+Calculer $\Delta \psi_R$ en fonction de $\varphi, \nabla \varphi, \Delta \varphi$ et déduire de ce calcul la majoration suivante
+
+\[ |\Delta \psi_R| \leq CR^{-2} \psi^{1 / p}_R \text{ sur } \mathbb{R}^d, \]
+
+où $C$ est une constante indépendante de $R$.
+\\ \\
+\textbf{Solution :}
+
+\[ \frac{\partial \psi_R}{\partial x_i}(x) = \frac{m}{R} \varphi^{m - 1}(x / R) \frac{\partial \varphi}{\partial x_i}(x / R) \]
+
+\[ \frac{\partial^2 \psi_R}{\partial^2 x_i}(x) = \frac{m(m - 1)}{R^2} \varphi^{m - 2}(x / R) \left[ \frac{\partial \varphi}{\partial x_i}(x / R) \right]^2 + \frac{m}{R^2} \varphi^{m - 1}(x / R) \frac{\partial^2 \varphi}{\partial x_i^2}(x / R) \]
+
+\[ \Delta \psi_R(x) = \frac{m(m - 1)}{R^2} \varphi^{m - 2}(x / R) |\nabla \varphi(x / R)|^2 + \frac{m}{R^2} \varphi^{m - 1}(x / R) \Delta \varphi(x / R) \]
+
+\[ \boxed{ \Delta \psi_R(x) = R^{-2} \varphi^{m - 2}(x / R) \left[ m(m - 1)  |\nabla \varphi(x / R)|^2 + m\ \varphi(x / R) \Delta \varphi(x / R) \right] } \]
+
+Comme $\varphi$ est de classe $C^\infty$, $m(m - 1)  |\nabla \varphi(x / R)|^2 + m\ \varphi(x / R) \Delta \varphi(x / R)$ est continue et borné sur $[0,1]^d$. Donc, il existe une constante $C$ tel que
+
+\[ |\Delta \psi_R| \leq CR^{-2}\psi_R^{1 / p} \text{ sur } \mathbb{R}^d \]
+
+\textbf{A.2.} Montrer que
+
+\[ -\int_{\mathbb{R}^d} u(x) \Delta \psi_R(x) dx  = \int_{\mathbb{R}^d} u^p(x) \psi_R(x) dx. \]
+
+\textbf{Solution :}
+
+Par la formule de Green
+
+\[ \int_{B(0,R)} (u(x) \Delta \psi_R(x) - \psi_R(x) \underbrace{\Delta u(x)}_{-u^p(x)})dx = \int_{\partial B(0,R)} \left( u(x) \underbrace{\dfrac{\partial \psi_R}{\partial \nu}(x)}_{0} - \underbrace{\psi_R(x)}_{0} \dfrac{\partial u}{\partial \nu}(x) \right) ds \]
+
+\[ -\int_{B(0,R)} u(x) \Delta \psi_R(x) dx = \int_{B(0,R)} u^p(x) \psi_R(x) dx \]
+
+Et comme $\psi_R$ et $\Delta \psi_R$ sont nulles pour $|x| \geq R$
+
+\[ \boxed{ -\int_{\mathbb{R}^d} u(x) \Delta \psi_R(x) dx = \int_{\mathbb{R}^d} u^p(x) \psi_R(x) dx } \]
+
+\textbf{A.3.} Déduire des question précédentes la majoration suivante
+
+\[ \int_{\mathbb{R}^d} u^p(x) \psi_R(x) dx \leq CR^{d - m} \]
+
+et conclure $u \equiv 0$ sur $\mathbb{R}^d$ dans le cas où $1 < p < d / (d - 2)$.
+\\ \\
+\textbf{Solution :}
+
+En utilisant $A.1$ et $A.2$ on obtient que
+
+\[ \int_{B(0,R)} u^p(x) \psi_R(x) \leq \int_{B(0,R)} u(x) |\Delta \psi_R(x)| dx \leq CR^{-2} \int_{B(0,R)} u(x) \psi_R^{1 / p}(x) dx \]
+\
+Et par l'inégalité d'Hölder
+
+\[ \int_{B(0,R)} u(x) \psi_R^{1 / p}(x) dx \leq \left(\int_{B(0,R)} u^p(x) \psi_R(x) dx\right)^{\frac{1}{p}} \left(\int_{B(0,R)} 1dx\right)^{\frac{p - 1}{p}} \]
+
+\[ \int_{B(0,R)} u(x) \psi_R^{1 / p}(x) dx \leq (kR^d)^{\frac{2}{m}} \left(\int_{B(0,R)} u^p(x) \psi_R(x) dx\right)^{\frac{1}{p}} \]
+
+où $k$ est une constante qui dépend de $d$. Puis
+
+\[ \left( \int_{B(0,R)} u(x) \psi_R^{1 / p}(x) dx \right)^{\frac{2}{m}} \leq CR^{\frac{2d}{m} - 2} \]
+
+\[ \int_{B(0,R)} u(x) \psi_R^{1 / p}(x) dx \leq CR^{d - m} \]
+
+\[ \boxed{ \int_{\mathbb{R}^d} u(x) \psi_R^{1 / p}(x) dx \leq CR^{d - m} } \]
+
+où $C$ est une constante qui change, mais qui reste indépendante de $R$.
+
+Comme $p < d / (d - 2)$
+
+\[ d - m = d - \frac{2p}{p - 1} = \frac{p - \frac{d}{d - 2}}{(p - 1)(d - 2)} < 0 \]
+
+Et quand $R \to +\infty$ on obtient que
+
+\[ \int_{\mathbb{R}^d} u^p(x) dx = 0 \]
+
+Alors $u \equiv 0$ sur $\mathbb{R}^d$.
+\\ \\
+\textbf{A.4.} Adapter la démonstration précédente au cas $p = \frac{d}{d - 2}$.
+\\ \\
+\textbf{Solution :}
+
+\begin{center}
+\textbf{Exercice B}
+\end{center}
+
+On considère $1 < p \leq 1 + 2 / d$. Le but de l'exercice est de montrer que la seule solution positive de classe $C^2((0, \infty) \times \mathbb{R}^d)$ de l'équation suivante:
+
+\[ \partial_t u - \Delta u \text{ sur } (0,\infty) \times \mathbb{R}^d \label{eq:B} \tag{2} \]
+
+est la solution nulle.
+
+On considère une fonction $f : (0,\infty) \to [0,1]$ de classe $\mathcal{C}^\infty$ et telle que
+
+\[ f \equiv 1 \text{ pour } 0 < t < 1,\ f \equiv 0 \text{ pour } t > 2. \]
+
+Pour $R > 0$, on considère $\psi_R(x)$ comme dans l'exercice A et on définit
+
+\[ g_R(t) = f^m(t / R^2). \]
+
+\textbf{B.1.} Montrer que pour $t_0 \in (0,1)$, on a
+
+\[ \int_{t_0}^\infty \int_{\mathbb{R}^d} u^p(t,x) g_R(t) \psi_R(x) dx dt \leq - \int_{t_0}^\infty \int_{\mathbb{R}^d} u(t,x) (g'_R(t) \psi_R(x) + g_R(t) \Delta \psi_R(x)) dx dt. \]
+
+\textbf{Solution :}
+
+Par intégration par parties
+
+\begin{align*}
+\int_{t_0}^{2R^2} u^p(t,x) g_R(t) dt &= \int_{t_0}^{2R^2} (\partial_t u(t,x) - \Delta u(t,x)) g_R(t) dt \\
+&= [u(t,x) g_R(t)]_{t_0}^{2R^2} - \int_{t_0}^{2R^2} u(t,x) g'_R(t) dt - \int_{t_0}^{2R^2} \Delta u(t,x) g_R(t) \\
+&= -u(t_0,x) g_R(t_0) - \int_{t_0}^{2R^2} u(t,x) g'_R(t) dt - \int_{t_0}^{2R^2} \Delta u(t,x) g_R(t) \\
+&\leq - \int_{t_0}^{2R^2} u(t,x) g'_R(t) dt - \int_{t_0}^{2R^2} \Delta u(t,x) g_R(t)
+\end{align*}
+
+\[ \boxed{ \int_{t_0}^{2R^2} \int_{B(0,R)} u^p(t,x) g_R(t) \psi_R(x) dx dt \leq - \int_{t_0}^{2R^2} \int_{B(0,R)} \left( u(t,x)g'_R(t) \psi_R(x) + \Delta u(t,x) g_R(t) \psi_R(x) \right) dx dt } \]
+
+Et par la formule de Green
+
+\[ \int_{B(0,R)} (u(t,x) \Delta \psi_R(x) - \psi_R(x) \Delta u(t,x))dx = \int_{\partial B(0,R)} \left( u(t,x) \underbrace{\dfrac{\partial \psi_R}{\partial \nu}(x)}_{0} - \underbrace{\psi_R(x)}_{0} \dfrac{\partial u}{\partial \nu}(t,x) \right) ds \]
+
+\[ \int_{B(0,R)} u(t,x) \Delta \psi_R(x) dx = \int_{B(0,R)} \Delta u(t,x) \psi_R(x) dx \]
+
+\[ \boxed{ \int_{t_0}^{2R^2} \int_{B(0,R)} u(t,x) g_R(t) \Delta \psi_R(x) dx dt = \int_{t_0}^{2R^2} \int_{B(0,R)} \Delta u(t,x) g_R(t) \psi_R(x) dx dt } \]
+
+Alors, on peut conclure que
+
+\[ \int_{t_0}^{2R^2} \int_{B(0,R)} u^p(t,x) g_R(t) \psi_R(x) dx dt \leq - \int_{t_0}^{2R^2} \int_{B(0,R)} \left( u(t,x)g'_R(t) \psi_R(x) + u(t,x) g_R(t) \Delta \psi_R(x) \right) dx dt \]
+
+\[ \int_{t_0}^{\infty} \int_{\mathbb{R}^d} u^p(t,x) g_R(t) \psi_R(x) dx dt \leq - \int_{t_0}^{\infty} \int_{\mathbb{R}^d} \left( u(t,x)g'_R(t) \psi_R(x) + u(t,x) g_R(t) \Delta \psi_R(x) \right) dx dt \]
+
+\textbf{B.2.} Montrer la majoration suivante
+
+\[ |g'_R \psi_R + g_R \Delta \psi_R \leq CR^{-2} (g_R \psi_R)^{1 / p} \text{ sur } (t_0,\infty) \times \mathbb{R}^d, \]
+
+où $C$ est une constante indépendante de $R$.
+\\ \\
+\textbf{Solution :}
+
+\[ g'_R(t) = \frac{m}{R^2} f^{m - 1}(t / R^2) f'(t / R^2) \]
+
+\begin{align*}
+g'_R(t) \psi_R(x) + g_R(t) \Delta \psi_R(x) &= \frac{m}{R^2} f^{m - 1}(t / R^2) f'(t / R^2) \psi_R(x) \\
+&\ \ + R^{-2} \psi_R^{1 / p}(x) f^m(t / R^2) \left[ m(m - 1)  |\nabla \varphi(x / R)|^2 + m\ \varphi(x / R) \Delta \varphi(x / R) \right]\\
+&= R^{-2} (g_R(t) \psi_R(x))^{1 / p}\ [ m f(t / R^2) f'(t / R^2) \psi_R^{(p - 1) / p}(x)  \\
+&\ \ + m(m - 1) f^2(t /R^2) |\nabla \varphi(x / R)|^2 + m\ f^2(t / R^2)\varphi(x / R) \Delta \varphi(x / R) ]
+\end{align*}
+
+Par un argument similaire à celui utilisé pour $A.1$, il existe une constante $C$ tel que
+
+\[ |g'_R \psi_R + g_R \Delta \psi_R \leq CR^{-2} (g_R \psi_R)^{1 / p} \text{ sur } (t_0,\infty) \times \mathbb{R}^d \]
+
+\textbf{B.3.} En déduire
+
+\[ \int_{t_0}^\infty \int_{\mathbb{R}^d} u^p(t,x) \psi_R(x) g_R(t) dx dt \leq CR^{d + 2 - m}. \]
+
+Conclure $u \equiv 0$ sur $(0,\infty) \times \mathbb{R}^d$ dans le cas où $1 < p < 1 + 2/d$.
+\\ \\
+\textbf{Solution :}
+
+En utilisant $B.1$ et $B.2$ on obtient que
+
+\begin{align*}
+\int_{t_0}^\infty \int_{\mathbb{R}^d} u^p(t,x) g_R(t) \psi_R(x) dx dt &\leq \int_{t_0}^\infty \int_{\mathbb{R}^d} u(t,x) |g'_R(t) \psi_R(x) + g_R(t) \Delta \psi_R(x)| dx dt \\
+&\leq CR^{-2} \int_{t_0}^\infty \int_{\mathbb{R}^d} u(t,x) (g_R(t) \psi_R(x))^{1 / p} dx dt
+\end{align*}
+
+Par l'inégalité d'Hölder
+
+\begin{align*}
+\int_{t_0}^{2R^2} \int_{B(0,R)} u(t,x) (g_R(t) \psi_R(x))^{1 / p} dx dt
+&\leq \left( \int_{t_0}^{2R^2} u^p(t,x) g_R(t) \psi_R(x) dx dt \right)^{1 / p} \left( \int_{t_0}^{2R^2} 1 dx dt \right)^{(p - 1) / p} \\
+&\leq (kR^{d + 2})^{\frac{2}{m}} \left( \int_{t_0}^{2R^2} u^p(t,x) g_R(t) \psi_R(x) dx dt \right)^{1 / p}
+\end{align*}
+
+où $k$ est une constante qui dépend de $d$. Puis
+
+\[ \left( \int_{t_0}^{2R^2} \int_{B(0,R)} u^p(t,x) g_R(t) \psi_R(x) dx dt \right)^{2 / m} \leq CR^{\frac{2(d + 2)}{m} - 2} \]
+
+\[ \int_{t_0}^{2R^2} \int_{B(0,R)} u^p(t,x) g_R(t) \psi_R(x) dx dt \leq CR^{d + 2 - m} \]
+
+\[ \boxed{ \int_{t_0}^{\infty} \int_{\mathbb{R}^d} u^p(t,x) g_R(t) \psi_R(x) dx dt \leq CR^{d + 2 - m} } \]
+
+où $C$ est une constante qui change, mais qui reste indépendante de $R$.
+
+On a que $1 < p < 1 + 2/d$. Alors
+
+\[ d + 2 - m = d + 2 - \frac{2p}{p - 1} = d + 2 - (2 + \frac{2}{p - 1}) = d - \frac{2}{p - 1} = d \left( \frac{(p - 1) - \frac{2}{d}}{p - 1} \right) < 0 \]
+
+Et quand $R \to +\infty$ on obtient que
+
+\[ \int_{t_0}^{\infty} \int_{\mathbb{R}^d} u^p(t,x) dx dt = 0 \]
+
+Alors $u \equiv 0$ sur $(0,\infty) \times \mathbb{R}^d$.
+\\ \\
+\textbf{B.4.} Adapter la démonstration précédente au cas $p = 1 + 2/d$.
+\\ \\
+\textbf{Solution :}
+
+\end{document}
