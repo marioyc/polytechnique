@@ -1,0 +1,1035 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fullpage}
+
+\setlength\parindent{0pt}
+
+\newtheorem{theoreme}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lemme}{Lemme}
+\newtheorem{definition}{Définition}
+\newtheorem{exercice}{Exercice}
+\newtheorem{propiete}{Propiété}
+
+\newenvironment{remarque}[1][Remarque]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{MAP 432 - Résumé}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Matrice de transition}
+
+\begin{itemize}
+
+\item
+\begin{definition}[Propiété de Markov]
+Soit $\{ X_n \}_{n \geq 0}$ un processus aléatoire discret sur un espace d'états dénombrable $E$. Le processus satisfait la propiété de Markov si pour toute collection d'états $\{ x_0,x_1,\ldots,x_n,y \}$ de $E$
+
+\[ \boxed{ \mathbb{P}(X_{n + 1} = y\ |\ X_0 = x_0,X_1 = x_1,\ldots,X_n = x_n) = \mathbb{P}(X_{n + 1} = y\ |\ X_n = x_n) } \]
+
+dès que les deux probabilités conditionnelles ci-dessus sont bien définies. Le processus $\{ X_n \}_{n \geq 0}$ sera alors appelé une chaîne de Markov. Si le membre de droite ne dépend pas de n, on dira que la chaîne de Markov est \textbf{homogène}.
+\end{definition}
+
+\item
+La distribution d'une chaîne de Markov \textbf{homogène} peut donc être codée simplement par une \textbf{matrice de transition} $P = \{ P(x,y) \}_{x,y \in E}$. La matrice de transition décrit la probabilité de passer de $x$ à $y$.
+
+\[ \boxed{ \forall x,y \in E,\ P(x,y) = \mathbb{P}(X_{n + 1} = y\ |\ X_n = x) } \]
+
+et elle satisfait
+
+\[ \forall x,y \in E,\ P(x,y) \geq 0 \text{ et } \forall x \in E,\ \sum_{y \in E} P(x,y) = 1 \]
+
+\item
+\begin{theoreme}[Récurrence aléatoire]
+Soit $\{ \xi_n \}_{n \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées sur un espace $F$. Soit $E$ un espace d'états dénombrable et $f$ une fonction de $E \times F$ dans $E$. On considère aussi $X_0$ une variable aléatoire à valeurs dans $E$ indépendante de la suite $\{ \xi_n \}_{n \geq 1}$.
+
+La récurrence aléatoire $\{ X_n \}_{n \geq 0}$
+
+\[ n \geq 0,\ X_{n + 1} = f(X_n,\xi_{n + 1}) \]
+
+est une chaîne de Markov.
+\end{theoreme}
+
+\textbf{Remarque:} la matrice de transition s'écrit $\boxed{ P(x,y) = \mathbb{P}(f(x,\xi_1) = y) }$
+
+\item
+Soit $h$ une fonction de $E$ dans $\mathbb{R}$. On définit
+
+\[ \forall x \in E,\ Ph(x) = \sum_{y \in E}P(x,y) h(y) \]
+
+Soit $u$ une mesure de probabilité sur $E$, on définit le produit
+
+\[ \forall y \in E,\ \mu P(y) = \sum_{x \in E} \mu(x) P(x,y) \]
+
+\item
+\begin{theoreme}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov sur $E$ de matrice de transition $P$ dont la donnée initiale $X_0$ est distribuée selon la loi $\mu_0$. Alors
+
+\[ \mathbb{P}(X_0 = x_0,X_1 = x_1,\ldots,X_n = x_n) = \mu_0(x_0) P(x_0,x_1) P(x_1,x_2) \ldots P(x_{n - 1},x_n) \]
+
+La loi $\mu_n$ de $X_n$ est determinée par l'équation de Chapman-Kolmogorov
+
+\[ \forall x \in E,\ \mu_n(x) = \mu_{n - 1} P(x) = \mu_0 P^n(x) \]
+
+On a aussi
+
+\[ \forall x,y \in E,\ \mathbb{P}(X_n = y\ |\ X_0 = x) = P^n(x,y) \]
+
+Soit $h$ une fonction bornée de $E$ dans $\mathbb{R}$. SI initialement $X_0 = x$, l'espérance de $h(X_n)$ s'écrit
+
+\[ \mathbb{E}(h(X_n)\ |\ X_0 = x) = P^nh(x) \]
+\end{theoreme}
+
+\item
+
+\begin{exercice}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov à valeurs dans $E$ de matrice de transition $P$. Montrer que $Y_n = X_{3n}$ est une chaîne de matrice de transition $P^3$.
+\end{exercice}
+
+\textbf{Solution:}
+
+$\mathbb{P}(Y_{n + 1} = y_{n + 1} | Y_n = y_n, \ldots, Y_0 = y_0) = \dfrac{\mathbb{P}(X_{3n + 3} = y_{n + 1},\ldots,X_0 = y_0)}{\mathbb{P}(X_{3n} = y_n,\ldots,X_0 = y_0)}$
+
+$= \dfrac{\sum_{x_1,x_2,\ldots,x_{3n + 1},x_{3n + 2} \in E} \mathbb{P}(X_{3n + 3} = y_{n + 1},X_{3n + 2} = x_{3n + 2},X_{3n + 1} = x_{3n + 1},\ldots,X_0 = y_0)}{\sum_{x_1,x_2,\ldots,x_{3n - 2},x_{3n - 1} \in E} \mathbb{P}(X_{3n} = y_n,X_{3n - 1} = x_{3n - 1},X_{3n - 2} = x_{3n - 2},\ldots,X_0 = y_0)}$
+
+$= \dfrac{\sum_{x_1,x_2,\ldots,x_{3n + 1},x_{3n + 2} \in E} \mu_0(y_0) P(y_0,x_1) \ldots P(y_n,x_{3n + 1}) P(x_{3n + 1},x_{3n + 2}) P(x_{3n + 2},y_{n + 1})}{\sum_{x_1,x_2,\ldots,x_{3n - 2},x_{3n - 1} \in E} \mu_0(y_0) P(y_0,x_1) \ldots P(y_{n - 1},x_{3n - 2}) P(x_{3n - 2},x_{3n - 1}) P(x_{3n - 1},y_n)}$
+
+$= \sum_{x_{3n + 1},x_{3n + 2} \in E} P(y_n,x_{3n + 1}) P(x_{3n + 1},x_{3n + 2}) P(x_{3n + 2},y_{n + 1})$
+
+\begin{enumerate}
+\item
+$= P^3(y_n,y_{n + 1})$
+
+\item
+$= \dfrac{\sum_{x_0,x_1,\ldots,x_{3n - 1},x_{3n + 1},x_{3n + 2} \in E} \mu_0(x_0) P(x_0,x_1) \ldots P(y_{n},x_{3n + 1}) P(x_{3n + 1},x_{3n + 2}) P(x_{3n + 2},y_{n + 1})}{\sum_{x_0,x_1,\ldots,x_{3n - 1} \in E} \mu_0(x_0) P(x_0,x_1) \ldots P(x_{3n - 2},x_{3n - 1}) P(x_{3n - 1},y_n)}$
+
+$= \dfrac{\mathbb{P}(X_{3n + 3} = y_{n + 1}, X_{3n} = y_n)}{\mathbb{P}(X_{3n} = y_n)} = \mathbb{P}(Y_{n + 1} = y_{n + 1} | Y_n = y_n)$
+\end{enumerate}
+
+\item
+\begin{theoreme}
+pour toute collection d'états $\{ x_0,\ldots,x_n,y_1,\ldots,y_K \}$ de $E$
+
+\[ \boxed{ \mathbb{P}(X_{n + 1} = y_1,\ldots,X_{n + K} = y_K | X_0 = x_0,\ldots,X_n = x_n) = \mathbb{P}(X_1 = y_1,\ldots,X_K = y_K | X_0 = x_n) } \]
+
+Si $A$ est un événement dépendant uniquement des variables $\{ X_{n + 1},\ldots,X_{n + K} \}$ et $B$ un autre événement dépendant de $\{ X_0,\ldots,X_{n - 1} \}$, alors conditionnellement à $\{ X_n = x_n \}$, ces deux événements son indépendants
+
+\[ \mathbb{P}(A \cap B | X_n = x_n) = \mathbb{P}(A | X_n = x_n)\ \mathbb{P}(B | X_n = x_n) \]
+\end{theoreme}
+
+\item
+\begin{exercice}
+$\boxed{ \mathbb{P}(X_{n + 1} = y_1,\ldots,X_{n + k} = y_k | X_n = y_0) = \mathbb{P}(X_1 = y_1,\ldots,X_k = y_k | X_0 = y_0)}$
+\end{exercice}
+
+\textbf{Solution:}
+
+$\dfrac{ \mathbb{P}(X_{n + 1} = y_1,\ldots,X_{n + k} = y_k , X_n = y_0) }{ \mathbb{P}(X_n = y_0) } = \dfrac{ \sum_{x_0,\ldots,x_{n - 1} \in E} \mu_0(x_0)P(x_0,x_1) \ldots P(x_{n - 1},y_0) \ldots P(y_{k - 1},y_k) }{ \sum_{x_0,\ldots,x_{n - 1} \in E} \mu_0(x_0)P(x_0,x_1) \ldots P(x_{n - 1},y_0) }$
+
+$= \mathbb{P}(X_1 = y_1,\ldots,X_k = y_k | X_0 = y_0)$
+
+\item
+Un \textbf{temps d'arrêt} T associé à un processus aléatoire discret $\{ X_n \}_{n \geq 0}$ est une variable aléatoire dans $\mathbb{N} \cup \{ \infty \}$ telle que pour tout $n \geq 0$, l'événement $\{ T = n \}$ est entièrement déterminé par les variables $\{ X_0,\ldots,X_n \}$, c'est à dire que pour tout $n$ il existe une fonction $\varphi_n : E^{n + 1} \to \mathbb{R}$ telle que
+
+\[ 1_{ \{ T = n \} } = \varphi_n(X_0,\ldots,X_n) \]
+
+\item
+\begin{theoreme}[Propiété de Markov forte]
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov de matrice de transition $P$ et de loi initiale $\mu_0$. On considère $T$ un temps d'arrêt pour cette chaîne de Markov. Conditionnellement à $\{ T < \infty \}$ et $X_T = x$, alors le processus décalé en temps $\{ X_{T + k} \}_{k \geq 0}$ est une chaîne de Markov de matrice de transition $P$ partant initialement de $x$ et elle est indépendante de $\{ X_0,X_1,\ldots,X_T \}$.
+
+Soit $B$ un événement dépendant uniquement de $\{ X_0,X_1,\ldots,X_T \}$.
+
+\begin{center}
+$\mathbb{P}_{\mu_0}(\{ X_T = x_0,X_{T + 1} = x_1,\ldots,X_{T + k} = x_k \} \cap B\ |\ \{X_T = x\} \cap \{T < \infty\})$
+$= \mathbb{P}(X_1 = x_1,\ldots,X_k = x_k\ |\ X_0 = x) \mathbb{P}_{\mu_0}(B\ |\ \{X_T = x\} \cap \{T < \infty\})$
+\end{center}
+\end{theoreme}
+
+\item
+\textbf{Méthode de Monte-Carlo pour un problème de Dirichlet:}
+
+On considère un domaine $D$ borné, connexe et régulier de $\mathbb{R}^2$. Le bord de $D$ sera noté $\partial D$. Étant donnée une fonction $\varphi$ définie sur $\partial D$, on cherche à déterminer $f : D \to \mathbb{R}$ telle que
+
+\[ \Delta f(r) = \sum_{k = 1}^2 \partial_k^2 f(r) = 0\ \ \text{et}\ \ \forall r \in \partial D, f(r) = \varphi(r) \]
+
+On discrétise le domaine $D$ avec un maillage de taille $1 / L$, on notera $D_L$ le réseau discret correspondant
+
+\[ D_L = \left\lbrace \left( \frac{i}{L},\frac{j}{L} \right) \text{ avec } 1 \leq i \leq L, 1 \leq j \leq L \right\rbrace = D \cap \frac{1}{L} \mathbb{Z}^2 \]
+
+Le bord discret $\partial D_L$ est constitué des sites de $D^c \cap \frac{1}{L} \mathbb{Z}^2$ à distance inférieure à $1 / L$ de $D$.
+
+\[ \partial_1^2 f\left( \frac{i}{L},\frac{j}{L} \right) = L^2 \left[ f\left( \frac{i + 1}{L},\frac{j}{L} \right) + f\left( \frac{i - 1}{L},\frac{j}{L} \right) - 2f\left( \frac{i}{L},\frac{j}{L} \right) \right] + O(1/L) \]
+
+Pour toute fonction $F$ de $D_L \cup \partial D_L$ dans $\mathbb{R}$, on définit le Laplacien discret en tout point $x$ de $D_L$
+
+\[ \bar{\Delta} F(x) = \sum_{y \in D_L \cup \partial D_L, y \sim x} F(y) - F(x) \]
+
+où la notation $y \sim x$ signifie qu'on somme sur les voisins $y$ de $x$. Le problème continue peut être approchée par le problème de Dirichlet discret
+
+\[ \forall x \in D_L, \bar{\Delta} F(x) = 0\ \ \text{et}\ \ \forall y \in \partial D_L, F(y) = \varphi_L(y) \]
+
+La solution du problème de Dirichlet discret peut s'écrire à l'aide d'une marche aléatoire $\{ X_n \}_{n \geq 0}$ sur $\frac{1}{L} \mathbb{Z}^2$ qui saute uniformément d'un site à chacun de ses voisins avec probabilité $\frac{1}{4}$. On définit
+
+\[ \forall x \in D_L, F(x) = \mathbb{E}_x \left( \varphi_L(X_{T_{\partial D_L}}) \right) \]
+
+Étant donné $X_0 = x$ dans $D_L$, le pas suivant sera $X_1 = y$ pour $y \sim x$
+
+\[ F(x) = \sum_{y \sim x} \mathbb{E}_x \left( \varphi_L(X_{T_{\partial D_L}}) \textbf{1}_{X_1 = y} \right) \]
+
+En considérant la marche décalée en temps $\tilde{X}_n = X_{n + 1}$, on voit que $F$ est la solution de l'équation de Laplace discrète
+
+\[ F(x) = \frac{1}{4} \sum_{y \sim x} F(y)\ \Rightarrow\ \bar{\Delta} F(x) = 0 \]
+
+De plus si $x$ appartient au bord $\partial D_L$ alors $X_{T_{\partial D_L}} = x$. La fonction $F$ satisfait bien la contrainte de Dirichlet. On peut vérifier que la solution du problème discret est unique.
+
+\textbf{Remarque:} Plus généralement, on peut considérer une matrice de transition $P$
+
+\[ \forall x,y \in E, P(x,y) \geq 0\ \ \text{et}\ \ \forall x \in E, \sum_{y \in E} P(x,y) = 1 \]
+
+Si $A$ est un sous ensemble de $E$, alors on construit le problème de Dirichlet
+
+\[ \forall x \in E \setminus A, (Id - P)F(x) = 0\ \ \text{et}\ \ \forall y \in A, F(x) = \varphi(y) \]
+
+On peut construire une solution du problème de Dirichlet en fonction de $T_A$
+
+\[ \forall x \in E \setminus A, F(x) = \mathbb{E}_x \left( \varphi(X_{T_A}) \textbf{1}_{ \{ T_A < \infty \} } \right) \]
+
+\end{itemize}
+
+\section{Mesures Invariantes}
+
+\begin{itemize}
+
+\item
+Nous ne considérons que des chaînes de Markov sur un espace $E$ fini de matrice de transition $P$.
+
+\item
+\begin{definition}
+La mesure $\pi$ sur $E$ est une mesure invariante pour la chaîne de Markov $\{ X_n \}_{n \geq 0}$ si $\pi = \pi P$, c'est à dire
+
+\[ \forall y \in E,\ \pi(y) = \sum_{x \in E} \pi(x) P(x,y) \]
+\end{definition}
+
+\item
+Pour un graphe $G = (V,E)$. On définit une marche aléatoire $\{ X_n \}_{n \geq 0}$ sur $V$ dont les probabilités de transition d'un site vers ses voisins sont uniformes
+
+\[ \forall x,y \in V,\ P(x,y) = \textbf{1}_{x \sim y}\frac{1}{deg(x)} \]
+
+On définit la probabilité $\pi$ sur $V$ par
+
+\[ \forall x \in V,\ \pi(x) = \frac{deg(x)}{2|E|} \]
+
+\item
+\begin{lemme}
+Si $\pi$ est une mesure invariante alors $\pi = \pi P^n$ pour tout $n \geq 1$.
+\end{lemme}
+
+\item
+\begin{theoreme}[Existence]
+Pour toute chaîne de Markov sur un espace d'états fini $E$, il existe une mesure invariante.
+\end{theoreme}
+
+\subsection{Irréductibilité et unicité des mesures invariantes}
+
+\item
+\begin{definition}
+Soient $x,y$ deux états de $E$. On dit que
+
+\begin{enumerate}
+\item
+\textbf{$x$ communique avec $y$}, on note $x \to y$, s'il existe un entier $n \geq 0$ et des états $x_0 = x,x_1,\ldots,x_n = y \in E$ tels que $P(x_0,x_1) \ldots P(x_{n - 1},x_n) > 0$, i.e. si
+
+\[ \mathbb{P}_x(X_n = y) = \mathbb{P}(X_n = y | X_0 = x) > 0 \]
+
+\item
+\textbf{$x$ et $y$ communiquent}, on note $x \leftrightarrow y$, si $x$ communique avec $y$ et $y$ communique avec $x$.
+\end{enumerate}
+\end{definition}
+
+\item
+\begin{definition}
+\begin{enumerate}
+\item
+Une \textbf{classse} $E_0 \subset E$ est dite \textbf{irréductible} si $x \leftrightarrow y$ pour tous $x,y \in E_0$.
+
+\item
+Une classe irréductible $E_0 \subset E$ est dite \textbf{fermée} si pour tous $x,y \in E$
+
+\[ x \in E_0 \text{ et } x \to y \text{ alors } y \in E_0 \]
+
+\item
+La \textbf{chaîne de Markov} $X$ est dite \textbf{irréductible} si l'espace d'états $E$ est irréductible.
+\end{enumerate}
+\end{definition}
+
+\item
+\begin{theoreme}[Unicité]
+Pour toute chaîne de Markov irréductible sur un espace d'états fini $E$, il existe une unique mesure de probabilité invariante $\pi$ telle que $\pi(x) > 0$ pour tout $x \in E$.
+\end{theoreme}
+
+\textbf{Note:} Si $P$ est symétrique, donc $\forall x \in E,\ \pi(x) = \dfrac{1}{|E|}$.
+
+\begin{lemme}[Fonctions harmoniques]
+Pour toute chaîne de Markov irréductible sur un espace d'états fini $E$, toute fonction $h$ de $E$ dans $\mathbb{R}$ vérifiant
+
+\[ \forall x \in E,\ h(x) = \sum_{y \in E} P(x,y) h(y) \]
+
+est nécessairement constante.
+\end{lemme}
+
+\item
+Premier temps d'un élément $x$ de $E$
+
+\[ T_x = \min \{ n \geq 0;\ X_n = x \} \]
+
+On définit aussi
+
+\[ T_x^+ = \min \{ n \geq 1;\ X_n = x \} \]
+
+\item
+\begin{lemme}
+Pour une chaîne de Markov irréductible sur un espace d'états $E$ fini
+
+\[ \forall x,y \in E,\ \mathbb{E}_x(T_y^+) < \infty \]
+\end{lemme}
+
+\textbf{Conséquence:} Si $E$ est fini, alors $T_x^+ < \infty$ presque sûrement.
+
+\item
+\begin{theoreme}
+Pour une chaîne de Markov irréductible $\{ X_n \}_{n \geq 0}$ sur un espace d'états $E$ fini, l'unique mesure de probabilité invariante est donnée par
+
+\[ \boxed{ \forall x \in E,\ \pi(x) = \frac{1}{\mathbb{E}_x(T_x^+)} } \]
+\end{theoreme}
+
+\begin{align*}
+\forall y \in E,\ \tilde{\pi}(y) &= \mathbb{E}_x(\text{nombre de visites en } y \text{ avant de retourner en }x)\\
+&= \sum_{n \geq 0} \mathbb{P}_x(X_n = y,T_x^+ > n)\\
+&= \frac{\mathbb{E}_x(T_x^+)}{\mathbb{E}_y(T_y^+)}
+\end{align*}
+
+\subsection{Réversibilité et Théorème $\mathbb{H}$}
+
+\item
+\begin{definition}
+Une chaîne de Markov de matrice de transition $P$ sur $E$ est dite réversible par rapport à la mesure $\pi$ si elle satisfait
+
+\[ \forall x,y \in E,\ \pi(x) P(x,y) = \pi(y) P(y,x) \]
+\end{definition}
+
+\item
+\begin{theoreme}
+Si une chaîne de Markov de matrice de transition $P$ est réversible par rapport à la mesure $\pi$, alors $\pi$ est une mesure invariante.
+\end{theoreme}
+
+\item
+Soient $\mu$ et $\nu$ deux mesures de probabilités sur un espace $E$. On note $\mathbb{H}$ l'entropie relative de $\nu$ par rapport à $\mu$
+
+\[ \mathbb{H}(\nu | \mu) = \sum_{x \in E} \left( \frac{\nu(x)}{\mu(x)} \ln \frac{\nu(x)}{\mu(x)} \right) \mu(x) \]
+
+On peut interpréter l'entropie relative comme une distance entre $\mu$ et $\nu$ car $\mathbb{H}$ est positive et ne s'annule que si $\nu = \mu$. Pour le vérifier, il suffit de remarque que la fonction $\phi(u) = u\log(u)$ est strictement convexe et par l'inégalité de Jensen
+
+\[ \mathbb{H}(\nu | \mu) \geq \phi \left( \sum_{x \in E} \frac{\nu(x)}{\mu(x)}\mu(x) \right) = \phi(1) = 0 \]
+
+L'inégalité est stricte dès qu'il existe un $x$ pour lequel $\frac{\nu(x)}{\mu(x)} \neq 1$.
+
+\item
+\begin{theoreme}
+On considère une chaîne de Markov irréductible de matrice de transition $P$ et de mesure invariante $\pi$. Alors pour toute probabilité $\mu$, on a
+
+\[ \mathbb{H}(\mu P | \pi) \leq \mathbb{H}(\mu | \pi) \]
+
+Par conséquent, l'entropie relative $n \to \mathbb{H}(\mu P^n | \pi)$ decroît avec le temps.
+\end{theoreme}
+
+\end{itemize}
+
+\section{Espace d'états dénombrables}
+
+\begin{itemize}
+
+\item
+\begin{definition}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov sur un espace d'états $E$ dénombrable. Un état $x$ de $E$ est dit
+
+\begin{itemize}
+\item
+transitoire si $\mathbb{P}_x(T_x^+ < \infty) < 1$.
+\item
+récurrent si $\mathbb{P}_x(T_x^+ < \infty) = 1$.
+\end{itemize}
+
+Les états récurrents peuvent être de deux types:
+
+\begin{itemize}
+\item
+Les états récurrents nuls si $\mathbb{E}_x(T_x^+) = \infty$
+\item
+Les états récurrents positifs si $\mathbb{E}_x(T_x^+) < \infty$
+\end{itemize}
+\end{definition}
+
+\item
+On définit le $k^{\text{ième}}$ temps de retour en $x$ par
+
+\[ T_x^{(k + 1)} = \inf \{ n \geq T_x^{(k)} + 1;\ X_n = x \} \in \mathbb{N} \cup \{ \infty \} \]
+
+où $T_x^{(0)} = 0$. Si la chaîne ne passe que $k$ fois en $x$ alors le temps $T_x^(l)$ avec $l \geq k + 1$ seront infinis. La chaine de Markov fait des excursions entre deux passages en $x$ dont les longueurs sont données par
+
+\[ S_x^{(k)} = \begin{cases}
+T_x(k) - T_x(k - 1) & \text{si } T_x^{(k - 1)} < \infty \\
+0 & \text{sinon}
+\end{cases} \]
+
+Le nombre de visites d'un état $x$ par la chaîne de Markov $\{ X_n \}_{n \geq 0}$ est donné par
+
+\[ \mathcal{N}_x = \sum_{n \geq 0} \textbf{1}_{ \{ X_n = x \} } \]
+
+\item
+\begin{theoreme}
+On distingue deux comportements différents:
+
+\begin{itemize}
+\item
+Si un état $x$ est récurrent, alors une chaîne de Markov issue de $x$ reppase infiniment souvent en $x$
+
+\[ \mathbb{P}_x(\mathcal{N}_x = \infty) = 1 \]
+
+\item
+Si un état $x$ est transitoire, le nombre de visites $\mathcal{N}_x$ d'une chaîne de Markov issue de $x$ suit une loit géométrique sur $\mathbb{N}$ de paramètre $\mathbb{P}_x(T_x^+ = \infty) > 0$. En particulier
+
+\[ \mathbb{E}_x(\mathcal{N}_x) = \frac{1}{\mathbb{P}_x(T_x^+ = \infty)} \Rightarrow \mathbb{P}_x(N_x < \infty) = 1 \]
+
+\end{itemize}
+\end{theoreme}
+
+\item
+\textbf{Marche aléatoire symétrique sur $\mathbb{Z}^d$:} $P(x,y) = \frac{1}{2d} \textbf{1}_{ \{ \| x-y \|_\infty = 1 \}}$
+
+\begin{theoreme}
+La marche aléatoire symétrique sur $\mathbb{Z}$ ou $\mathbb{Z}^2$ est récurrente. Pour $d \geq 3$, la marche symétrique sur $\mathbb{Z}^d$ est transitoire.
+\end{theoreme}
+
+La mesure $\pi(x) = 1$ pour tout $x$ de $\mathbb{Z}^d$ est une mesure invariante pour la marche aléatoire. Par contre, il n'existe pas de mesure de probabilité invariante.
+
+\item
+\begin{theoreme}
+Pour toute chaîne de Markov irréductible sur un espace d'états E dénombrable les deux assertions suivantes sont équivalentes:
+
+\begin{enumerate}
+\item
+La chaîne est récurrente positive.
+\item
+Il existe une mesure de probabilité invariante
+
+De plus s'il existe une mesure de probabilité invariante alors elle est unique est donnée par
+
+\[ \forall x \in E,\ \pi(x) = \frac{1}{\mathbb{E}(T_x^+)} \]
+\end{enumerate}
+\end{theoreme}
+
+\begin{corollaire}
+Les états d'une chaîne de Markov irréductible et récurrente sont tous récurrents positifs ou tous récurrents nuls.
+\end{corollaire}
+
+\textbf{Note:} Pour une chaîne irréductible et récurrente, tous les temps d'atteinte ou de retour sont p.s. finis.
+
+\item
+\textbf{Arbres aléatoires de Galton Watson:}
+
+\item
+\textbf{Graphes aléatoires d'Erdös-Rényi:}
+
+\end{itemize}
+
+\section{Ergodicité et convergence des chaînes de Markov}
+
+\subsection{Théorème ergodique}
+
+\begin{theoreme}[Théorème ergodique]
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov irréductible, récurrente positive sur un espace d'états $E$ dénombrable. On note $\pi$ son unique mesure de probabilité invariante. Soit $F:E \to \mathbb{R}$ dont l'espérance sous $\pi$ est finie $\mathbb{E}_\pi(|F|) = \sum_{x \in E} |F(x)| \pi(x) < \infty$.
+
+On suppose que la donnée initiale $X_0$ est distribuée selon une mesure de probabilité $\mu$ sur $E$.
+
+\[ \frac{1}{n} \sum_{i = 0}^{n - 1} F(X_i) \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } \mathbb{E}_\pi(F) \]
+
+Si $F(x,y)$ est une fonction de $E \times E$ dans $\mathbb{R}$ telle que $\sum_{x,y \in E} \pi(x) P(x,y) |F(x,y)|$ est finie alors
+
+\[ \frac{1}{n} \sum_{i = 1}^n F(X_{i - 1},X_i) \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } \mathbb{E}_\pi(F(X_0,X_1)) = \sum_{x,y \in E} \pi(x) P(x,y) F(x,y) \]
+\end{theoreme}
+
+\textbf{Conséquence:} Si $\{ X_n \}$ est récurrente positive de mesure de probabilité invariante $\pi$
+
+\[ \forall x \in E,\ \frac{1}{n} \sum_{i = 0}^{n - 1} \textbf{1}_{X_i = x} \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } \pi(x) = \frac{1}{\mathbb{E}_x(T_x^+)} \]
+
+\begin{theoreme}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov récurrente nulle ou transitoire à valeurs dans $E$ dénombrable alors pour tout $x$ de $E$
+
+\[ \frac{1}{n} \sum_{l = 0}^{n - 1} \textbf{1}_{X_l = x} \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } 0 \]
+\end{theoreme}
+
+\subsection{Apériodicité et convergence}
+
+\begin{definition}
+Une chaîne de Markov irréductible sur $E$ est \textbf{apériodique} si pour tous $x,y$ de $E$ il existe $n(x,y) \in \mathbb{N}$ tel que la probabilité $\mathbb{P}_x(X_n = y) = P^n(x,y)$ est strictement positive dès que $n \geq n(x,y)$.
+\end{definition}
+
+\textbf{Note:} Particulièrement si la probabilité de rester sur place est non nulle, alors la chaîne est apériodique.
+
+\begin{lemme}
+Si la chaîne de Markov sur $E$ est irréductible et si un seul site $x$ est apériodique, c'est à dire qu'il vérifie
+
+\[ \mathbb{P}_x(X_n = x) = P^n(x,x) > 0 \text{ dès que }n\text{ est suffisamment grand} \]
+
+alors la chaîne est apériodique.
+\end{lemme}
+
+\begin{theoreme}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov irréductible et apériodique de mesure de probabilité invariante $\pi$ sur un espace d'états $E$ dénombrable. Pour toute distribution initiale $\mu_0$ sur $E$, la distribution de $\{ X_n \}_{n \geq 0}$ converge vers $\pi$ quand $n$ tend vers l'infini
+
+\[ \lim_{n \to \infty} \mathbb{P}_{\mu_0}(X_n = x) = \pi(x) \]
+\end{theoreme}
+
+\subsection{Distance en variation et couplage}
+
+\begin{definition}
+Soient $\mu$ et $\nu$ deux mesures de probabilité sur un espace dénombrable $E$. On définit la distance en variation totale entre ces deux mesures par
+
+\[ \| \mu - \nu \|_{VT} = \frac{1}{2} \sum_{x \in E} |\mu(x) - \nu(x)| \]
+\end{definition}
+
+\begin{definition}
+Un \textbf{couplage} entre les mesures $\mu$ et $\nu$ est une paire de variables aléatoires $(X,Y)$ de probabilité jointe $\widehat{\mathbb{P}}$ telle que
+
+\[ \mathbb{P}(X = x) = \sum_{y \in E} \widehat{\mathbb{P}}(X = x,Y = y) = \mu(x) \]
+\[ \mathbb{P}(Y = y) = \sum_{y \in E} \widehat{\mathbb{P}}(X = x,Y = y) = \nu(y) \]
+
+Il existe de multiples façons de coupler deux mesures.
+\end{definition}
+
+\begin{lemme}
+Soient $\mu$ et $\nu$ deux mesures de probabilité sur un espace dénombrable $E$, alors
+
+\[ \| \mu - \nu \|_{VT} = \max_{B \subset E} | \mu(B) - \nu(B) | = \inf \{ \widehat{\mathbb{P}}(X \neq Y); (X,Y) \text{ est une couplage de } \mu \text{ et } \nu \} \]
+
+où l'infimum est pris sur tous les couplages possibles de $\mu$ et $\nu$. Les couplages qui réalisent l'égalité sont dits optimaux.
+\end{lemme}
+
+\begin{theoreme}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov irréductible, apériodique sur un espace $E$ dénombrable. On suppose que sa matrice de transition vérifie la condition de Doeblin, i.e. qu'il existe $r \geq 1, \delta > 0$ et une mesure de probabibilité $\nu$ sur $E$ tels que
+
+\[ P^r(x,z) \leq \delta \nu(z) \text{ pour tous } x,z \text{ dans } E. \]
+
+Alors la chaîne de Markov admet une mesure de probabilité invariante $\pi$ vers laquelle la distribution de la chaîne de Markov converge exponentiellement vite (uniformément par rapport aux états initiaux)
+
+\[ \sup_{x \in E} \| P^n(x,\cdot) - \pi \| = \frac{1}{2} \sup_{x \in E} \sum_{y \in E} |P^n(x,y) - \pi(y) | \leq (1 - \delta)^{\lfloor n / r \rfloor} \]
+
+où $P^n(x,\cdot)$ est la distribution au temps $n$ en partant de $x$ et $\lfloor \cdot \rfloor$ représente la partie entière. Pour une chaîne de Markov distribuée initialement selon $\mu$, on a aussi
+
+\[ \| \sum_{x \in E} \mu(x) P^n(x,\cdot) - \pi (\cdot) \|_{VT} = \frac{1}{2} \sum_{y \in E} |\mathbb{P}_\mu (X_n = y) - \pi(y) | \leq (1 - \delta)^{\lfloor n / r \rfloor} \]
+\end{theoreme}
+
+\textbf{Remarque:} Si $E$ est fini, chaîne irréductible, apériodique $\Rightarrow$ condition de Doeblin.
+
+Il existe $r \geq 1$ tel que pour tout couple $x,y$ de $E$, on ait $P^r(x,y) > 0$. Il suffit de choisir
+
+\[ \delta = \sum_{y \in E} \min_{x \in E} P^r(x,y) > 0\ \ \text{et}\ \ \nu(y) = \frac{1}{\delta} \min_{x \in E} P^r(x,y) \]
+
+\subsection{Vitesse de converge: marche aléatoire}
+
+$E = \{1,\ldots,L\}$, matrice de transition $P$ donnée par
+
+\[ \forall i \in E,\ P(i,i + 1) = P(i,i - 1) = 1/4,\ P(i,i) = 1/2 \]
+
+où on identifie $L + 1 \equiv 0$ et $0 \equiv L$.
+
+\begin{itemize}
+\item
+On construit le couplage $(Y_n^1,Y_n^2)$ sur $E \times E$ partant de $(x,y)$. Au temps $n$:
+
+\begin{itemize}
+\item
+Si $Y_n^1 = Y_n^2$ alors les 2 coordonnées évoluent de la même manière selon la matrice de transition $P$ et on a $Y_{n + 1}^1 = Y_{n + 1}^2$
+
+\item
+Si $Y_n^1 \neq Y_n^2$ on choisit une variable $B_{n + 1} \in \{1,2\}$ avec probabilité $1/2$, puis seule la coodonnée $B_{n + 1}$ est mise a jour et saute à droite ou à gauche avec probabilité $1 / 2$: $Y_{n + 1}^{B_{n + 1}} = Y_n^{B_{n + 1}} \pm 1$.
+\end{itemize} 
+
+On note $T$ le premier temps où les deux trajectoires se rencontrent
+
+\[ \| P^n(x,\cdot) - P^n(y,\cdot) \|_{VT} \leq \widehat{\mathbb{P}}(T > n) \leq \frac{1}{n}\widehat{\mathbb{E}}(T) \]
+
+Supposons $x > y$ et analysons la différence $Z_n = Y_n^1 - Y_n^2$. $\{ Z_n \}_{n \geq 0}$ est une marche aléatoire partant de $x - y$ et sautant à chaque pas de temps à gauche ou à droite avec probabilité $1/2$ tant qu'elle n'a pas atteint $0$ ou $L$. Le temps d'arrêt $T$ correspond donc au moment où le processus $Z_n$ est absorbé en $0$ ou en $L$, c'est l'analogue du temps défini dans la ruine du joueur
+
+\[ \widehat{\mathbb{E}}(T) = (x - y)(L - (x - y)) \leq \frac{L^2}{4} \Rightarrow \| P^n(x,\cdot) - P^n(y,\cdot) \|_{VT} \leq \frac{L^2}{4n} \]
+
+\item
+$r \geq \frac{L}{2}$, $\delta \sim \left( \frac{1}{4} \right)^{L / 2} = \frac{1}{2^L}$
+
+\[ sup_{x \in E} \| P^n(x,\cdot) - \pi \|_{VT} \leq \left( 1 - \frac{1}{2^L} \right)^{ \lfloor \frac{n}{L / 2} \rfloor} \simeq \exp\left(-c \frac{n}{2^L L}\right) \]
+\end{itemize}
+
+\section{Espérance conditionnelle}
+
+\subsection{Espérance conditionnelle sur un espace d'états discret}
+
+\begin{definition}
+On définit l'espérance conditionnelle $\mathbb{E}(X | Y)$ comme la fonction de $Y$ qui prend la valeur $\mathbb{E}(X | Y = y)$ quand $Y = y$. Il existe donc une fonction $h(Y)$ telle que
+
+\[ h(y) = \mathbb{E}(X | Y = y) = \sum_{x \in E} x \mathbb{P}(X = x | Y = y) \]
+\end{definition}
+
+\begin{propiete}
+$\mathbb{E}(\mathbb{E}(X | Y)) = \mathbb{E}(X)$
+\end{propiete}
+
+\begin{propiete}(Orthogonalité)
+$\mathbb{E}( \mathbb{E}(X | Y) h(Y) ) = \mathbb{E}(X h(Y)) \Rightarrow \mathbb{E}((X - \mathbb{E}(X | Y)) h(Y)) = 0$
+\end{propiete}
+
+L'espérance conditionnelle de $\mathbb{E}(X | Y)$ est la meilleure approximation (quadratique) de $X$ par des variables de la forme $h(Y)$.
+
+\subsection{Définition de l'espérance conditionnelle}
+
+\begin{itemize}
+\item
+Soit $X : \Omega \to \mathbb{R}$ une variable aléatoire. On souhaite attribuer une probabilité aux événements de la forme $\{ X \leq a \}$ pour tout $a$ de $\mathbb{R}$, mais aussi évaluer la probabilité des complémentaires et des intersections entre tous ces ensembles.
+
+\begin{definition}
+Une \textbf{$\sigma$-algèbre} $\mathcal{A}$ sur un espace $\Omega$ est une \textbf{famille d'événements} satisfaisant les trois propiétés suivantes:
+
+\begin{itemize}
+\item
+$\Omega$ appartient à $\mathcal{A}$
+\item
+Si $U$ est dans $\mathcal{A}$ alors $U^C$ est dans $\mathcal{A}$
+\item
+Toute réunion dénombrable d'événements de $\mathcal{A}$ appartient à $\mathcal{A}$
+\end{itemize}
+\end{definition}
+
+\item
+Si $C$ est une collection d'événements on notera $\sigma(C)$ la plus petite $\sigma$-algèbre contenant $C$. On dira que $\sigma(C)$ est la \textbf{$\sigma$-algèbre engendrée par $C$}.
+
+\item
+Dans $\mathbb{R}$, la $\sigma$-algèbre engendrée par les intervalles de la forme $]-\infty,a]$ est la \textbf{$\sigma$-algèbre borélienne} et sera $\mathcal{B}_\mathbb{R}$. Les ensembles de la forme $\{ X \leq a \}$ avec $a$ dans $\mathbb{R}$ engendrent aussi une $\sigma$-algèbre qui sera notée $\sigma(X)$ et qui contient aussi tous les événements de la forme $\{ X \in B \}$ pour $B$ appartenant à $\mathcal{B}_\mathbb{R}$.
+
+\item
+On appelle alors \textbf{espace probabilisé} le triplet $(\Omega, \mathcal{A}, \mathbb{P})$ où $\mathcal{A}$ est une $\sigma$-algèbre sur $\Omega$ et $\mathbb{P} : \mathcal{A} \to [0,1]$ est une mesure de probabilité.
+
+\item
+Si $\mathcal{A}$ est une $\sigma$-algèbre sur $\Omega$, on dira que la variable $X : \Omega \to \mathbb{R}$ est \textbf{mesurable par rapport à $\mathcal{A}$}($\mathcal{A}$-mesurable), si tous les événements $\{ X \in B \}$ pour $B \in \mathcal{B}_\mathbb{R}$ appartiennent à $\mathcal{A}$, i.e. $\sigma(X) \subset A$.
+
+\item
+Les variables mesurables pour $\sigma(Y)$ sont de la forme
+
+\[ Z = f(Y)\ \text{avec}\ f:\mathbb{R} \to \mathbb{R}\ \text{fonction borélienne} \]
+
+\item
+Considerons un espace probabilisé $(\Omega, \mathcal{A}, \mathbb{P})$ et deux variables $X$ et $Y$  valeurs dans $\mathbb{R}$, mesurables par rapport à $\mathcal{A}$. On suppose que $\mathbb{E}(X^2) < \infty$. On cherche à approcher $X$ en fonction des variables du sous-espace
+
+\[ \mathcal{H} = \{ h(Y)\ ;\ h \in \mathcal{L}^0(\mathcal{B}_\mathbb{R}),\ \mathbb{E}(h(Y)^2) < \infty \} \]
+
+$\mathcal{H}$ est un sous-espace vectoriel fermé, on peut définir la projection orthogonale de $X$ sur $\mathcal{H}$ pour le produit scalaire $\langle Z,W \rangle = \mathbb{E}(ZW)$. On note cette projection $\mathbb{E}(X | Y)$ et elle satisfait la relation d'orthogonalité pour tout $h(Y)$ dans $\mathcal{H}$
+
+\[\mathbb{E}((X - \mathbb{E}(X | Y)) h(Y)) = 0 \Leftrightarrow \boxed{ \mathbb{E}( \mathbb{E}(X | Y) h(Y) ) = \mathbb{E}(X h(Y)) } \]
+
+Par ailleurs toutes les variables mesurables par rapport à $\sigma(Y)$ s'écrivent sous la forme $h(Y)$; la variable $\mathbb{E}(X | Y)$ est donc aussi $\sigma(Y)$-mesurable.
+
+\item
+\begin{theoreme}
+Soit $X$ une variable aléatoire $\mathcal{A}$-mesurable appartenant à $\mathbb{L}^1(\mathcal{A},\mathbb{P})$, i.e. telle que $E(|X|) < \infty$. On considère $\mathcal{F} \subset \mathcal{A}$ une autre $\sigma$-algèbre. Il existe une unique variable aléatoire $Z$ (définie presque sûrement) telle que
+
+\begin{enumerate}
+\item
+$Z$ est $\mathcal{F}$-mesurable
+\item
+$\mathbb{E}(|Z|) < \infty$
+\item
+Pour tout événement $F \in \mathcal{F}$, on a $\mathbb{E}(X \textbf{1}_F) = \mathbb{E}(Z \textbf{1}_F)$
+\end{enumerate}
+
+On définit alors l'espérance conditionnelle de $X$ sachant $\mathcal{F}$ par $\mathbb{E}(X | F) = Z$.
+\end{theoreme}
+
+Si $X \geq 0$, le théorème reste valable sans supposer $\mathbb{E}(X) < \infty$, la variable $Z$ pouvant prendre alors de valeurs infinies.
+
+\item
+Si $\mathcal{F} = \sigma(Y)$, on note $\mathbb{E}(X | Y) = \mathbb{E}(X | \mathcal{F})$ et la propiété 3 peut se réécrire
+
+\[ \forall h \in \mathbb{L}^\infty(\mathcal{B}_\mathbb{R}),\ \mathbb{E}(X h(Y)) = \mathbb{E}( \mathbb{E}(X | Y) h(Y) ) \]
+
+où $\mathbb{L}^\infty(\mathcal{B}_\mathbb{R})$ est l'ensemble des fonctions boréliennes bornées.
+
+\item
+Si $\mathcal{F} = \sigma(Y_1,\ldots,Y_n)$ est la $\sigma$-algèbre engendrée par les variables $Y_1,\ldots,Y_n$, i.e. la plus petite $\sigma$-algèbre contenant $\sigma(Y_1),\ldots,\sigma(Y_n)$, on note l'espérance conditionnelle $\mathbb{E}(X | Y_1,\ldots,Y_n)$.
+
+\item
+Si $\mathcal{F} = \{ \emptyset, \Omega \}$, c'est la plus petite $\sigma$-algèbre et elle correspond à l'absence totale d'information. Dans ce cas $\mathbb{E}[X | \mathcal{F}] = \mathbb{E}(X)$, l'espérance conditionnelle se confond avec l'espérance.
+
+\item
+Si $\mathcal{F} = \sigma(X)$, toute l'information de $X$ est connue. Ainsi $\mathbb{E}[X | \mathcal{F}] = X$. Il s'agait de la meilleure prediction possible de $X$.
+\end{itemize}
+
+\subsection{Propiétés de l'espérance conditionnelle}
+
+\begin{proposition}
+L'espérance conoditionnelle est linéaire
+
+\[ \mathbb{E}[X + Y | \mathcal{F}] = \mathbb{E}[X | \mathcal{F}] + \mathbb{E}[Y | \mathcal{F}] \]
+
+Pour tout $X \in \mathbb{L}^1(\mathcal{A},\mathbb{P})$
+
+\begin{enumerate}
+\item
+$\mathbb{E}[ \mathbb{E}[X | \mathcal{F} ] ] = \mathbb{E}[X]$
+\item
+Si $X \geq 0$, alors $\mathbb{E}[X |\mathcal{F}] \geq 0$ presque sûrement
+\item
+Si $X$ est $\mathcal{F}$-mesurable, alors $\mathbb{E}[X | \mathcal{F}] = X$ presque sûrement
+\end{enumerate}
+
+\end{proposition}
+
+\textbf{Arbres aléatoires de Galton Watson}
+
+$\zeta_i^t:$ le nombre aléatoire d'enfants de l'individu $i$ au temps $t$, $\{ \zeta_i^t \}_{i \geq 1, t \geq 1}$ variables aléatoires i.i.d.
+
+$\forall k \geq 0,\ \mathbb{P}(\zeta_i^t = k) = p_k$
+
+$Z_t$ le nombre d'individus au temps $t$:
+
+\[ Z_0 = 1 \]
+\[ Z_{t + 1} = \begin{cases}
+\zeta_1^{t + 1} + \ldots + \zeta_{Z_t}^{t + 1}&\text{, si } Z_t > 0 \\
+0 &\text{, si } Z_t = 0
+\end{cases}\]
+
+$\mathbb{E}(Z_{t + 1} | Z_t) = \mu Z_t$ avec $\mu = \mathbb{E}(\zeta_1^1)$
+
+\[ \mathbb{E}(Z_{t + 1}) = \mathbb{E}(\mathbb{E}(Z_{t + 1} | Z_t)) = \mathbb{E}(\mu Z_t) = \mu \mathbb{E}(Z_t) = \mu^t \]
+
+\begin{proposition}[Inégalité de Jensen]
+Soit $X$ dans $\mathbb{L}^1(\mathcal{A},\mathbb{P})$ et $g : \mathbb{R} \to \mathbb{R}$ une fonction convece telle que $\mathbb{E}[|g(X)|] < \infty$. Alors
+
+\[ \mathbb{E}[g(X) | \mathcal{F}] \geq g(\mathbb{E}[X | \mathcal{F}]) \]
+\end{proposition}
+
+\begin{proposition}
+Soit $X \in \mathbb{L}^1(\mathcal{A},\mathbb{P})$ et $\mathcal{F},\mathcal{G}$ des sous-$\sigma$-algèbres de $\mathcal{A}$.
+
+\begin{enumerate}
+\item
+Si $\mathcal{F} \subset \mathcal{G}$, alors $ \mathbb{E}[ \mathbb{E}(X | \mathcal{G}) | \mathcal{F} ] = \mathbb{E}[X | \mathcal{F}] $
+
+\item
+Si $\mathcal{G}$ est indépendante de $\sigma(\sigma(X),G)$, alors $\mathbb{E}[X | \sigma(\mathcal{F},\mathcal{G})] = \mathbb{E}[X | \mathcal{F}]$
+
+\item
+Si $Y$ est une variable aléatoire mesurable par rapport à $\mathcal{F}$ et $\mathbb{E}[|XY|] < \infty$, alors
+
+\[ \mathbb{E}[XY | \mathcal{F}] = Y \mathbb{E}[X | \mathcal{F}] \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+Soit $\{ X_n \}_{n \geq 0}$ de variables aléatoires dans $\mathbb{L}^1(\mathcal{A}, \mathbb{P})$
+
+\begin{enumerate}
+\item
+\textbf{(Convergence monotone)}
+
+Si $X_n \geq 0$ converge vers $X$ en croissant, alors $ \mathbb{E}[X_n | \mathcal{F}] \uparrow \mathbb{E}[X | \mathcal{F}] $
+
+\item
+\textbf{(Convergence dominée)}
+
+S'il existe $Y$ dans $\mathbb{L}^1(\mathcal{A},\mathbb{P})$ tel que $\sup_n |X_n| \leq Y$, alors $\mathbb{E}[X_n | \mathcal{F}] \to \mathbb{E}[X | \mathcal{F}]$
+
+\item
+\textbf{(Lemme de Fatou)}
+
+Si $X_n \geq 0$, alors $ \mathbb{E}[ \underset{n}{\liminf}\ X_n | \mathcal{F}] \leq \underset{n}{\liminf}\ \mathbb{E}[X_n | \mathcal{F}] $
+\end{enumerate}
+\end{proposition}
+
+\subsection{Processus aléatoire}
+
+\begin{definition}
+Une \textbf{filtration} de $\mathcal{A}$ est une suite croissante $\mathbb{F} = \{ \mathcal{F}_n \}_{n \geq 0}$ de sous-$\sigma$-algèbres de $\mathcal{A}$. On dit que $(\Omega, \mathcal{A}, \mathbb{F}, \mathbb{P})$ est un espace probabilisé filtré.
+
+La \textbf{filtration naturelle} associée au processus $X = \{ X_n \}_{n \geq 0}$ est
+
+\[ n \geq 0,\ \mathcal{F}_n^X = \sigma(X_i,i \geq n) \]
+\end{definition}
+
+Pour chaque $n \in \mathbb{N}$, la sous-$\sigma$-algèbre $\mathcal{F}_n$ représente l'information disponible à la date $n$. La croissance de la suite $\{ \mathcal{F}_n \}_{n \geq 0}$ traduit l'idée que l'information ne peut que s'accumuler au fil du temps.
+\\ \\
+Si $\{ X_n \}_{n \geq 1}$ est une chaîne de Markov sur $E$ et $\mathcal{F}_n = \sigma(X_i,i \leq n)$ sa filtration associée, alors la propiété de Markov s'ecrit
+
+\[ \forall B \subset E,\ \mathbb{P}(X_{n + 1} \in B | \mathcal{F}_n) = \mathbb{P}(X_{n + 1} \in B | X_0,\ldots,X_n) = \mathbb{P}(X_{n + 1} \in B | X_n) \]
+
+\begin{definition}
+Soient $X = \{ X_n \}_{n \geq 0}$ un processus aléatoire et $\mathbb{F} = \{ \mathcal{F}_n \}_{n \geq 0}$ une filtration de $\mathcal{A}$. On dit que
+
+\begin{enumerate}
+\item
+$X$ est \textbf{$\mathbb{F}$-adapté} si $X_n$ est $\mathcal{F}_n$-mesurable pour tout $n \geq 0$
+
+\item
+$X$ est \textbf{$\mathbb{F}$-prévisible} si $X_n$ est $\mathcal{F}_{n - 1}$-mesurable pour tout $n \geq 0$. Par convention, on note $\mathcal{F}_{-1} = \{ \emptyset, \Omega \}$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Un \textbf{temps d'arrêt} $T$ es une une variable aléatoire à valeurs dans $\mathbb{N} \cap \{ \infty \}$ telle que
+
+\[ \{ T = n \} \in \mathcal{F}_n \text{ pour tout } n \geq 0 \]
+\end{definition}
+
+\section{Martingales en temps discret}
+
+\subsection{Martingales}
+
+\begin{definition}[Martingale]
+Soit $X = \{ X_n \}_{n \geq 0}$ un processus aléatoire adapté sur l'espace probabilisé filtre $(\Omega, \mathcal{A}, \mathbb{F}, \mathbb{P})$. Si $X_n$ est intégrable pour tout $n$ (i.e. $\mathbb{E}(|X_n|) < \infty$), on dit que $X$ est
+
+\begin{itemize}
+\item
+une \textbf{martingale} si $\mathbb{E}[X_n | \mathcal{F}_{n - 1}] = X_{n - 1}$ pour tout $n \geq 1$.
+\item
+une \textbf{surmartingale} si $\mathbb{E}[X_n | \mathcal{F}_{n - 1}] \leq X_{n - 1}$ pour tout $n \geq 1$.
+\item
+une \textbf{sous-martingale} si $\mathbb{E}[X_n | \mathcal{F}_{n - 1}] \geq X_{n - 1}$ pour tout $n \geq 1$.
+\end{itemize}
+\end{definition}
+
+\textbf{Exemples:}
+
+\begin{itemize}
+\item
+\textbf{Marche aléatoire}: $S_n = \sum_{i = 1}^n \xi_i$ avec $\{ \xi_i \}_{i \geq 0}$ i.i.d et $\mathbb{E}(\xi_i) = 0$. Filtration $\mathcal{F}_n = \sigma(\xi_1,\ldots,\xi_n)$
+
+\begin{itemize}
+\item
+$\{ S_n \}_{n \geq 0}$ est une martingale
+\item
+$\{ S_n^2 \}_{n \geq 0}$ est une sous-martingale
+\item
+$\{ S_n^2 - n \mathbb{E}(\xi_1^2) \}_{n \geq 0}$ est une martingale
+\end{itemize}
+
+\item
+\textbf{Chaînes de Markov}: Pour une chaîne de Markov $\{ X_n \}_{n \geq 0}$ de matrice de transition $P$ sur un espace d'états $E$ dénombrable et $h$ une fonction tel que $E(|h(X_n)|) < \infty$ pour tout $n$
+
+\begin{itemize}
+\item
+si $h$ est harmonique, i.e. $h = Ph$, alors $\{ h(X_n) \}$ est une martingale.
+\item
+si $h$ est surharmonique, i.e. $h \geq Ph$, alors $\{ h(X_n) \}$ est une surmartingale.
+\item
+si $h$ est sous-harmonique, i.e. $h \leq Ph$, alors $\{ h(X_n) \}$ est une sous-martingale.
+\end{itemize}
+\end{itemize}
+
+\begin{proposition}[Inégalité de Jensen]
+Soient $\{ M_n \}_{n \geq 0}$ une martingale et $g : \mathbb{R} \to \mathbb{R}$ une application convexe telle que $\mathbb{E}[|g(M_n)|] < \infty$, alors le processus aléatoire $\{ g(M_n) \}_{n \geq 0}$ est une sous-martingale.
+
+En particulier, $\{ |M_n| \}_{n \geq 0}$ est une sous-martingale.
+\end{proposition}
+
+\subsection{Théorème d'arrêt}
+
+\begin{proposition}
+Soit $M = \{ M_n \}_{n \geq 0}$ une martingale et $\{ \phi_n \}_{n \geq 1}$ un processus prévisible borné, alors le processus
+
+\[ X_0 = 0\ \text{et}\ X_n = \sum_{k = 1}^n \phi_k(M_k - M_{k - 1}),\ n \geq 1 \]
+
+est une martingale.
+
+Si $\phi_k \geq 0$ pour tout $k$ et $\{ M_n \}_{n \geq 0}$ est une surmantingale (resp. sous-martingale), alors $\{ X_n \}_{n \geq 0}$ est aussi une surmantingale (resp. sous-martingale).
+\end{proposition}
+
+Cette proposition montre que si $\{ M_n \}_{n \geq 0}$ est une martingale, il n'existe aucune stratégie (dont les mises restent majorées) qui puise transformer un jeu équitable en une jeu profitable. Quelle que soit la stratégie $\{ \phi_n \}_{n \geq 1}$ adoptée, la moyenne du gain est constante $\mathbb{E}(X_n) = \mathbb{E}(X_0)$.
+\\ \\
+\textbf{Processus arrêté:} martingale $M$ arrêtée au temps $T$ que l'on notera $M^T = \{ M_n^T \}_{n \geq 0}$
+
+\[ M_n^T = \begin{cases}
+M_n, &\text{si } n \leq T \\
+M_T, &\text{si } n \geq T
+\end{cases}
+= \sum_{k = 1}^n 1_{\{ T \geq k \}}(M_k - M_{k - 1}) = M_{T \wedge n}\ \text{ avec }\ T \wedge n = \inf\{T,n\}
+\]
+
+\begin{proposition}
+Soient $X$ une martingale (resp. surmantingale, sous-martingale) et $T$ un temps d'arrêt sur $(\Omega, \mathcal{A}, \mathbb{F}, \mathbb{P})$. Alors le processus arrêté $X^T$ est une martingale (resp. surmantingale, sous-martingale).
+\end{proposition}
+
+\begin{theoreme}[Théorème d'arrêt de Doob]
+Soit $X$ une martingale (resp. surmartingale) et $T$ un temps d'arrêt. Si une des trois propiétés est satisfaite
+
+\begin{enumerate}
+\item
+$T$ est borné (il existe une constante $c$ telle que $T(\omega) \leq c$ pour presque tout $\omega$)
+
+\item
+$X$ est borné (il existe une constante $c$ telle que $\sup_n |X_n(\omega)| \leq c$ pour presque tout $\omega$) et $T$ est fini presque sûrement
+
+\item
+$\mathbb{E}(T) < \infty$ et il eiste une constante $c$ telle que $\sup_n |X_n(\omega) - X_{n - 1}(\omega)| \leq c$ pour presque tout $\omega$.
+\end{enumerate}
+
+alors
+
+\[ \mathbb{E}[X_T] = \mathbb{E}[X_0]\ \ (\text{resp. } \mathbb{E}[X_T] \leq \mathbb{E}[X_0]) \]
+\end{theoreme}
+
+\begin{proposition}
+Soit $X = \{ X_n \}_{n \geq 0}$ un processus aléatoire $\mathbb{F}$-adpaté tel que $\mathbb{E}[|X_n|] < \infty$ pour tout $n \in \mathbb{N}$. Alors $X$ est une martingale si et seulement si
+
+\[ \mathbb{E}[X_\nu] = \mathbb{E}[X_0] \text{ pour tout temps d'arrêt } \nu \text{ borné} \]
+\end{proposition}
+
+\textbf{Application: la ruine du joeur}
+
+\begin{itemize}
+\item
+$\{ \xi_i \}_{i \geq 1}$ i.i.d, $\mathbb{P}(\xi_i = \pm 1) = 1 / 2 \Rightarrow \mathbb{E}(\xi_i) = 0,\ \mathbb{E}(\xi_i^2) = 1$
+
+\[ X_0 = a\ \ \text{et}\ \ X_n = a + \sum_{i = 1}^n\xi_i, n \geq 1 \]
+
+\item
+$T_0 = \inf \{ n;\ X_n = 0 \}, T_{a + b} = \inf \{ n;\ X_n = a + b \}, \tau = \inf \{ T_0, T_{a + b} \}$
+
+\item
+$X$ est une chaîne de Markov sur espace d'états fini, donc elle finira toujours par atteindre 0 ou $a + b$. Le temps d'arrêt $\tau$ est donc fini presque sûrement.
+
+\item
+Comme $\tau < \infty$ p.s. et $X$ est borné
+
+\[ a = \mathbb{E}(X_\tau) = \mathbb{E}((a + b)1_{\{ T_0 > T_{a + b} \}}) = (a + b) \mathbb{P}(T_0 > T_{a + b}) \Rightarrow \mathbb{P}(T_0 > T_{a + b}) = \frac{a}{a + b} \]
+
+\item
+Pour calculer $\mathbb{E}(\tau)$, nous allons utiliser la martingale $M = \{ (X_n - a)^2 - n \}_{n \geq 0}$.
+
+\[ \mathbb{E}((X_{\tau \wedge n} - a)^2) = \mathbb{E}(\tau \wedge n) \]
+
+\item
+Quand $n$ tend vers l'infini, le théorème de convergence dominée permet de justifier la convergence du terme de gauche et le théorème de convergence monotone, celle du terme de droite
+
+\[ \mathbb{E}((X_\tau - a)^2) = \mathbb{E}(\tau) \Rightarrow \mathbb{E}(\tau) = b^2 \frac{a}{a + b} + a^2 \frac{b}{a + b} = ab \]
+\end{itemize}
+
+\subsection{Inégalités de martingales}
+
+\begin{theoreme}[Inégalité maximale de Doob]
+Soit $\{ M_n \}_{n \geq 0}$ une sous-martingale et $M_n^* = \sup_{k \leq n} M_k$ son processus de maximum courant.
+
+\begin{enumerate}
+\item
+Pour tout $c > 0$, on a
+
+\[ c \mathbb{P}[M_n^* \geq c] \leq \mathbb{E}[M_n \textbf{1}_{ \{ M_n^* \geq c \} }]\ \ \ \text{pour tout } n \in \mathbb{N} \]
+
+\item
+Soit $p > 1$. Si $M_n \geq 0$ et $M_n \in \mathbb{L}^p$ pour tout $n \geq 0$, i.e. $\mathbb{E}(|M_n|^p) < \infty$, alors $M_n^* \in \mathbb{L}^p$ et
+
+\[ \| M_n^* \|_p \leq \frac{p}{p - 1}\| M_n \|_p\ \ \ \text{pour tout }n \in \mathbb{N} \]
+
+avec la notation $\| X \|_p = (\mathbb{E}(|X|^p))^{1 / p}$.
+\end{enumerate}
+\end{theoreme}
+
+\section{Convergence des martingales}
+
+\subsection{Convergence des martingales dans $\mathbb{L}^2$}
+
+\begin{theoreme}
+Soit $\{ M_n \}_{n \geq 0}$ une martingale bornée dans $\mathbb{L}^2$, i.e. telle que
+
+\[ \sup_{n \geq 0} \mathbb{E}[M_n^2] < \infty \]
+
+Alors il existe une variable aléatoire limite $M_\infty$ dans $\mathbb{L}^2$ et
+
+\begin{enumerate}
+\item
+$M_n \underset{n \to \infty}{\longrightarrow} M_\infty$ dans $\mathbb{L}^2$
+\item
+$M_n \underset{n \to \infty}{\longrightarrow} M_\infty$ presque sûrement
+\end{enumerate}
+\end{theoreme}
+
+\subsection{Convergence des sous-martingales}
+
+\begin{theoreme}[Théorème de convergence de Doob]
+Soit $\{ X_n \}_{n \geq 0}$ une sous-martingale satisfaisant
+
+\[ \sup_{n \geq 0} \mathbb{E}[|X_n|] < \infty \]
+
+Alors il existe une variable aléatoire $X_\infty$ dans $\mathbb{L}^1$ telle que
+
+\[ X_n \underset{n \to \infty}{\longrightarrow} X_\infty\ \ \text{presque sûrement} \]
+\end{theoreme}
+
+\begin{corollaire}
+Supposons qu'une des trois propiétés soit satisfaite: $\{ X_n \}_{n \geq 0}$ est une
+
+\begin{itemize}
+\item
+martingale positive
+\item
+sous-martingale majorée uniformément par une constante
+\item
+sur-martingale minorée uniformément par une constante
+\end{itemize}
+
+alors il existe une variable aléatoire $X_\infty$ dans $\mathbb{L}^1$ et $X_n$ converge presque sûrement vers $X_\infty$.
+\end{corollaire}
+
+\subsection{Martingales fermées}
+
+\begin{definition}
+Un processus aléatoire $\{ M_n \}_{n \geq 0}$ est une \textbf{martingale fermée} s'il existe une variable aléatoire intégrable $M_\infty$ telle que $M_n = \mathbb{E}[M_\infty | \mathcal{F}_n]$ pour tout $n \geq 0$.
+\end{definition}
+
+\begin{theoreme}[Convergence dans $L^p$]
+Soit $p > 1$ et $\{ M_n \}_{n \geq 0}$ telle que
+
+\[ \sup_{n} \mathbb{E}[|M_n|^p] < \infty \]
+
+Alors $\{ M_n \}_{n \geq 0}$ est fermée et il existe $M_\infty$ dans $\mathbb{L}^p$ mesurable pour $\mathcal{F}_\infty = \sigma(\cup_{n \geq 0} \mathcal{F}_n)$ telle que
+
+\[ n \geq 0, M_n = \mathbb{E}[M_\infty | \mathcal{F}_n] \]
+
+De plus, la convergence $M_n \to M_\infty$ a lieu dans $\mathbb{L}^p$ et presque sûrement.
+\end{theoreme}
+
+\subsection{Théorème central limite}
+
+\begin{theoreme}
+Soit $\{ M_n \}_{n \geq 0}$ une martingale dont les accroissements $\Delta M_n = M_n - M_{n - 1}$ vérifient
+
+\[ \frac{1}{n} \sum_{k = 1}^n \mathbb{E}[(\Delta M_k)^2 | \mathcal{F}_{k - 1}] \overset{p.s.}{\underset{n \to \infty}{\longrightarrow}} \sigma^2 \text{ et } \sup_{n \geq 1} | \Delta M_n | \leq K \]
+
+où $\sigma$ et $K$ sont deux constantes. Alors
+
+\[ \frac{1}{\sqrt{n}} M_n \overset{loi}{\underset{n \to \infty}{\longrightarrow}} \gamma \text{ et } \gamma \overset{loi}{=} \mathcal{N}(0,\sigma^2) \]
+\end{theoreme}
+
+On considère $\{ X_n \}_{n \geq 0}$ une chaîne de Markov irréductible sur un espace d'états $E$ fini.
+
+\begin{theoreme}
+Soit $f$ une fonction de $E$ dans $\mathbb{R}$ alors
+
+\[ \frac{1}{\sqrt{n}} \sum_{j = 0}^n [f(X_j) - \mathbb{E}_\pi(f)] \overset{loi}{\underset{n \to \infty}{\longrightarrow}} \gamma \text{ et } \gamma \overset{loi}{=} \mathcal{N}(0,\sigma^2) \]
+\end{theoreme}
+
+\end{document}

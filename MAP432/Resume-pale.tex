@@ -1,0 +1,518 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fullpage}
+
+\setlength\parindent{0pt}
+
+\newtheorem{theoreme}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lemme}{Lemme}
+\newtheorem{definition}{Définition}
+\newtheorem{exercice}{Exercice}
+\newtheorem{propiete}{Propiété}
+
+\newenvironment{remarque}[1][Remarque]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\begin{document}
+
+\title{MAP 432 - Résumé}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{Matrice de transition}
+
+\begin{itemize}
+
+\item
+\begin{theoreme}[Récurrence aléatoire]
+Soit $\{ \xi_n \}_{n \geq 1}$ une suite de variables aléatoires indépendantes et identiquement distribuées sur un espace $F$. Soit $E$ un espace d'états dénombrable et $f$ une fonction de $E \times F$ dans $E$. On considère aussi $X_0$ une variable aléatoire à valeurs dans $E$ indépendante de la suite $\{ \xi_n \}_{n \geq 1}$.
+
+La récurrence aléatoire $\{ X_n \}_{n \geq 0}$
+
+\[ n \geq 0,\ X_{n + 1} = f(X_n,\xi_{n + 1}) \]
+
+est une chaîne de Markov.
+\end{theoreme}
+
+\textbf{Remarque:} la matrice de transition s'écrit $\boxed{ P(x,y) = \mathbb{P}(f(x,\xi_1) = y) }$
+
+\item
+Soit $h$ une fonction de $E$ dans $\mathbb{R}$. On définit
+
+\[ \forall x \in E,\ Ph(x) = \sum_{y \in E}P(x,y) h(y) \]
+
+Soit $u$ une mesure de probabilité sur $E$, on définit le produit
+
+\[ \forall y \in E,\ \mu P(y) = \sum_{x \in E} \mu(x) P(x,y) \]
+
+\item
+\begin{theoreme}
+pour toute collection d'états $\{ x_0,\ldots,x_n,y_1,\ldots,y_K \}$ de $E$
+
+\[ \boxed{ \mathbb{P}(X_{n + 1} = y_1,\ldots,X_{n + K} = y_K | X_0 = x_0,\ldots,X_n = x_n) = \mathbb{P}(X_1 = y_1,\ldots,X_K = y_K | X_0 = x_n) } \]
+
+Si $A$ est un événement dépendant uniquement des variables $\{ X_{n + 1},\ldots,X_{n + K} \}$ et $B$ un autre événement dépendant de $\{ X_0,\ldots,X_{n - 1} \}$, alors conditionnellement à $\{ X_n = x_n \}$, ces deux événements son indépendants
+
+\[ \mathbb{P}(A \cap B | X_n = x_n) = \mathbb{P}(A | X_n = x_n)\ \mathbb{P}(B | X_n = x_n) \]
+\end{theoreme}
+
+\item
+\begin{theoreme}[Propiété de Markov forte]
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov de matrice de transition $P$ et de loi initiale $\mu_0$. On considère $T$ un temps d'arrêt pour cette chaîne de Markov. Conditionnellement à $\{ T < \infty \}$ et $X_T = x$, alors le processus décalé en temps $\{ X_{T + k} \}_{k \geq 0}$ est une chaîne de Markov de matrice de transition $P$ partant initialement de $x$ et elle est indépendante de $\{ X_0,X_1,\ldots,X_T \}$.
+
+Soit $B$ un événement dépendant uniquement de $\{ X_0,X_1,\ldots,X_T \}$.
+
+\begin{center}
+$\mathbb{P}_{\mu_0}(\{ X_T = x_0,X_{T + 1} = x_1,\ldots,X_{T + k} = x_k \} \cap B\ |\ \{X_T = x\} \cap \{T < \infty\})$
+$= \mathbb{P}(X_1 = x_1,\ldots,X_k = x_k\ |\ X_0 = x) \mathbb{P}_{\mu_0}(B\ |\ \{X_T = x\} \cap \{T < \infty\})$
+\end{center}
+\end{theoreme}
+\end{itemize}
+
+\section{Mesures Invariantes}
+
+\begin{itemize}
+
+\item
+Nous ne considérons que des chaînes de Markov sur un espace $E$ fini de matrice de transition $P$.
+
+\item
+\begin{definition}
+La mesure $\pi$ sur $E$ est une mesure invariante pour la chaîne de Markov $\{ X_n \}_{n \geq 0}$ si $\pi = \pi P$, c'est à dire
+
+\[ \forall y \in E,\ \pi(y) = \sum_{x \in E} \pi(x) P(x,y) \]
+\end{definition}
+
+\item
+\begin{lemme}
+Si $\pi$ est une mesure invariante alors $\pi = \pi P^n$ pour tout $n \geq 1$.
+\end{lemme}
+
+\item
+\begin{theoreme}[Existence]
+Pour toute chaîne de Markov sur un espace d'états fini $E$, il existe une mesure invariante.
+\end{theoreme}
+
+\subsection{Irréductibilité et unicité des mesures invariantes}
+
+\item
+\begin{theoreme}[Unicité]
+Pour toute chaîne de Markov irréductible sur un espace d'états fini $E$, il existe une unique mesure de probabilité invariante $\pi$ telle que $\pi(x) > 0$ pour tout $x \in E$.
+\end{theoreme}
+
+\textbf{Note:} Si $P$ est symétrique, donc $\forall x \in E,\ \pi(x) = \dfrac{1}{|E|}$.
+
+\item
+Premier temps d'un élément $x$ de $E$
+
+\[ T_x = \min \{ n \geq 0;\ X_n = x \} \]
+
+On définit aussi
+
+\[ T_x^+ = \min \{ n \geq 1;\ X_n = x \} \]
+
+\item
+\begin{lemme}
+Pour une chaîne de Markov irréductible sur un espace d'états $E$ fini
+
+\[ \forall x,y \in E,\ \mathbb{E}_x(T_y^+) < \infty \]
+\end{lemme}
+
+\textbf{Conséquence:} Si $E$ est fini, alors $T_x^+ < \infty$ presque sûrement.
+
+\item
+\begin{theoreme}
+Pour une chaîne de Markov irréductible $\{ X_n \}_{n \geq 0}$ sur un espace d'états $E$ fini, l'unique mesure de probabilité invariante est donnée par
+
+\[ \boxed{ \forall x \in E,\ \pi(x) = \frac{1}{\mathbb{E}_x(T_x^+)} } \]
+\end{theoreme}
+
+\subsection{Réversibilité}
+
+\item
+\begin{definition}
+Une chaîne de Markov de matrice de transition $P$ sur $E$ est dite réversible par rapport à la mesure $\pi$ si elle satisfait
+
+\[ \forall x,y \in E,\ \pi(x) P(x,y) = \pi(y) P(y,x) \]
+\end{definition}
+
+\item
+\begin{theoreme}
+Si une chaîne de Markov de matrice de transition $P$ est réversible par rapport à la mesure $\pi$, alors $\pi$ est une mesure invariante.
+\end{theoreme}
+
+\end{itemize}
+
+\section{Espace d'états dénombrables}
+
+\begin{itemize}
+
+\item
+\begin{definition}
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov sur un espace d'états $E$ dénombrable. Un état $x$ de $E$ est dit
+
+\begin{itemize}
+\item
+transitoire si $\mathbb{P}_x(T_x^+ < \infty) < 1$.
+\item
+récurrent si $\mathbb{P}_x(T_x^+ < \infty) = 1$.
+\end{itemize}
+
+Les états récurrents peuvent être de deux types:
+
+\begin{itemize}
+\item
+Les états récurrents nuls si $\mathbb{E}_x(T_x^+) = \infty$
+\item
+Les états récurrents positifs si $\mathbb{E}_x(T_x^+) < \infty$
+\end{itemize}
+\end{definition}
+
+\item
+Le nombre de visites d'un état $x$ par la chaîne de Markov $\{ X_n \}_{n \geq 0}$ est donné par
+
+\[ \mathcal{N}_x = \sum_{n \geq 0} \textbf{1}_{ \{ X_n = x \} } \]
+
+\item
+\begin{theoreme}
+On distingue deux comportements différents:
+
+\begin{itemize}
+\item
+Si un état $x$ est récurrent, alors une chaîne de Markov issue de $x$ reppase infiniment souvent en $x$
+
+\[ \mathbb{P}_x(\mathcal{N}_x = \infty) = 1 \]
+
+\item
+Si un état $x$ est transitoire, le nombre de visites $\mathcal{N}_x$ d'une chaîne de Markov issue de $x$ suit une loit géométrique sur $\mathbb{N}$ de paramètre $\mathbb{P}_x(T_x^+ = \infty) > 0$. En particulier
+
+\[ \mathbb{E}_x(\mathcal{N}_x) = \frac{1}{\mathbb{P}_x(T_x^+ = \infty)} \Rightarrow \mathbb{P}_x(N_x < \infty) = 1 \]
+
+\end{itemize}
+\end{theoreme}
+
+\item
+\begin{theoreme}
+Pour toute chaîne de Markov irréductible sur un espace d'états E dénombrable les deux assertions suivantes sont équivalentes:
+
+\begin{enumerate}
+\item
+La chaîne est récurrente positive.
+\item
+Il existe une mesure de probabilité invariante
+
+De plus s'il existe une mesure de probabilité invariante alors elle est unique est donnée par
+
+\[ \forall x \in E,\ \pi(x) = \frac{1}{\mathbb{E}(T_x^+)} \]
+\end{enumerate}
+\end{theoreme}
+
+\begin{corollaire}
+Les états d'une chaîne de Markov irréductible et récurrente sont tous récurrents positifs ou tous récurrents nuls.
+\end{corollaire}
+
+\textbf{Note:} Pour une chaîne irréductible et récurrente, tous les temps d'atteinte ou de retour sont p.s. finis.
+
+\end{itemize}
+
+\section{Ergodicité et convergence des chaînes de Markov}
+
+\subsection{Théorème ergodique}
+
+\begin{theoreme}[Théorème ergodique]
+Soit $\{ X_n \}_{n \geq 0}$ une chaîne de Markov irréductible, récurrente positive sur un espace d'états $E$ dénombrable. On note $\pi$ son unique mesure de probabilité invariante. Soit $F:E \to \mathbb{R}$ dont l'espérance sous $\pi$ est finie $\mathbb{E}_\pi(|F|) = \sum_{x \in E} |F(x)| \pi(x) < \infty$.
+
+On suppose que la donnée initiale $X_0$ est distribuée selon une mesure de probabilité $\mu$ sur $E$.
+
+\[ \frac{1}{n} \sum_{i = 0}^{n - 1} F(X_i) \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } \mathbb{E}_\pi(F) \]
+
+Si $F(x,y)$ est une fonction de $E \times E$ dans $\mathbb{R}$ telle que $\sum_{x,y \in E} \pi(x) P(x,y) |F(x,y)|$ est finie alors
+
+\[ \frac{1}{n} \sum_{i = 1}^n F(X_{i - 1},X_i) \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } \mathbb{E}_\pi(F(X_0,X_1)) = \sum_{x,y \in E} \pi(x) P(x,y) F(x,y) \]
+\end{theoreme}
+
+\textbf{Conséquence:} Si $\{ X_n \}$ est récurrente positive de mesure de probabilité invariante $\pi$
+
+\[ \forall x \in E,\ \frac{1}{n} \sum_{i = 0}^{n - 1} \textbf{1}_{X_i = x} \overset{p.s}{ \underset{n \to \infty}{\rightarrow} } \pi(x) = \frac{1}{\mathbb{E}_x(T_x^+)} \]
+
+\subsection{Distance en variation et couplage}
+
+\begin{definition}
+Soient $\mu$ et $\nu$ deux mesures de probabilité sur un espace dénombrable $E$. On définit la distance en variation totale entre ces deux mesures par
+
+\[ \| \mu - \nu \|_{VT} = \frac{1}{2} \sum_{x \in E} |\mu(x) - \nu(x)| \]
+\end{definition}
+
+\begin{definition}
+Un \textbf{couplage} entre les mesures $\mu$ et $\nu$ est une paire de variables aléatoires $(X,Y)$ de probabilité jointe $\widehat{\mathbb{P}}$ telle que
+
+\[ \mathbb{P}(X = x) = \sum_{y \in E} \widehat{\mathbb{P}}(X = x,Y = y) = \mu(x) \]
+\[ \mathbb{P}(Y = y) = \sum_{y \in E} \widehat{\mathbb{P}}(X = x,Y = y) = \nu(y) \]
+
+Il existe de multiples façons de coupler deux mesures.
+\end{definition}
+
+\begin{lemme}
+Soient $\mu$ et $\nu$ deux mesures de probabilité sur un espace dénombrable $E$, alors
+
+\[ \| \mu - \nu \|_{VT} = \max_{B \subset E} | \mu(B) - \nu(B) | = \inf \{ \widehat{\mathbb{P}}(X \neq Y); (X,Y) \text{ est une couplage de } \mu \text{ et } \nu \} \]
+
+où l'infimum est pris sur tous les couplages possibles de $\mu$ et $\nu$. Les couplages qui réalisent l'égalité sont dits optimaux.
+\end{lemme}
+
+\section{Espérance conditionnelle}
+
+\subsection{Définition de l'espérance conditionnelle}
+
+\begin{itemize}
+\item
+\begin{theoreme}
+Soit $X$ une variable aléatoire $\mathcal{A}$-mesurable appartenant à $\mathbb{L}^1(\mathcal{A},\mathbb{P})$, i.e. telle que $E(|X|) < \infty$. On considère $\mathcal{F} \subset \mathcal{A}$ une autre $\sigma$-algèbre. Il existe une unique variable aléatoire $Z$ (définie presque sûrement) telle que
+
+\begin{enumerate}
+\item
+$Z$ est $\mathcal{F}$-mesurable
+\item
+$\mathbb{E}(|Z|) < \infty$
+\item
+Pour tout événement $F \in \mathcal{F}$, on a $\mathbb{E}(X \textbf{1}_F) = \mathbb{E}(Z \textbf{1}_F)$
+\end{enumerate}
+
+On définit alors l'espérance conditionnelle de $X$ sachant $\mathcal{F}$ par $\mathbb{E}(X | F) = Z$.
+\end{theoreme}
+\end{itemize}
+
+\subsection{Propiétés de l'espérance conditionnelle}
+
+\begin{proposition}
+L'espérance conoditionnelle est linéaire
+
+\[ \mathbb{E}[X + Y | \mathcal{F}] = \mathbb{E}[X | \mathcal{F}] + \mathbb{E}[Y | \mathcal{F}] \]
+
+Pour tout $X \in \mathbb{L}^1(\mathcal{A},\mathbb{P})$
+
+\begin{enumerate}
+\item
+$\mathbb{E}[ \mathbb{E}[X | \mathcal{F} ] ] = \mathbb{E}[X]$
+\item
+Si $X \geq 0$, alors $\mathbb{E}[X |\mathcal{F}] \geq 0$ presque sûrement
+\item
+Si $X$ est $\mathcal{F}$-mesurable, alors $\mathbb{E}[X | \mathcal{F}] = X$ presque sûrement
+\end{enumerate}
+
+\end{proposition}
+
+\begin{proposition}[Inégalité de Jensen]
+Soit $X$ dans $\mathbb{L}^1(\mathcal{A},\mathbb{P})$ et $g : \mathbb{R} \to \mathbb{R}$ une fonction convece telle que $\mathbb{E}[|g(X)|] < \infty$. Alors
+
+\[ \mathbb{E}[g(X) | \mathcal{F}] \geq g(\mathbb{E}[X | \mathcal{F}]) \]
+\end{proposition}
+
+\begin{proposition}
+Soit $X \in \mathbb{L}^1(\mathcal{A},\mathbb{P})$ et $\mathcal{F},\mathcal{G}$ des sous-$\sigma$-algèbres de $\mathcal{A}$.
+
+\begin{enumerate}
+\item
+Si $\mathcal{F} \subset \mathcal{G}$, alors $ \mathbb{E}[ \mathbb{E}(X | \mathcal{G}) | \mathcal{F} ] = \mathbb{E}[X | \mathcal{F}] $
+
+\item
+Si $\mathcal{G}$ est indépendante de $\sigma(\sigma(X),G)$, alors $\mathbb{E}[X | \sigma(\mathcal{F},\mathcal{G})] = \mathbb{E}[X | \mathcal{F}]$
+
+\item
+Si $Y$ est une variable aléatoire mesurable par rapport à $\mathcal{F}$ et $\mathbb{E}[|XY|] < \infty$, alors
+
+\[ \mathbb{E}[XY | \mathcal{F}] = Y \mathbb{E}[X | \mathcal{F}] \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+Soit $\{ X_n \}_{n \geq 0}$ de variables aléatoires dans $\mathbb{L}^1(\mathcal{A}, \mathbb{P})$
+
+\begin{enumerate}
+\item
+\textbf{(Convergence monotone)}
+
+Si $X_n \geq 0$ converge vers $X$ en croissant, alors $ \mathbb{E}[X_n | \mathcal{F}] \uparrow \mathbb{E}[X | \mathcal{F}] $
+
+\item
+\textbf{(Convergence dominée)}
+
+S'il existe $Y$ dans $\mathbb{L}^1(\mathcal{A},\mathbb{P})$ tel que $\sup_n |X_n| \leq Y$, alors $\mathbb{E}[X_n | \mathcal{F}] \to \mathbb{E}[X | \mathcal{F}]$
+
+\item
+\textbf{(Lemme de Fatou)}
+
+Si $X_n \geq 0$, alors $ \mathbb{E}[ \underset{n}{\liminf}\ X_n | \mathcal{F}] \leq \underset{n}{\liminf}\ \mathbb{E}[X_n | \mathcal{F}] $
+\end{enumerate}
+\end{proposition}
+
+\subsection{Processus aléatoire}
+
+\begin{definition}
+Une \textbf{filtration} de $\mathcal{A}$ est une suite croissante $\mathbb{F} = \{ \mathcal{F}_n \}_{n \geq 0}$ de sous-$\sigma$-algèbres de $\mathcal{A}$. On dit que $(\Omega, \mathcal{A}, \mathbb{F}, \mathbb{P})$ est un espace probabilisé filtré.
+
+La \textbf{filtration naturelle} associée au processus $X = \{ X_n \}_{n \geq 0}$ est
+
+\[ n \geq 0,\ \mathcal{F}_n^X = \sigma(X_i,i \geq n) \]
+\end{definition}
+
+Pour chaque $n \in \mathbb{N}$, la sous-$\sigma$-algèbre $\mathcal{F}_n$ représente l'information disponible à la date $n$. La croissance de la suite $\{ \mathcal{F}_n \}_{n \geq 0}$ traduit l'idée que l'information ne peut que s'accumuler au fil du temps.
+\\ \\
+Si $\{ X_n \}_{n \geq 1}$ est une chaîne de Markov sur $E$ et $\mathcal{F}_n = \sigma(X_i,i \leq n)$ sa filtration associée, alors la propiété de Markov s'ecrit
+
+\[ \forall B \subset E,\ \mathbb{P}(X_{n + 1} \in B | \mathcal{F}_n) = \mathbb{P}(X_{n + 1} \in B | X_0,\ldots,X_n) = \mathbb{P}(X_{n + 1} \in B | X_n) \]
+
+\begin{definition}
+Soient $X = \{ X_n \}_{n \geq 0}$ un processus aléatoire et $\mathbb{F} = \{ \mathcal{F}_n \}_{n \geq 0}$ une filtration de $\mathcal{A}$. On dit que
+
+\begin{enumerate}
+\item
+$X$ est \textbf{$\mathbb{F}$-adapté} si $X_n$ est $\mathcal{F}_n$-mesurable pour tout $n \geq 0$
+
+\item
+$X$ est \textbf{$\mathbb{F}$-prévisible} si $X_n$ est $\mathcal{F}_{n - 1}$-mesurable pour tout $n \geq 0$. Par convention, on note $\mathcal{F}_{-1} = \{ \emptyset, \Omega \}$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Un \textbf{temps d'arrêt} $T$ es une une variable aléatoire à valeurs dans $\mathbb{N} \cap \{ \infty \}$ telle que
+
+\[ \{ T = n \} \in \mathcal{F}_n \text{ pour tout } n \geq 0 \]
+\end{definition}
+
+\section{Martingales en temps discret}
+
+\subsection{Martingales}
+
+\begin{definition}[Martingale]
+Soit $X = \{ X_n \}_{n \geq 0}$ un processus aléatoire adapté sur l'espace probabilisé filtre $(\Omega, \mathcal{A}, \mathbb{F}, \mathbb{P})$. Si $X_n$ est intégrable pour tout $n$ (i.e. $\mathbb{E}(|X_n|) < \infty$), on dit que $X$ est
+
+\begin{itemize}
+\item
+une \textbf{martingale} si $\mathbb{E}[X_n | \mathcal{F}_{n - 1}] = X_{n - 1}$ pour tout $n \geq 1$.
+\item
+une \textbf{surmartingale} si $\mathbb{E}[X_n | \mathcal{F}_{n - 1}] \leq X_{n - 1}$ pour tout $n \geq 1$.
+\item
+une \textbf{sous-martingale} si $\mathbb{E}[X_n | \mathcal{F}_{n - 1}] \geq X_{n - 1}$ pour tout $n \geq 1$.
+\end{itemize}
+\end{definition}
+
+\begin{proposition}[Inégalité de Jensen]
+Soient $\{ M_n \}_{n \geq 0}$ une martingale et $g : \mathbb{R} \to \mathbb{R}$ une application convexe telle que $\mathbb{E}[|g(M_n)|] < \infty$, alors le processus aléatoire $\{ g(M_n) \}_{n \geq 0}$ est une sous-martingale.
+
+En particulier, $\{ |M_n| \}_{n \geq 0}$ est une sous-martingale.
+\end{proposition}
+
+\subsection{Théorème d'arrêt}
+
+\textbf{Processus arrêté:} martingale $M$ arrêtée au temps $T$ que l'on notera $M^T = \{ M_n^T \}_{n \geq 0}$
+
+\[ M_n^T = \begin{cases}
+M_n, &\text{si } n \leq T \\
+M_T, &\text{si } n \geq T
+\end{cases}
+= \sum_{k = 1}^n 1_{\{ T \geq k \}}(M_k - M_{k - 1}) = M_{T \wedge n}\ \text{ avec }\ T \wedge n = \inf\{T,n\}
+\]
+
+\begin{proposition}
+Soient $X$ une martingale (resp. surmantingale, sous-martingale) et $T$ un temps d'arrêt sur $(\Omega, \mathcal{A}, \mathbb{F}, \mathbb{P})$. Alors le processus arrêté $X^T$ est une martingale (resp. surmantingale, sous-martingale).
+\end{proposition}
+
+\begin{theoreme}[Théorème d'arrêt de Doob]
+Soit $X$ une martingale (resp. surmartingale) et $T$ un temps d'arrêt. Si une des trois propiétés est satisfaite
+
+\begin{enumerate}
+\item
+$T$ est borné (il existe une constante $c$ telle que $T(\omega) \leq c$ pour presque tout $\omega$)
+
+\item
+$X$ est borné (il existe une constante $c$ telle que $\sup_n |X_n(\omega)| \leq c$ pour presque tout $\omega$) et $T$ est fini presque sûrement
+
+\item
+$\mathbb{E}(T) < \infty$ et il eiste une constante $c$ telle que $\sup_n |X_n(\omega) - X_{n - 1}(\omega)| \leq c$ pour presque tout $\omega$.
+\end{enumerate}
+
+alors
+
+\[ \mathbb{E}[X_T] = \mathbb{E}[X_0]\ \ (\text{resp. } \mathbb{E}[X_T] \leq \mathbb{E}[X_0]) \]
+\end{theoreme}
+
+\begin{proposition}
+Soit $X = \{ X_n \}_{n \geq 0}$ un processus aléatoire $\mathbb{F}$-adpaté tel que $\mathbb{E}[|X_n|] < \infty$ pour tout $n \in \mathbb{N}$. Alors $X$ est une martingale si et seulement si
+
+\[ \mathbb{E}[X_\nu] = \mathbb{E}[X_0] \text{ pour tout temps d'arrêt } \nu \text{ borné} \]
+\end{proposition}
+
+\subsection{Inégalités de martingales}
+
+\begin{theoreme}[Inégalité maximale de Doob]
+Soit $\{ M_n \}_{n \geq 0}$ une sous-martingale et $M_n^* = \sup_{k \leq n} M_k$ son processus de maximum courant.
+
+\begin{enumerate}
+\item
+Pour tout $c > 0$, on a
+
+\[ c \mathbb{P}[M_n^* \geq c] \leq \mathbb{E}[M_n \textbf{1}_{ \{ M_n^* \geq c \} }]\ \ \ \text{pour tout } n \in \mathbb{N} \]
+
+\item
+Soit $p > 1$. Si $M_n \geq 0$ et $M_n \in \mathbb{L}^p$ pour tout $n \geq 0$, i.e. $\mathbb{E}(|M_n|^p) < \infty$, alors $M_n^* \in \mathbb{L}^p$ et
+
+\[ \| M_n^* \|_p \leq \frac{p}{p - 1}\| M_n \|_p\ \ \ \text{pour tout }n \in \mathbb{N} \]
+
+avec la notation $\| X \|_p = (\mathbb{E}(|X|^p))^{1 / p}$.
+\end{enumerate}
+\end{theoreme}
+
+\section{Convergence des martingales}
+
+\subsection{Convergence des martingales dans $\mathbb{L}^2$}
+
+\begin{theoreme}
+Soit $\{ M_n \}_{n \geq 0}$ une martingale bornée dans $\mathbb{L}^2$, i.e. telle que
+
+\[ \sup_{n \geq 0} \mathbb{E}[M_n^2] < \infty \]
+
+Alors il existe une variable aléatoire limite $M_\infty$ dans $\mathbb{L}^2$ et
+
+\begin{enumerate}
+\item
+$M_n \underset{n \to \infty}{\longrightarrow} M_\infty$ dans $\mathbb{L}^2$
+\item
+$M_n \underset{n \to \infty}{\longrightarrow} M_\infty$ presque sûrement
+\end{enumerate}
+\end{theoreme}
+
+\subsection{Convergence des sous-martingales}
+
+\begin{theoreme}[Théorème de convergence de Doob]
+Soit $\{ X_n \}_{n \geq 0}$ une sous-martingale satisfaisant
+
+\[ \sup_{n \geq 0} \mathbb{E}[|X_n|] < \infty \]
+
+Alors il existe une variable aléatoire $X_\infty$ dans $\mathbb{L}^1$ telle que
+
+\[ X_n \underset{n \to \infty}{\longrightarrow} X_\infty\ \ \text{presque sûrement} \]
+\end{theoreme}
+
+\begin{corollaire}
+Supposons qu'une des trois propiétés soit satisfaite: $\{ X_n \}_{n \geq 0}$ est une
+
+\begin{itemize}
+\item
+martingale positive
+\item
+sous-martingale majorée uniformément par une constante
+\item
+sur-martingale minorée uniformément par une constante
+\end{itemize}
+
+alors il existe une variable aléatoire $X_\infty$ dans $\mathbb{L}^1$ et $X_n$ converge presque sûrement vers $X_\infty$.
+\end{corollaire}
+
+\end{document}
