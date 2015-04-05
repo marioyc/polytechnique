@@ -244,7 +244,7 @@ Pour presque tout $x$, $y \mapsto h(x,y)$ est dans $L^1(\mathbb{R}^{d_2})$, et $
 \begin{definition}
 Si $f$ et $g$ appartiennent à $L^1(\mathbb{R}^d)$, alors le produit de convolution $f \star g$ est défini par
 
-\[ (f \star g)(x) = \int f(x - y)g(y) dy \int g(x - y) f(y) dy \]
+\[ (f \star g)(x) = \int f(x - y)g(y) dy = \int g(x - y) f(y) dy \]
 \end{definition}
 
 \item
@@ -283,9 +283,9 @@ $f \in L^1, g \in C^1_b = \{ C^1,g \in C^0_b, \frac{\partial g}{\partial x_j} \i
 $\Rightarrow f \star g \in C^1_b$ et $\frac{\partial}{\partial x_j}(f \star g) = f \star (\frac{\partial}{\partial x_j} g)$
 
 \item
-$f \in L^1_{loc}(\mathbb{R}^d) = \{f \text{ mesurable et } \forall \text{ K complet de } \mathbb{R}^d, f_{|K} \in L^1(K)\}$
+$f \in L^1_{loc}(\mathbb{R}^d) = \{f \text{ mesurable et } \forall \text{ K compact de } \mathbb{R}^d, f_{|K} \in L^1(K)\}$
 
-$g \in C^1_c(\mathbb{R}^d) = \{ g \in C^1(\mathbb{R}^d) \text{ et } \exists R > 0 / g_{|\mathbb{R}^d \ B_{R}(0)} \equiv 0 \}$
+$g \in C^1_c(\mathbb{R}^d) = \{ g \in C^1(\mathbb{R}^d) \text{ et } \exists R > 0 / g_{|\mathbb{R}^d \setminus B_{R}(0)} \equiv 0 \}$
 
 $\Rightarrow f \star g \in L^1_{loc}(\mathbb{R}^d)$
 \end{enumerate}
@@ -735,11 +735,23 @@ Soit $f$ une fonction sommable de classe $\mathcal{C}^1$, dont les dérivées pa
 \end{theoreme}
 
 \item
+\begin{corollaire}
+Soit $f$ une fonction sommable et de classe $\mathcal{C}^p$ dont toutes les dérivées partielles jusqu'à l'ordre $p$ sont sommables. On a alors
+
+\[ \hat{f}(\xi) = o(|\xi|^{-p}) \text{ pour } \xi \to \infty \]
+\end{corollaire}
+
+\item
 \begin{theoreme}
 Soit $f$ une fonction sommable telle que les fonctions $x \mapsto x_j f(x)$ soient aussi sommables. Alors $\hat{f}$ est de classe $\mathcal{C}^1$ et on a
 
 \[ \mathcal{F}[x_j f(x)] = i \frac{\partial}{\partial \xi_j}\hat{f}(\xi) \]
 \end{theoreme}
+
+\item
+\begin{corollaire}
+Soit $f$ une fonction telle que $x \mapsto (1 + |x|^p)f(x)$ soit sommable. Alors $\hat{f}$ est de classe $\mathcal{C}^p$.
+\end{corollaire}
 
 \end{itemize}
 
@@ -751,6 +763,8 @@ Soit $f$ une fonction sommable telle que les fonctions $x \mapsto x_j f(x)$ soie
 Soient $f$ et $g$ appartenant à $L^1(\mathbb{R}^d)$ et dont les transformées de Fourier appartiennent également à $L^1(\mathbb{R}^d)$. Les fonctions $f, g, \hat{f}$ et $\hat{g}$ sont alors de carré sommable, et on a
 
 \[ (\hat{f} | \hat{g}) = (2\pi)^d (f | g) \text{ où } (f | g) = \int_{\mathbb{R}^d} \overline{f(x)} g(x) dx \]
+
+\[ \| \hat{f} \|_2 = (2\pi)^{d / 2} \| f \|_2 \]
 \end{lemme}
 
 \item
