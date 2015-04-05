@@ -13,6 +13,9 @@
 \newenvironment{definition}[1][Definition]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
+\newenvironment{remarque}[1][Remarque]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
 \newenvironment{exemple}[1][Exemple]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
@@ -26,9 +29,61 @@
 \section{Éléments de Topologie}
 
 \begin{definition}
+Le \textbf{support d'une fonction} définie sur un espace métrique, à valeurs réelles ou complexes. est, l'adhérence des point où cette fonction ne s'annule pas. On remarquera que le support d'une fonction est fermé
+\end{definition}
+
+\begin{definition}
+Un espace métrique $(X,d)$ est un espace compact si l'une des deux propiétés équivalentes suivantes est vérifiée:
+
+\begin{enumerate}
+\item
+de tout recouvrement de $X$ par des ouverts, on peut extraire un sous-recouvrement fini;
+
+\item
+toute famille de fermées de $X$ d'intersection vide admet une sous-famille finie d'intersection vide.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+Soit $(X,d)$ un espace métrique. Les propiétés suivantes sont vérifiées:
+
+\begin{enumerate}
+\item
+si $(X,d)$ est compact et $Y \subset X$ est un fermé de $(X,d)$, alors $(Y,d)$ est un compact;
+
+\item
+si $Y \subset X$ et $(Y,d)$ compact, alors $Y$ est une fermé de $(X,d)$;
+
+\item
+une intersection décroissante de compacts non vides est non vide;
+
+\item
+l'image d'un compact par une application continue est un compact.
+\end{enumerate}
+\end{proposition}
+
+\begin{theoreme}
+(Théorème de Bolzano-Weierstrass)
+Un espace métrique $(X,d)$ est compact si et seulement si, de toute suite d'éléments de $X$, on peut extraire une sous-suite qui converge.
+\end{theoreme}
+
+\begin{theoreme}
+Une fonction continue, à valeurs réelles et définie sur un espace métrique compact est bornée et atteint ses bornes.
+\end{theoreme}
+
+\begin{theoreme}
+Toutes les normes sur $\mathbb{R}^N$ sont équivalentes.
+\end{theoreme}
+
+\begin{theoreme}
+(Théorème de Borel-Lebesgue)
+Pour toute norme sur $\mathbb{R}^N$, les sous-ensembles compacts de $\mathbb{R}^N$ sont les fermés, bornés.
+\end{theoreme}
+
+\begin{definition}
 Une suite $(x_n)_{n \geq 0}$ d'un espace métrique $(X,d)$ est une \textbf{suite de Cauchy} si
 
-\[ \forall \varepsilon > 0, \exists n_0 \in \mathbb{N}, \text{ tel que } (\forall n,m \geq n_0, d(x_n,x_m) < \varepsilon= \]
+\[ \forall \varepsilon > 0,\ \exists n_0 \in \mathbb{N}, \text{ tel que } (\forall n,m \geq n_0,\ d(x_n,x_m) < \varepsilon). \]
 \end{definition}
 
 \begin{itemize}
@@ -56,6 +111,35 @@ Un espace de Banach est un espace vectoriel normé complet.
 \end{definition}
 
 \section{Théorie de l'intégration de Lebesgue}
+
+\begin{proposition}
+L'intégrale de Lebesgue vérifie les énoncés suivants:
+
+\begin{enumerate}
+\item
+l'ensemble $\mathcal{L}^1(\Omega)$ muni de l'addition des fonctions définies p.p. sur $\Omega$ et de la multiplication par les scalaires réels est un $\mathbb{R}$-espace vectoriel et
+
+\[ \mathcal{L}^1(\Omega) \ni f \mapsto \int_\Omega f(x) dx \in \mathbb{R}, \]
+
+une forme $\mathbb{R}$-linéaire;
+
+\item
+on a les inclusions $\mathcal{C}_c(\Omega) \subset \mathcal{L}^+(\Omega) \subset \mathcal{L}^1(\Omega)$ et l'intégrale de Lebesgue définie sur $\mathcal{L}^1(\Omega)$ coïncide avec l'intégrale usuelle sur $\mathcal{C}_c(\Omega)$;
+
+\item
+si $f,g \in \mathcal{L}^1(\Omega)$ et $f \leq g$ p.p. sur $\Omega$, alors
+
+\[ \int_\Omega f(x) dx \leq \int_\Omega g(x) dx; \]
+
+\item
+pour tout $f \in \mathcal{L}^1(\Omega)$, on a $|f| \in \mathcal{L}^1(\Omega)$ et
+
+\[ \left| \int_\Omega f(x) dx \right| \leq \int_\Omega |f(x)| dx; \]
+
+\item
+si $f,g \in \mathcal{L}^1(\Omega)$, alors les fonctions $\max(f,g)$ et $\min(f,g)$, qui sont définies p.p. sur $\Omega$, appartiennent à $\mathcal{L}^1(\Omega)$.
+\end{enumerate}
+\end{proposition}
 
 \begin{theoreme}
 Si $f \in \mathcal{L}^1(\Omega)$, et si
@@ -237,12 +321,26 @@ la fonction définie p.p. sur $\Omega_2$ par $x_2 \mapsto \int_{\Omega_1} f(x_1,
 \item
 on a l'égalité
 
-\[ \int \int_{\Omega_1 \times \Omega_2} f(x_1,x_2) dx_1 dx_2 = \int_{\Omega_1} \int_{\Omega_2} f(x_1,x_2) dx_2 dx_1 = \int_{\Omega_2} \int_{\Omega_1} f(x_1,x_2) dx_1 dx_2 \]
+\[ \int \int_{\Omega_1 \times \Omega_2} f(x_1,x_2) dx_1 dx_2 = \int_{\Omega_1} \left(  \int_{\Omega_2} f(x_1,x_2) dx_2 \right) dx_1 = \int_{\Omega_2} \left( \int_{\Omega_1} f(x_1,x_2) dx_1 \right) dx_2 \]
 \end{enumerate}
 \end{theoreme}
 
 \begin{theoreme}
 (Théorème de Tonelli)
+Soient $\Omega_1 \subset \mathbb{R}^{N_1}$ et $\Omega_2 \subset \mathbb{R}^{N_2}$ deux ouverts non vides et $f : \Omega_1 \times \Omega_2 \to [0,+\infty]$ une fonction mesurable. Alors:
+
+\begin{enumerate}
+\item
+pour presque tout $x_2 \in \Omega_2$, la fonction $x_1 \mapsto f(x_1,x_2) \in [0,+\infty]$ définie p.p. sur $\Omega_1$ est mesurable;
+
+\item
+la fonction $x_2 \mapsto \int_{\Omega_1} f(x_1,x_2)dx_1 \in [0,+\infty]$, définie p.p. sur $\Omega_2$, est mesurable;
+
+\item
+on a l'égalité
+
+\[ \int \int_{\Omega_1 \times \Omega_2} f(x_1,x_2) dx_1 dx_2 = \int_{\Omega_1} \left(  \int_{\Omega_2} f(x_1,x_2) dx_2 \right) dx_1 = \int_{\Omega_2} \left( \int_{\Omega_1} f(x_1,x_2) dx_1 \right) dx_2 \]
+\end{enumerate}
 \end{theoreme}
 
 \section{Théorie de la mesure}
@@ -349,12 +447,12 @@ On dit que A est un opérateur (linéaire) si A est une application linéaire.
 
 \item
 
-On dit que est un opérateur borné si A est une application linéaire, continue, i.e. s'il existe $C > 0$ telle que: $\|A(x)\|_{E_2} \leq C \|x\|_{E_1}, \forall x \in E_1$
+On dit que est un \textbf{opérateur borné} si A est une application linéaire, continue, i.e. s'il existe $C > 0$ telle que: $\|A(x)\|_{E_2} \leq C \|x\|_{E_1}, \forall x \in E_1$
 
 \item
-Si H est un espace de Hilbert complexe (réel), on dit que $A: H \rightarrow H$ est un opérateur hermitien (symétrique) si $A^* = A$, i.e. si
+Si H est un espace de Hilbert complexe (réel), on dit que $A: H \rightarrow H$ est un \textbf{opérateur hermitien} (symétrique) si $A^* = A$, i.e. si
 
-\[ <A(x),y> = <x,A(y)>, \forall x,y \in H \]
+\[ \langle A(x),y \rangle = \langle x,A(y) \rangle , \forall x,y \in H \]
 
 \end{itemize}
 
@@ -362,7 +460,7 @@ Si H est un espace de Hilbert complexe (réel), on dit que $A: H \rightarrow H$ 
 
 
 \begin{definition}
-Un opérateur $A: H \rightarrow H$ es compact si l'image par A de toute suite bornée admet une sous-suiste qui converge, i.e. si $(x_n)_{n\geq0}$ est une suite bornée, on peut extraire de la suite $(A(x_n))_{n\geq0}$ une sous-suite qui converge (fortement).
+Un opérateur $A: H \rightarrow H$ est \textbf{compact} si l'image par A de toute suite bornée admet une sous-suiste qui converge, i.e. si $(x_n)_{n\geq0}$ est une suite bornée, on peut extraire de la suite $(A(x_n))_{n\geq0}$ une sous-suite qui converge (fortement).
 
 \begin{itemize}
 \item
@@ -371,9 +469,8 @@ Un opérateur compact est borné (i.e. continu).
 
 \end{definition}
 
-
 \begin{definition}
-On dit qu'une suite $(x_n)_{n\geq0}$ d'un espace d'Hilbert H converge faiblement vers x dans H si
+On dit qu'une suite $(x_n)_{n\geq0}$ d'un espace d'Hilbert H \textbf{converge faiblement} vers x dans H si
 
 \[ \forall y \in H, \lim\limits_{n\rightarrow+\infty}\langle x_n,y \rangle = \langle x,y \rangle \]
 
@@ -389,6 +486,9 @@ Si $e_n$ est une base hilbertienne. Donc $e_n \rightharpoonup 0$.
 
 \end{definition}
 
+\begin{remarque}
+Une autre définition équivalente: Un óperateur $A$ es compact si et seulement si pour toute suite $(f_n)$ qui converge faiblement vers $f$, la suite $(Af_n)$ converge vers $Af$ au sens fort.
+\end{remarque}
 
 \begin{theoreme}
 Soit $(x_n)_{n\geq0}$ une suite bornée dans un espace de Hilbert séparable H. Alors $(x_n)_{n\geq0}$ posséde une sous-suite $(x_{\varphi(n)})_{n\geq0}$ qui converge faiblement dans H.
