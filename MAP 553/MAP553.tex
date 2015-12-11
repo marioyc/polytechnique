@@ -1,0 +1,667 @@
+\documentclass[10pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{stmaryrd}
+
+\setlength\parindent{0pt}
+
+%\newtheorem{theoreme}{Théorème}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{corollaire}{Corollaire}
+%\newtheorem{lemme}{Lemme}
+%\newtheorem{definition}{Définition}
+%\newtheorem{exercice}{Exercice}
+%\newtheorem{propiete}{Propiété}
+
+%\newenvironment{remarque}[1][Remarque]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newcommand{\argmin}{\arg\!\min}
+\newcommand{\argmax}{\arg\!\max}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rang}{rang}
+\DeclareMathOperator{\Var}{Var}
+
+\begin{document}
+
+\title{MAP 553 - Apprentisage statistique}
+\author{Mario Ynocente Castro}
+
+\maketitle
+
+\section{PC2: Linear Model}
+
+\subsection{Mallows $C_p$ criterion and Minimax Risk}
+
+\begin{enumerate}
+\item
+\begin{itemize}
+\item
+$\| f + g\|^2 = \frac{1}{n}\sum_{i = 1}^n (f(X_i) + g(X_i))^2 = \| f \|^2 + \frac{2}{n} \langle f,g \rangle + \| g \|^2$
+
+\item
+$R(f, \hat{f}_S) = \mathbb{E} \| \hat{f}_S - f \|^2 = \mathbb{E} \| Sy - f \|^2 = \mathbb{E} \| (Sf - f) + S\xi \|^2 = \mathbb{E} \left[ \| Sf-f \|^2 + \| S\xi \|^2 + \frac{2}{n} \underbrace{ \langle Sf - f,S\xi \rangle }_{=0\ (\mathbb{E}[\xi_i] = 0)} \right]$
+
+$= \| Sf-f \|^2 + \frac{1}{n} \mathbb{E}[\xi^T S^T S \xi] = \| Sf - f \|^2 + \frac{\sigma^2}{n} \Tr(S^TS)$
+\end{itemize}
+
+\item
+\begin{align*}
+\mathbb{E}[C_p(S)] &= \mathbb{E}[\| \hat{f}_S - y \|^2 ] + \frac{2\sigma^2}{n}\Tr(S) =  \mathbb{E}[\| Sf - f + S\xi - \xi \|^2 ]  + \frac{2\sigma^2}{n}\Tr(S) \\
+&= \| Sf - f \|^2 + \underbrace{\frac{2}{n} \mathbb{E}[\langle Sf - f, (S - I_n)\xi \rangle]}_{=0} + \frac{1}{n} \mathbb{E}[\| S\xi - \xi \|^2]  + \frac{2\sigma^2}{n}\Tr(S) \\
+&= \| Sf - f \|^2 + \mathbb{E}[(S\xi - \xi)^T (S\xi - \xi)]  + \frac{2\sigma^2}{n}\Tr(S) \\
+&= \| Sf - f \|^2 + \mathbb{E}[\xi^T (S - I_n)^T (S - I_n) \xi]  + \frac{2\sigma^2}{n}\Tr(S) \\
+&= \| Sf - f \|^2 + \frac{\sigma^2}{n} (\Tr(S^TS) - 2 \Tr(S) + n) + \frac{2 \sigma^2}{n} \Tr(S) \\
+&= R(f, \hat{f}_S) + \sigma^2
+\end{align*}
+
+\item
+On se donne $M \geq 1$ et une famille $(\varphi_j)_{1 \leq j \leq M}$. Pour $\theta \in \mathbb{R}^M$ on note $f_\theta = \sum_{j = 1}^M \theta_j \varphi_j$.
+
+On définit $\hat{\theta}$ par $\hat{\theta} = \argmin_{\theta \in \mathbb{R}^M} \| Y - \Phi \theta \|^2$ où $\Phi = (\varphi_j(X_i))_{1 \leq i \leq n, 1 \leq j \leq M}$
+
+Ainsi, l'estimateur $S_M Y$ où $S_M$ est la projection sur $Im(\Phi)$, est l'estimateur au sens des moindres carrés de $f$.
+
+Si la matrice $\Phi^T \Phi$ est inversible, $S_M = \Phi (\Phi^T \Phi)^{-1} \Phi^T$ et $\hat{f}_{S_M} = S_M Y$ est un estimateur linéaire de $f$ (en $Y$).
+
+\item
+\begin{enumerate}
+\item
+$S_M$ est symétrique.
+\item
+$S_M^T S_M = S_M^2 = S_M$, donc: $0 \leq \| S_Mv \|^2 = v^T S_M v \leq \| v \|^2 = v^T v$ car la projection est contractante.
+\item
+$S_{M_1} S_{M_2} = S_{M_2} S_{M_1} = S_{\min(M_1,M_2)}$
+\item
+Soit $M_1 \leq M_2$: $v^T S_{M_1} v = \| S_{M_1} v \|^2 = \| S_{M_1} S_{M_2} v \|^2 \leq \| S_{M_2} v \| ^2= v^T S_{M_2} v \Rightarrow S_{M_1} \leq S_{M_2}$
+\end{enumerate}
+
+\item
+\begin{itemize}
+\item
+La famille $\Phi_1, \ldots, \Phi_M$ est orthonormée, alors $\rang(\Phi) = M = \rang(\Phi^T \Phi)$.
+
+\item
+$\Tr(S_M) = \Tr(\Phi (\Phi^T \Phi)^{-1} \Phi^T) = \Tr(\Phi^T \Phi (\Phi^T \Phi)^{-1}) = \Tr(I_M) = M$
+
+\item
+$C_p(S_M) = \| S_M Y - Y \|^2 + \frac{2\sigma^2}{n} M$
+\end{itemize}
+
+\item
+On suppose que $f \in W(\beta, L), \beta \geq 1$ et $L > 0$
+
+$\mathbb{E} \| \hat{f}_{S_M} - f \|^2 = \| S_M f - f \|^2 + \frac{\sigma^2}{n} \Tr(S^TS) = \| S_M f - f \|^2 + \frac{\sigma^2}{n} \Tr(S) \leq C(L) M^{-2\beta} + \frac{\sigma^2}{n}M$
+
+En choisissant $M_\beta = \lceil n^{1 / (2\beta + 1)} \rceil, \frac{M_\beta}{n}$ sera d'ordre $n^{-1 + 1/(2\beta + 1)} = n^{-2\beta / (2\beta + 1)}$
+
+On en déduit que: $\sup_{f \in W(\beta,L)} \mathbb{E}[\| \hat{f}_{S_{M_\beta}} - f \|^2] \leq C(\beta,L) n^{-2\beta/(2\beta + 1)}$
+
+\item
+On a que $R(f,\hat{f}_{S_M}) \leq C(L) M^{-2\beta} + \frac{\sigma^2}{n}M$
+
+En optimisant le membre de droite (en $M$), on obtient qu'en choisissant $M \propto n^{1/(2\beta + 1)}$ on obtient le meilleur risque possible.
+
+\item
+D'après le Théorème de Kneip, avec $\epsilon = 1$
+
+\begin{align*}
+R(\tilde{f}, f) &\leq 2 \min_{M < n} R(\hat{f}_{S_M}, f) + \frac{K}{n} \\
+&\leq 2 R(\hat{f}_{S_{M_\beta}}, f) + \frac{K}{n} = C'(\beta,L) n^{-2\beta/(2\beta + 1)}
+\end{align*}
+
+\item
+Donc $\hat{f}_\mathcal{S}$ estime aussi à la vitesse $n^{-2\beta/(2\beta + 1)}$ sur $W(\beta, L)$.
+
+La grosse différence c'est que $\hat{f}_\mathcal{S}$ n'a pas besoin de connaître $\beta$.
+\end{enumerate}
+
+\subsection{Spline Space and Spline Estimators}
+
+\begin{enumerate}
+\item
+
+\item
+$s^{(2l - 1)}(x) = \alpha_0 + \sum_{i = 1}^n \alpha_i 1_{x \geq X_i}$
+
+Par continuité, en intégrant $(2l - 1)$ fois et en imporsant la continuité on obtient:
+
+Pour tout $x \in [0,1]$: $s(x) = \sum_{j = 0}^{2l - 1} c_j x^j + \sum_{i = 1}^n d_i (x - X_i)^{2l-1}_+$
+
+\item
+\begin{itemize}
+\item
+Pour tout $k \in \llbracket l,2l - 1 \rrbracket\ s^{(k)}(0) = k! c_k$, donc $\boxed{c_k = 0}$
+\item
+Pour tout $k \in \llbracket l,2l - 1 \rrbracket\ s^{(k)}(1) = \sum_{i = 1}^n d_i \frac{(2l - 1)!}{(2l - 1 - k)!} (1 - x_i)^{2l - 1 - k} = 0$
+
+$\Rightarrow \boxed{ \sum_{i = 1}^n d_i (1 - x_i)^j = 0 }, \forall j \in \llbracket 0,\ldots,l - 1 \rrbracket$
+\end{itemize}
+
+\item
+$k = 2l - 1: \sum_{i = 1}^n d_i = 0$
+
+$k = 2l - 2: \sum_{i = 1}^n d_i (1 - X_i) = 0 \Rightarrow \sum_{i = 1}^n d_i X_i = 0$
+
+Pour tout $j \in \llbracket 0,l - 1 \rrbracket\ \sum_{i = 1}^n d_i X_i^j = 0$
+
+On sait donc que $A_{n,l} d = 0$ où $d = \left( \begin{array}{c}
+d1 \\ \vdots \\ d_n
+\end{array} \right) \in \mathcal{D}_{n,l}$ et $A_n,l = \left( \begin{array}{ccc} 1 & \ldots & 1 \\ x_1 & \ldots & x_n \\ \vdots & & \vdots \\ x_1^{l - 1} & \ldots & x_n^{l - 1}
+\end{array} \right)$.
+
+Puisque $\rang(A_{n,l}) = l$, $\dim(\mathcal{D}_{n,l}) = n - l$. Finalement, $\boxed{ \dim(S_n^l) = n }$.
+
+\item
+$\sum_{i = 1}^n (Y_i - f(X_i))^2 + \lambda \int_0^1 (f^{(l)}(x))^2 dx = \sum_{i = 1}^n (Y_i - \varphi(X_i)^T \theta)^2 + \lambda \int_0^1 (\theta^T \varphi^{(l)}(x))^2$
+
+$\sum_{i = 1}^n (Y_i - \varphi(X_i)^T \theta)^2 = \| Y - \Phi \theta \|^2$
+
+$\int_0^1 (\theta^T \varphi^{(l)}(x))^2 = \int_0 ^ 1(\theta)^T \varphi^{(l)}(x) (\varphi^{(l)}(x))^T \theta dx = \theta^T \int_0^1 \varphi^{(l)}(x) (\varphi^{(l)}(x))^T dx\ \theta = \theta^T H \theta$
+
+Finalement, $\hat{f}^{sp}_n(x) = \varphi(x)^T \hat{\theta}^{sp}$ où $\hat{\theta}^{sp} = \argmin_{\theta \in \mathbb{R}^n} (\| Y - \Phi \theta \|^2 + \lambda \theta^T H \theta)$
+
+\item
+Notons $F : \theta \mapsto \| Y - \Phi \theta \|^2 + \lambda \theta^T H \theta$
+
+\begin{align*}
+\forall \theta \in \mathbb{R}^n, &\nabla F(\theta) = 2 \Phi^T \Phi \theta - 2 \Phi^T Y + 2 \lambda H \theta \\
+& \nabla F(\theta) = 0 \Leftrightarrow (\Phi^T \Phi + \lambda H) \theta = \Phi^T Y \\
+& \hat{\theta}^{sp} = (\Phi^T \Phi + \lambda H)^{-1} \Phi^T Y
+\end{align*}
+
+$\hat{f}^{sp}(x) = \varphi(x)^T (\Phi^T \Phi + \lambda H)^{-1} \Phi^T Y = \langle \Phi (\Phi^T \Phi + \lambda H)^{-1} \varphi(x), Y \rangle = \sum_{i = 1}^n [\underbrace{\Phi (\Phi^T \Phi + \lambda H)^{-1} \varphi(x)}_{W^{SP}_{ni}(x)}]_i Y_i$
+
+\textbf{Note:}
+
+\begin{itemize}
+\item
+A symétrique, $\nabla_\theta(\theta^T A \theta) = 2A \theta$
+\item
+$\nabla_\theta(\theta^T v) = v$
+\end{itemize}
+
+\item
+Dans ce cas on a de façon immédiate que $\hat{f}^{sp} = Q$ puisque le critère (positif) à optimiser est nul pour ce choix de $\hat{f}^{sp}$.
+
+\item
+Appliquons 7 avec $Q \in \{ 1,X,\ldots,X^{l - 1} \}$
+
+$\forall j \in \llbracket 0, l - 1 \rrbracket, x \in [0,1]\ \hat{f}^{sp}(x) = x^j = \sum_{i = 1}^n W^{SP}_{ni}(x) X_i^j$
+
+$\forall j \in \llbracket 0, l - 1 \rrbracket, x \in [0,1]$
+
+\begin{align*}
+\sum_{i = 1}^n (x - X_i)^j W^{SP}_{ni}(x) &= \sum_{i = 1}^n \sum_{k = 0}^j \binom{j}{k} x^k (-X_i)^{j - k} W^{SP}_{ni}(x) \\
+&= \sum_{k = 0}^j \left[ \binom{j}{k} x^k (-1)^{j - k} \sum_{i = 1}^n  W^{SP}_{ni}(x) X_i^{j - k} \right] \\
+&= \sum_{k = 0}^j  \binom{j}{k} x^k (-x)^{j - k} = (x - x)^j = 0
+\end{align*}
+\end{enumerate}
+
+\newpage
+\section{PC4 : Kernel Methods}
+
+\subsection{Fourier analysis of a kernel density estimator}
+
+\begin{enumerate}
+\item
+\begin{align*}
+\mathcal{F}[\hat{p}_n](w) &= \int_\mathbb{R} e^{itw} \hat{p}_n(t) dt =  \int_\mathbb{R} e^{itw} \frac{1}{nh} \sum_{j = 1}^n K(\frac{X_j - t}{h}) dt = \frac{1}{nh} \sum_{j = 1}^n \int_\mathbb{R} e^{itw} K(\frac{X_j - t}{h}) \\
+&= \frac{1}{nh	} \sum_{j = 1}^n \int_\mathbb{R} e^{i(X_j - yh)w} K(y) (-hdy), t  = X_i - yh \\
+&= \frac{1}{n} \sum_{j = 1}^n \left[ e^{iX_j w} \int_\mathbb{R} -e^{-iyhw} K(y) dy\right] \\
+&= \left( \frac{1}{n} \sum_{j = 1}^n e^{iX_j w} \right) \int_\mathbb{R} e^{ithw} K(-t)dt, K(-t) = K(t) \\ 
+&= \phi_n(w) \hat{K}(hw)
+\end{align*}
+
+\item
+\begin{itemize}
+\item
+$\mathbb{E}[\phi_n(w)] = \frac{1}{n} \times n \mathbb{E}[e^{iX_1}w] = \phi(w)$
+\item
+$\mathbb{E}[|\phi_n(w)|^2] = \frac{1}{n^2} \mathbb{E}[(\sum_{j = 1}^n e^{iX_jw})(\sum_{j = 1}^n e^{-iX_jw})] = \frac{1}{n^2}(n + n(n - 1) |\mathbb{E}[e^{iX_1w}]|^2)$
+
+$=  (1 - \frac{1}{n})|\phi(w)|^2 + \frac{1}{n}$
+\item
+$\mathbb{E}[|\phi_n(w) - \phi(w)|^2] = \mathbb{E}[(\phi_n(w) - \phi(w))(\overline{\phi_n(w)} - \overline{\phi(w)})]$
+
+$= \mathbb{E}[|\phi_n(w)|^2] - \phi(w) \overline{\mathbb{E}[\phi_n(w)]} - \mathbb{E}[\phi_n(w)] \overline{\phi(w)} + |\phi(w)|^2$
+
+$= (1 - \frac{1}{n})|\phi(w)|^2 + \frac{1}{n} - |\phi(w)|^2 - |\phi(w)|^2 + |\phi(w)|^2 = \frac{1}{n}(1 - |\phi(w)|^2)$
+\end{itemize}
+
+\item
+\begin{align*}
+\mathbb{E} \int (\hat{p}_n(x) - p(x))^2 dx &= \frac{1}{2\pi} \mathbb{E} \int |\mathcal{F}[\hat{p}_n - p]|^2 = \frac{1}{2\pi} \mathbb{E} [\int |\phi_n(w) \hat{K}(hw) - \phi(w)|^2 dw] \\
+&= \frac{1}{2\pi} \mathbb{E} [\int |\hat{K}(hw)(\phi_n(w) - \phi(w)) - \phi(w)(1 - \hat{K}(hw))|^2 dw] \\
+&= \frac{1}{2\pi} \mathbb{E} [\int |\hat{K}(hw)|^2 |\phi_n(w) - \phi(w)|^2 dw + \int |\phi(w)|^2 |1 - \hat{K}(hw)|^2 dw] \\
+&= \frac{1}{2\pi} [\int |1 - \hat{K}(hw)|^2 |\phi(w)|^2 dw + \frac{1}{n} \int |\hat{K}(hw)|^2 (1 - |\phi(w)|^2) ]
+\end{align*}
+\end{enumerate}
+
+\subsection{Kernels of order $l$}
+
+\begin{enumerate}
+\item
+$(\Rightarrow)$ immédiat
+
+$(\Leftarrow) \forall w$ tel que $|w| > w_0, \frac{|1 - \hat{K}(w)|}{|w|^\beta} \leq \frac{1 + \| \hat{K} \|_{L^\infty}}{w_0 ^ \beta}$
+
+Donc, $\sup_{w \in \mathbb{R} \setminus \{0\}} \frac{|1 - \hat{K}(w)|}{|w|^\beta} \leq \max(A,\frac{1 + \| \hat{K} \|_{L^\infty}}{w_0 ^ \beta})$
+
+\item
+Pour tout $w,h > 0, \frac{\hat{K}(w + h) - \hat{K}(w)}{h} = \int_\mathbb{R} \frac{e^{ith} - 1}{h} K(t) e^{itw} dt$
+
+Puisque $| \frac{e^{ith} - 1}{h} | \leq t$ et $\int_\mathbb{R} |u|^\beta |K(u)| du < \infty$, par convergence dominée ($h \rightarrow 0$):
+
+$\hat{K}'(w) = \int_\mathbb{R} it K(t) e^{itw} dt$
+
+En itérant, pour j $\in \llbracket 1,\beta \rrbracket, \hat{K}^{(j)}(w) = \int_\mathbb{R} (it)^j K(t) e^{itw} dt$
+
+Pour $j \in \llbracket 1, \beta - 1 \rrbracket, \hat{K}^{(j)}(0) = \int_\mathbb{R} (it)^j K(t) dt = 0$ car $K$ est d'ordre $\beta - 1$
+
+Donc en développant $\hat{K}$ au voisinage de $0$: $\exists u$ tel que $|u| \leq |w|$ et
+
+\[ \hat{K}(w) = 1 + \sum_{j = 1}^{\beta - 1} \frac{w^j}{j!} \hat{K}^{(j)}(0) + \frac{w ^ \beta}{\beta!} \hat{K}^{(\beta)}(u) \Rightarrow \frac{|1 - \hat{K}(w)|}{|w| ^ \beta} = \frac{|\hat{K}^{(\beta)}(u)|}{\beta!} \]
+
+\[ |\hat{K}^{(\beta)}(u)| = | \int_\mathbb{R} (it)^\beta K(t) e^{itu} dt | \leq \int_\mathbb{R} |t|^\beta |K(t)| dt = C \Rightarrow \frac{|1 - \hat{K}(w)|}{|w| ^ \beta} \leq \frac{C}{\beta!} = A \]
+\end{enumerate}
+
+\subsection{Convergence rates on the Sobolev balls}
+
+\begin{enumerate}
+\item
+$\int (p^{\beta}(u))^2 du = \frac{1}{2\pi} \int | \mathcal{F}[p^{(\beta)}] |^2 = \frac{1}{2\pi} \int |w|^{2\beta} |\phi(w)|^2 dw$
+
+$\mathcal{F}[p^{(\beta)}](w) = (-iw)^\beta \mathcal{F}[p](w) = (-iw)^\beta \phi(w)$
+
+\item
+\begin{align*}
+\mathbb{E} \int (\hat{p}_n(x) - p(x))^2 dx &= \frac{1}{2\pi} [\int |1 - \hat{K}(hw)|^2 |\phi(w)|^2 dw + \frac{1}{n} \int |\hat{K}(hw)|^2 (1 - |\phi(w)|^2) ] \\
+&\leq \frac{Ah^{2\beta}}{2\pi} \int |w|^{2\beta} |\phi(w)|^2 dw + \frac{1}{2 \pi n} \int |\hat{K}(hw)|^2 dw \\
+&\leq \frac{Ah^{2\beta}}{2\pi} (2\pi L^2) + \frac{1}{2\pi n h} \int |\hat{K}(w)|^2 dw \\
+&= \underbrace{AL^2 h^{2\beta}}_{>0} + \frac{1}{nh} \underbrace{\| K \|_{L^2}}_{>0} = C_1 h^{2\beta} + \frac{C_2}{nh}
+\end{align*}
+
+\item
+$M(h) = C_1 h^{2\beta} + \frac{C_2}{nh} \Rightarrow M'(h) = 2\beta C_1 h^{2\beta - 1} - \frac{C_2}{nh^2}$
+
+on choisit donc pour $h$ optimal la valeur: $h_n = (\frac{C_2}{2\beta C_1 n}) ^ {\frac{1}{2\beta + 1}} = C_3 n^{-\frac{1}{2\beta + 1}}$
+
+En choisissant cette valeur de $h$, on obtient une décroissance de l'erreur MISE en $n^{-\frac{2\beta}{2\beta + 1}}$
+\end{enumerate}
+
+\newpage
+\section{PC5 : Supervised Classification}
+
+\subsection{Linear Discriminant Analysis}
+
+\begin{enumerate}
+\item
+Soit $g$ la densité de la loi de $X$ et $h$ continue bornée:
+
+\begin{align*}
+\mathbb{E}[h(X)] &= \sum_{k = 0}^1 \mathbb{E}[h(X) 1_{Y = k}] = \sum_{k = 0}^1 \mathbb{P}(Y = k) \mathbb{E} [h(X) | Y = k] \\
+&= \sum_{k = 0}^1 \pi_k \sum_{\mathbb{R}^p} h(x) g_k(x) dx = \int_{\mathbb{R}^p} h(x) \left( \sum_{k = 0}^1 \pi_k g_k(x) \right) dx
+\end{align*}
+
+Donc, $g : x \mapsto \sum_{k = 0}^1 \pi_k g_k(x)$
+
+\item
+$\pi_1 g_1(x) > \pi_0 g_0(x) \Leftrightarrow \frac{g_1(x)}{g_0(x)} > \frac{\pi_0}{\pi_1} \Leftrightarrow -\frac{1}{2} (x - \mu_1)^T \Sigma^{-1} (x - \mu_1) + \frac{1}{2} (x - \mu_0)^T \Sigma^{-1} (x - \mu_0) > \log(\frac{\pi_0}{\pi_1})$
+
+$\Leftrightarrow \frac{1}{2} \mu_1^T \Sigma^{-1} x + \frac{1}{2} x^T \Sigma^{-1} \mu_1 - \frac{1}{2} \mu_1^T \Sigma^{-1} \mu_1 - \frac{1}{2} \mu_0^T \Sigma^{-1} x - \frac{1}{2} x^T \Sigma^{-1} \mu_0 + \frac{1}{2} \mu_0^T \Sigma^{-1} \mu_0 > \log(\frac{\pi_0}{\pi_1})$
+
+$\Leftrightarrow (\mu_1 - \mu_0)^T \Sigma^{-1} x - \frac{1}{2} (\mu_1 - \mu_0)^T \Sigma^{-1} (\mu_1 + \mu_0) > \log(\frac{\pi_0}{\pi_1}) \Leftrightarrow (\mu_1 - \mu_0)^T \Sigma^{-1} ( x - \frac{\mu_1 + \mu_0}{2} ) > \log(\frac{\pi_0}{\pi_1})$
+
+\item
+$\mathcal{F} = \{ x \in \mathbb{R}^p : (\mu_1 - \mu_0)^T \Sigma^{-1} x = \log(\frac{\pi_0}{\pi_1}) + \frac{1}{2} (\mu_1 - \mu_0)^T \Sigma^{-1} (\mu_1 + \mu_0) \}$
+
+Hyperplan (affine) de $\mathbb{R}^p$.
+
+\item
+\begin{align*}
+\mathbb{P}(h_*(X) = 1 | Y = 0) &= \mathbb{P}((\mu_1 - \mu_0)^T \Sigma^{-1} (X - \frac{\mu_1 + \mu_0}{2} ) > 0 | Y = 0) \\
+&= \mathbb{P}((\mu_1 - \mu_0)^T \Sigma^{-1} (X - \mu_0) > \frac{1}{2}(\mu_1 - \mu_0)^T \Sigma^{-1} (\mu_1 - \mu_0) ) | Y = 0) \\
+&= \mathbb{P}((\mu_1 - \mu_0)^T \Sigma^{-1} (X - \mu_0) > \frac{1}{2}d(\mu_1,\mu_0)^2 ) | Y = 0)
+\end{align*}
+
+$X - \mu_0$ conditionellement à $\{ Y = 0 \}$ a une loi $\mathcal{N}_p(0, \Sigma)$. Soit $Z$ une v.a. de loi $\mathcal{N}_p(0, \Sigma)$
+
+$\Sigma^{-1} Z \sim  \mathcal{N}_p(0,\Sigma^{-1} \Sigma (\Sigma^{-1})^T)$, $(\mu_1 - \mu_0)^T \Sigma^{-1} Z \sim  \mathcal{N}_p(0, (\mu_1 - \mu_0)^T \Sigma^{-1} (\mu_1 - \mu_0) = d(\mu_1, \mu_0)^2)$
+
+$\mathbb{P}(Z > \frac{d(\mu_1,\mu_0)^2}{2}) = \mathbb{P}(\frac{Z}{d(\mu_1,\mu_0)} > \frac{d(\mu_1,\mu_0)}{2}) = \mathbb{P}(\frac{-Z}{d(\mu_1,\mu_0)} < -\frac{d(\mu_1,\mu_0)}{2}) = \Phi(-\frac{d(\mu_1,\mu_0)}{2})$
+
+\item
+On suppose toujours $\Sigma_0 = \Sigma_1= \Sigma$, pour estimer ces paramètres on maximise la vraisemblance de l'échantillon $\{ (X_i,Y_i); i \in \{ 1,\ldots,n \} \}$. Soit $\theta = \{  \pi_0, \mu_0, \mu_1, \Sigma \}$
+
+\begin{align*}
+h(\theta) &= \log p(X_{1:n},Y_{1:n}) = \sum_{i = 1}^n \log p(X_i,Y_i) = \sum_{i = 1}^n log(p(Y_i) \times p(X_i | Y_i)) \\
+&= \sum_{i = 1}^n (\log p(Y_i) + \log p(X_i | Y_i)) \\
+&= \sum_{i = 1}^n 1_{\{ Y_i = 0 \}}(\log \pi_0 + \log g_0(X_i)) + \sum_{i = 1}^n 1_{\{Y_i = 1 \}} (\log(1 - \pi_0) + \log g_1(X_i))
+\end{align*}
+
+$\log g_k(x) = c_k - \frac{1}{2}(x - \mu_k)^T \Sigma^{-1}(x - \mu_k) + \frac{1}{2} \log |\Sigma^{-1}|$, où $c_k$ est une constante.
+$q_k =  \{ i,Y_i = k \}$
+
+\[ h(\theta) = q_0 \log \pi_0 + q_1 \log(1-\pi_0) - \frac{1}{2} \sum_{k = 0}^1 \sum_{i = 1}^n 1_{\{Y_i = k\}} (X_i - \mu_k)^T \Sigma^{-1} (X_i - \mu_k) + \frac{n}{2} \log | \Sigma^{-1} | \]
+
+$\partial_{\pi_0}h(\theta) = \frac{q_0}{\pi_0} - \frac{q_1}{1 - \pi_0} = 0 \Rightarrow \boxed{ \hat{\pi}_0 = \frac{q_0}{n}}, \boxed{\hat{\pi}_1 = \frac{q_1}{n}}$
+
+$\partial_{\mu_k} h(\theta) = -\frac{1}{2} \sum_{i = 1}^n 1_{\{Y_i = k\}} \partial_{\mu_k} ( (X_i - \mu_k)^T \Sigma^{-1} (X_i - \mu_k) ) = \sum_{i = 1}^n \Sigma^{-1}(X_i - \mu_k) 1_{\{Y_i = k\}} = 0$
+
+$\Rightarrow \sum_{i = 1}^n X_i 1_{\{ Y_i = k \}} = \mu_k q_k \Rightarrow \boxed{ \hat{\mu}_k = \frac{\sum_{i = 1}^n X_i 1_{\{Y_i = k\}}}{q_k} }$
+
+\textbf{Note:}
+\begin{itemize}
+%\item
+%$f(u) = (X - u)^T A (X - u)$
+
+%$\Rightarrow f(u + v) = f(u) - (X - u)^T A v - v^T A (X - u) + v^T A v = f(u) + \langle \underbrace{-(A + A^T)(X - u)}_{f'(u)}, v \rangle + v^T A v$
+\item
+$\frac{\partial}{\partial u_i} (x - u)^T A (x - u)$
+
+$= \sum_{j \neq i} \left[ \frac{\partial}{\partial u_i} (x_i - u_i) A_{ij} (x_j - u_j) + \frac{\partial}{\partial u_i} (x_j - u_j) A_{ji} (x_i - u_i) \right] + \frac{\partial}{\partial u_i} (x_i - u_i) A_{ii} (x_i - u_i)$
+
+$= \sum_{j = 1}^n \left[ -A_{ij} (x_j - u_j) - (x_j - u_j) A_{ji} \right] = -(A(x-u))_i - (A^T(x-u))_i$
+
+$\Rightarrow \frac{\partial}{\partial u} (x-u)^T A (x-u) = -(A + A^T)(x-u)$
+\end{itemize}
+
+$\partial_{\Sigma^{-1}} h(\theta) = -\frac{1}{2} \sum_{k = 0}^1 \sum_{i = 1}^n 1_{\{ Y_i = k \}} (X_i - \mu_k) (X_i - \mu_k)^T + \frac{n}{2} \Sigma \Rightarrow \boxed{ \Sigma = \frac{1}{n} \sum_{k = 0}^1 \sum_{i = 1}^n 1_{\{ Y_i = k \}} (X_i - \mu_k) (X_i - \mu_k)^T }$
+
+\textbf{Note:}
+\begin{itemize}
+\item
+$\frac{\partial}{\partial \Sigma_{ij}} \log |\Sigma| = \frac{1}{|\Sigma|} \frac{\partial |\Sigma|}{\Sigma_{ij}} = \frac{1}{\Sigma_{ij}} adj(\Sigma)_{ji} = (\Sigma^{-1})_{ij} \Rightarrow \frac{\partial}{\partial \Sigma} \log |\Sigma| = \Sigma^{-1}$
+\item
+$\frac{\partial}{\partial \Sigma_{ij}} x^T \Sigma x = \frac{\partial}{\partial \Sigma_{ij}} = \frac{\partial}{\partial \Sigma_{ij}} x_i \Sigma_{ij} x_j = x_i x_j \Rightarrow \frac{\partial}{\partial \Sigma} x^T \Sigma x = x x^T$
+\end{itemize}
+
+\item
+Cette fois $\Sigma_0 \neq \Sigma_1$
+
+$\mathcal{F} = \{ x \in \mathbb{R}^p; \pi_0 g_0(x) = \pi_1 g_1(x) \} = \{ x \in \mathbb{R}^p; \log(\frac{g_1(x)}{g_0(x)}) = \log(\frac{\pi_0}{\pi_1}) \}$
+
+on obtient l'équation d'une quadratique.
+
+\end{enumerate}
+
+\subsection{Logistic Regression}
+
+\begin{enumerate}
+\item
+
+\begin{align*}
+l_n(\beta) &= -\sum_{i = 1}^n [Y_i (\langle \beta, x_i \rangle - \log(1 + \exp(\langle \beta, x_i \rangle))) - (1 - Y_i) \log(1 + \exp(\langle \beta, x_i \rangle))] \\
+&= -\sum_{i = 1}^n [Y_i \langle \beta, x_i \rangle - \log (1 + \exp(\langle \beta, x_i \rangle))]
+\end{align*}
+
+\[ \frac{\partial}{\partial \beta_j} l_n(\beta) = - \sum_{i = 1}^n [Y_i (x_i)_j - \frac{\exp(\langle \beta, x_i \rangle)}{1 + \exp(\langle \beta, x_i \rangle)} (x_i)_j] \Rightarrow \nabla l_n(\beta) = -\sum_{i = 1}^n (Y_i - \frac{\exp(\langle \beta, x_i \rangle)}{1 + \exp(\langle \beta, x_i \rangle)}) x_i \]
+
+\[ \frac{\partial^2}{\partial \beta_k \partial \beta_j} l_n(\beta) = \sum_{i = 1}^n \frac{\exp(\langle \beta, x_i \rangle)}{(1 + \exp(\langle \beta, x_i \rangle))^2} (x_i)_k (x_i)_j \Rightarrow H_n(\beta) = \sum_{i = 1}^n \frac{\exp(\langle \beta, x_i \rangle)}{(1 + \exp(\langle \beta, x_i \rangle))^2} x_i x_i^T \]
+
+$p_i(\beta) = \frac{\exp(\langle \beta, x_i \rangle)}{1 + \exp(\langle \beta, x_i \rangle)}, 1 - p_i(\beta) = \frac{1}{1 + \exp(\langle \beta, x_i \rangle)}$
+
+$H_n(\beta) = \sum_{i = 1}^n p_i(\beta) (1 - p_i(\beta)) x_i x_i^T = X^T D X$, où $X = \left( \begin{array}{c} x_1^T \\ \vdots \\ x_n^T \end{array} \right) , D =  (p_i(\beta) (1 - p_i(\beta))_{1 \leq i \leq n}$
+
+$H_n(\beta) = X^T D X = X^T D^{1/2} D^{1/2} X = (D^{1/2}X)^T (D^{1/2}X)$
+
+\begin{align*}
+\forall Z \in \mathbb{R}^d, Z^T H_n(\beta)Z = \| D^{1/2}XZ \|^2_2 = 0 &\Leftrightarrow Z \in Ker(D^{1/2}X) \\
+&\Rightarrow Z \in Ker(H_n(\beta)) \\
+&\Rightarrow Z = 0, \text{car } H_n(\beta) \text{ est inversible}
+\end{align*}
+
+Donc $H_n(\beta)$ est définie positive. Si $\hat{\beta}$ existe il est unique et $\nabla l_n(\hat{\beta}) = 0$.
+\item
+Par Taylor sur $\nabla l_n$, il existe $t \in [0,1]$ tel que si $\tilde{\beta} = t\beta^* + (1 - t)\hat{\beta}$
+
+$\nabla l_n (\beta^*) = \underbrace{\nabla l_n (\hat{\beta})}_{0} + H_n(\tilde{\beta}) (\beta^* - \hat{\beta}) \Rightarrow \hat{\beta} - \beta^* = -H_n(\tilde{\beta})^{-1} \nabla l_n (\beta^*)$
+
+\item
+\begin{align*}
+\mathbb{E}[\exp(-n^{-1/2} \langle t, \nabla l_n(\beta^*) \rangle)] &= \mathbb{E}[\exp(n^{-1/2} \sum_{i = 1}^n (Y_i - p_i(\beta^*)) \langle t,x_i \rangle)] \\
+&= \mathbb{E} [\prod_{i = 1}^n \exp(n^{-1/2} (Y_i - p_i(\beta^*)) \langle t,x_i \rangle)] \\
+&= \prod_{i = 1}^n \mathbb{E} [\exp(n^{-1/2} (Y_i - p_i(\beta^*)) \langle t,x_i \rangle)] \\
+&= \prod_{i = 1}^n [p_i(\beta^*) \exp(n^{-1/2} (1 - p_i(\beta^*)) \langle t,x_i \rangle) + (1 - p_i(\beta^*)) \exp(n^{-1/2} (- p_i(\beta^*)) \langle t,x_i \rangle)] \\
+&= \prod_{i = 1}^n (1 - p_i(\beta^*) + p_i(\beta^*) \exp(\langle t,x_i \rangle / \sqrt{n})) \exp(-p_i(\beta^*) \langle t,x_i \rangle / \sqrt{n})
+\end{align*}
+
+\begin{align*}
+\log (1 - p_i(\beta^*) + p_i(\beta^*) \exp(\langle t,x_i \rangle / \sqrt{n})) &= \log(1 + p_i(\beta^*)\left(\frac{\langle t,x_i \rangle}{\sqrt{n}} + \frac{1}{2} \frac{\langle t,x_i \rangle^2}{n} \right) + O(n^{-1/2})) \\
+&= p_i(\beta^*) \left(\frac{\langle t,x_i \rangle}{\sqrt{n}} + \frac{1}{2} \frac{\langle t,x_i \rangle^2}{n} \right) - \frac{1}{2} p_i(\beta^*)^2 \frac{\langle t,x_i \rangle^2}{n} + O(n^{-1/2}) \\
+&= \frac{1}{2} p_i(\beta^*)(1 - p_i(\beta^*)) \frac{\langle t,x_i \rangle^2}{n} + p_i(\beta^*) \frac{\langle t,x_i \rangle}{\sqrt{n}} + O(n^{-1/2})
+\end{align*}
+\begin{align*}
+\mathbb{E}[\exp(-n^{-1/2} \langle t, \nabla l_n(\beta^*) \rangle)] &= \exp\left( \frac{1}{2}n^{-1} \sum_{i = 1}^n p_i(\beta^*)(1 - p_i(\beta^*)) \underbrace{\langle t,x_i \rangle^2}_{t^T x_i^T x_i t} + O(n^{-1/2})\right) \\
+&= \exp\left( \frac{1}{2}n^{-1} t^T \left( \sum_{i = 1}^n p_i(\beta^*)(1 - p_i(\beta^*)) x_i^T x_i \right) t + O(n^{-1/2})\right) \\
+&= \exp\left( \frac{1}{2}t^T \left( n^{-1} H_n(\beta^*) \right) t + O(n^{-1/2})\right)
+\end{align*}
+
+%\item
+\end{enumerate}
+
+\newpage
+\section{PC6 : SVM and RKHS}
+
+\subsection{Reproducing Kernel Hilbert Spaces}
+
+\begin{enumerate}
+\item
+$\langle \phi(x), \phi(y) \rangle_{\mathcal{W}} = \phi(y)[x] = k(y,x) = k(x,y)$
+
+\item
+\begin{align*}
+Y^T K Y &= \sum_{i,j} y_i k(x_i,x_j) y_j = \sum_{i,j} y_i \langle \phi(x_i),\phi(x_j) \rangle_{\mathcal{W}} y_j = \sum_{i,j} \langle y_i \phi(x_i),y_j \phi(x_j) \rangle_{\mathcal{W}} \\
+&= \langle \sum_{i} y_i \phi(x_i), \sum_{j} y_j \phi(x_j) \rangle_{\mathcal{W}} = \| \sum_{i} y_i \phi(x_i) \|^2_{\mathcal{W}} \geq 0
+\end{align*}
+
+\item
+\begin{align*}
+f &= \sum_{j = 1}^n \alpha_j \phi(x_j) \\
+\| f \|^2_{\mathcal{W}} &= \langle \sum_{j = 1}^n \alpha_j \phi(x_j), \sum_{j = 1}^n \alpha_j \phi(x_j) \rangle_{\mathcal{W}} = \sum_{i = 1}^n \sum_{j = 1}^n \alpha_i \underbrace{\langle \phi(x_i), \phi(x_j) \rangle_\mathcal{W}}_{k(x_i,x_j)} \alpha_j = \alpha^T K \alpha \\
+f(x_i) &= \sum_{j = 1}^n \alpha_j \phi(x_j) [x_i] = \sum_{j = 1}^n \alpha_j k(x_j,x_i) = \sum_{j = 1}^n k(x_i,x_j) \alpha_j = [K \alpha]_i
+\end{align*}
+\end{enumerate}
+
+\subsection{Support Vector Machine (SVM)}
+
+\[ R > 0, \mathcal{F} = \{ f \in \mathcal{W} : |f|_\mathcal{W} \leq R \} \]
+\[ \hat{f}_{\varphi, \mathcal{F}} = \argmin_{f \in \mathcal{F}} \frac{1}{n} \sum_{i = 1}^n \varphi(-y_i f(x_i)), \varphi(x) = (1 + x)_+ \]
+\[ \hat{h}_{\varphi, \mathcal{F}} (x) = \sign (\hat{f}_{\varphi, \mathcal{F}}(x)) \]
+
+\textbf{Lagrangian formulation: } $\hat{f}_{\varphi, F} = \argmin_{ f \in \mathcal{W} }  \left\{ \frac{1}{n} \sum_{i = 1}^n (1 - y_i f(x_i))_+ + \lambda |f|^2_\mathcal{W} \right\}$
+
+\begin{enumerate}
+\item
+$f = f_V + f_{V^\perp}$
+\begin{itemize}
+\item
+$f(x_i) = f_V(x_i) + f_{V^\perp}(x_i) = f_V(x_i)$
+\item
+$|f|^2_\mathcal{W} = |f_V|^2_\mathcal{W} + |f_{V^\perp}|^2_\mathcal{W}$
+\end{itemize}
+$\Rightarrow f \in V \Rightarrow f = \sum_{j = 1}^n \beta_j \phi(x_j)$
+
+\item
+$f(x_i) = \sum_{j = 1}^n \beta_j \phi(x_j)[x_i] = \sum_{j = 1}^n k(x_i, x_j) \beta_j = (K \beta)_i$
+
+$\frac{1}{n} \sum_{i = 1}^n (1 - y_i f(x_i))_+ + \lambda |f|^2_\mathcal{W} = \frac{1}{n} \sum_{i = 1}^n (1 - y_i (K \beta)_i)_+ + \lambda \beta^T K \beta$
+
+\[ \hat{\beta} = \argmin_{\beta \in \mathbb{R}^n} \left\{ \frac{1}{n} \sum_{i = 1}^n (1 - y_i (K \beta)_i)_+ + \lambda \beta^T K \beta \right\} \]
+
+\item
+$\xi_i = (1 - y_i (K \beta)_i)_+ \Rightarrow \xi_i \geq 0, \xi_i \geq 1 - y_i (K \beta)_i$
+
+\[ \hat{\beta} = {\argmin}_{\begin{array}{c}
+\beta, \xi \in \mathbb{R}^n \\
+y_i (K \beta)_i \geq 1 - \xi_i \\
+\xi_i \geq 0
+\end{array}} \left\{ \frac{1}{n} \sum_{i = 1}^n \xi_i + \lambda \beta^T K \beta \right\} \]
+
+\item
+$y_i (K \beta)_i \geq 1 - \xi_i \Leftrightarrow 1 - \xi_i - y_i (K \beta)_i \leq 0$
+
+$\xi_i \geq 0 \Leftrightarrow -\xi_i \leq 0$
+
+\textbf{First order:}
+
+\begin{itemize}
+\item
+$\frac{\partial}{\partial x_j} : \frac{1}{n} + \alpha_j (-1) + u_j (-1) = 0 \Rightarrow \hat{u}_j = \frac{1}{n} - \hat{\alpha}_j$
+
+\item
+$(K \beta)_i = \sum_j k(x_i,x_j) \beta_j$
+
+$\beta^T K \beta = \sum_{i,j} \beta_i k(x_i,x_j) \beta_j$
+
+$\frac{\partial}{\partial \beta_k} : 2 \lambda \sum_i \beta_i k(x_i,x_k) - \sum_i \alpha_i y_i k(x_i,x_k) = 0 \Rightarrow \boxed{ \hat{\beta}_i = \frac{y_i \hat{\alpha}_i}{2 \lambda} }$
+\end{itemize}
+
+\textbf{Slackness:}
+\begin{itemize}
+\item
+$\boxed{ \min (\hat{\alpha}_i, y_i (K \hat{\beta}_i) - (1 - \hat{\xi}_i)) = 0}$
+
+\item
+$\min(\hat{u}_i, \hat{\xi}_i) = 0 \Rightarrow \boxed{ \min(\frac{1}{n} - \hat{\alpha}_i, \hat{\xi}_i) = 0 }$
+\end{itemize}
+
+\item
+\begin{itemize}
+\item
+$y_i \hat{f}_{\varphi, \mathcal{F}}(x_i) = y_i (K \beta)_i > 1$
+
+$\min (\hat{\alpha}_i, y_i (K \hat{\beta}_i) - (1 - \hat{\xi}_i)) = 0 \Rightarrow \hat{\alpha}_i = 0 \Rightarrow \boxed{ \hat{\beta}_i = 0 }$
+
+\item
+$y_i \hat{f}_{\varphi, \mathcal{F}}(x_i) = y_i (K \beta)_i < 1$
+
+$\Rightarrow \xi_i > 0 \Rightarrow \hat{\alpha}_i = \frac{1}{n} \Rightarrow \boxed{ \hat{\beta}_i = \frac{y_i}{2 \lambda n} }$
+
+\item
+$y_i \hat{f}_{\varphi, \mathcal{F}}(x_i) = y_i (K \beta)_i = 1$
+
+$\Rightarrow \hat{\xi}_i = 0 \Rightarrow 0 \leq \hat{\alpha}_i \leq \frac{1}{n}$
+
+$\hat{\beta}_i y_i = \frac{y_i^2 \hat{\alpha}_i}{2 \lambda} = \frac{\hat{\alpha}_i}{2 \lambda} \Rightarrow \boxed{ 0 \leq \hat{\beta}_i y_i \leq \frac{1}{2 \lambda n} }$
+\end{itemize}
+
+\item
+Si on suppose par exemple que $k(x,y) = \langle x,y \rangle$
+
+$\hat{f}_{\varphi, \mathcal{F}}(x) = \sum_{i = 1}^n \hat{\beta}_i \langle x_i,x \rangle = \langle \hat{w},x \rangle$ où $\hat{w} = \sum_{i = 1}^n \hat{\beta}_i x_i$
+
+La frontière est alors fournie par $H = \{ x \in \mathbb{R}^d ; \langle \hat{w},x \rangle = 0 \}$.
+
+\begin{itemize}
+\item
+Si $y_i \langle \hat{w},x_i \rangle > 1 \Rightarrow \hat{\beta}_i = 0$, $\hat{\beta}_i$ n'intervient pas dans le classifieur.
+\item
+Les vecteurs tels que $y_i \langle \hat{w},x_i \rangle < 1$ sont les \textbf{vecteurs support} de la classification, tels que $\hat{\beta}_i = 0$
+\end{itemize}
+
+\item
+Si $k$ est un noyau positif.
+
+\begin{align*}
+\hat{f}_{\varphi, \mathcal{F}} &= \sum_{i = 1}^n \hat{\beta}_i \phi(x_i) \\
+\hat{f}_{\varphi, \mathcal{F}}(x) &= \sum_{i = 1}^n \hat{\beta}_i \phi(x_i)[x] = \sum_{i = 1}^n \hat{\beta}_i \langle \phi(x), \phi(x_i) \rangle_\mathcal{W} = \langle \sum_{i = 1}^n \hat{\beta}_i \phi(x_i), \phi(x) \rangle_\mathcal{W} = \langle \hat{\phi}, \phi(x) \rangle_\mathcal{W}
+\end{align*}
+
+où $\hat{\phi} = \sum_{i = 1}^n \hat{\beta}_i \phi(x_i)$. On construit donc un classifieur sur les $\phi(x) \in \mathcal{W}$ où $\hat{h} : f \mapsto \sign(\langle \hat{\phi}, f \rangle_\mathcal{W})$, on obtient un classifieur linéaire avec pour frontière
+
+\[ H = \{ f \in \mathcal{W} ; \langle \hat{\phi}, f \rangle_\mathcal{W} = 0 \} \]
+
+On passe ensuite à $\phi^{-1}$ pour classifier les vecteurs originaux.
+
+\item
+Si $(x_{n + 1},y_{n + 1})$ et tel que $y_{n + 1} \hat{f}(x_{n + 1}) > 1$ alors $\hat{\beta}_{n + 1} = 0$ et on ne modifie pas la frontière de classification.
+\end{enumerate}
+
+\subsection{Computation of the SVM Classifier}
+
+$K = [k(X_i, X_j)]_{i,j = 1,\ldots,n}$ is nonsingular.
+
+\begin{enumerate}
+\item
+$\min (\hat{\alpha}_i, y_i (K \hat{\beta}_i) - (1 - \hat{\xi}_i)) = 0, \min(\frac{1}{n} - \hat{\alpha}_i, \hat{\xi}_i) = 0$
+
+\begin{enumerate}
+\item
+\textbf{Cas 1:} $\hat{\alpha}_i = 0 \Rightarrow \xi_i = 0$
+
+\item
+\textbf{Cas 2:} $\hat{\xi}_i = 1 - y_i (K \hat{\beta}_i)$
+\begin{enumerate}
+\item
+$\hat{\alpha}_i = \frac{1}{n}$
+\item
+$\hat{\xi}_i = 0$
+\end{enumerate}
+\end{enumerate}
+
+Dans tous les cas: $\boxed{ \frac{1}{n} \xi_i = \hat{\alpha}_i (1 - Y_i (K \beta)_i }$, et on a la formulation équivalente:
+
+\[ \hat{\beta} \in \argmin_{\beta \in \mathbb{R}^n} \left\{ \lambda \beta^T K \beta - \sum_{i = 1}^n \hat{\alpha}_i (Y_i (K\beta)_i - 1) \right\} \]
+
+\item
+En utilisant la dualité de Lagrange
+
+\[ \hat{\alpha} \in {\argmax}_{0 \leq \alpha_i \leq \frac{1}{n}} \min_{\beta \in \mathbb{R}^n} \left\{ \underbrace{\lambda \beta^T K \beta - \sum_{i = 1}^n \alpha_i (Y_i (K \beta)_i - 1)}_{\Psi(\beta)} \right\} \]
+
+Pour tout $\beta \in \mathbb{R}^n$, puisque $K$ est inversible
+
+$\nabla \Psi(\beta) = 0 \Rightarrow \forall i \in \{ 1,\ldots,n \}, \beta_i = \frac{\alpha_i y_i}{2 \lambda}$
+
+En injectant cette écriture de $\beta$
+
+\begin{itemize}
+\item
+$\beta^T K \beta = \sum_{i,j} \beta_i K_{ij} \beta_j = \frac{1}{4\lambda^2} \sum_{i,j} K_{ij}y_iy_j\alpha_i\alpha_j$
+\item
+$\sum_i \alpha_i (Y_i (K \beta)_i - 1) = \sum_i \alpha_i (y_i \sum_j K_{ij} \beta_j - 1) = \frac{1}{2 \lambda} \sum_{i,j} K_{ij}y_iy_j\alpha_i\alpha_j - \sum_i \alpha_i$
+\end{itemize}
+
+Dans le problème dont $\hat{\alpha}$ est solution on obtient que
+
+\[ \hat{\alpha} \in {\argmax}_{0 \leq \alpha_i \leq \frac{1}{n}} \left\{ \sum_{i = 1}^n \alpha_i - \frac{1}{4 \lambda} \sum_{1 \leq i,j \leq n} K_{ij} y_i y_j \alpha_i \alpha_j \right\} \]
+
+\end{enumerate}
+
+%\section{PC7 : Boosting and Plug-in Classifiers}
+
+%\subsection{AdaBoost}
+
+%\subsection{Plug-in classifiers}
+
+%\section{PC8 : Complexity and dictionary selection}
+
+%\subsection{VC-dimension of affine classifiers in $\chi = \mathbb{R}^d$}
+
+%\subsection{Dictionary selection}
+
+%\section{Contrôle 2014 - 2015}
+
+%\subsection{Exercice 1}
+
+%\begin{enumerate}
+%\item
+%$Z_i = Y_i \int_{s_{i - 1}}^{s_i} K(\frac{x - u}{h}) du$
+%\begin{align*}
+%\Var(Z_i) &= \mathbb{E}[Z_i^2] - \mathbb{E}[Z_i]^2 \\
+%&= (\int_{s_{i - 1}}^{s_i} K(\frac{x - u}{h}) du)^2 [\mathbb{E}[Y_i^2] - \mathbb{E}[Y_i]^2] \\
+%&= (\int_{s_{i - 1}}^{s_i} K(\frac{x - u}{h}) du)^2 [f(X_i)^2 + 2f(X_i)\underbrace{\mathbb{E}[\xi_i]}_{0} + \underbrace{\mathbb{E}[\xi_i^2]}_{\leq \sigma^2} - (f(X_i) + \underbrace{\mathbb{E}[\xi_i]}_{0})^2] \\
+%&\leq  (\int_{s_{i - 1}}^{s_i} K^2 (\frac{x - u}{h})du)(\int_{s_{i - 1}}^{s_i} 1du) \sigma^2 \\
+%&= \sigma^2(s_{i - 1} - s_i)\int_{s_{i - 1}}^{s_i} K^2 (\frac{x - u}{h})du
+%\end{align*}
+
+%\item
+%\item
+%\item
+%\end{enumerate}
+
+\end{document}
